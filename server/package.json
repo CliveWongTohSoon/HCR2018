@@ -1,0 +1,35 @@
+{
+  "name": "hcrserver",
+  "version": "1.0.0",
+  "description": "Imperial College Huamn Centred Robotics Server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CliveWongTohSoon/HCR2018.git"
+  },
+  "keywords": [
+    "server",
+    "hcr2018",
+    "imperial"
+  ],
+  "author": "Clive",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CliveWongTohSoon/HCR2018/issues"
+  },
+  "homepage": "https://github.com/CliveWongTohSoon/HCR2018#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cloudinary": "^1.11.0",
+    "compression": "^1.7.3",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "mongoose": "^5.3.6"
+  }
+}
