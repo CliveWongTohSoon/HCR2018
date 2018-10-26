@@ -1,0 +1,8 @@
+prefix=/home/elisa/Programming/HCR2018/ROS/catkin_ws/devel
+
+Name: tutorial_pub_sub
+Description: Description of tutorial_pub_sub
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/elisa/Programming/HCR2018/ROS/catkin_ws/devel/lib 
+Requires: roscpp std_msgs geometry_msgs turtlesim
