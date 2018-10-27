@@ -2,8 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 // import { Dispatch } from 'redux';
 import { RouteComponentProps } from 'react-router';
-import { fetchHello } from 'app/actions';
+// import { fetchHello } from 'app/actions';
 import { Dispatch } from 'redux';
+import * as io from 'socket.io-client';
+import MenuBar from 'app/components/Header';
+import * as style from './style.css';
+import ContentCard from 'app/components/ContentView';
+import { StatusStepper } from 'app/components/StatusStepper';
 
 export namespace App {
   export interface Props extends RouteComponentProps<void> {
@@ -12,35 +17,45 @@ export namespace App {
   }
 }
 
+let socket: any;
+
 const mapStateToProps = (state: any) => ({
   response: state.response
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  getHello: fetchHello(dispatch)
+  // getHello: () => fetchHello()
 });
 
-@connect(mapStateToProps, mapDispatchToProps)
+// @connect(mapStateToProps, mapDispatchToProps)
 export class App extends React.Component<App.Props> {
   constructor(props: App.Props) {
     super(props);
+    socket = io.connect('http://localhost:5000');
   }
 
   render() {
-    const { hello, loading } = this.props.response;
-    return loading ? 
-    (
-      <h1>Loading Robot...</h1>
-    ) :
-    (
-      <h1>{ hello }</h1>
+    return (
+      <div className={style.body}>
+        {<MenuBar />}
+        <div className='row'>
+          <div className={`col-sm-4 ${style.status}`}>
+            <StatusStepper 
+              socket={socket}
+              status={{}}
+              postStatus={()=>{}}
+            />
+          </div>
+          <div className='col-sm-8'>
+            {<ContentCard />}
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 // import * as React from 'react';
 // import * as style from './style.css';
