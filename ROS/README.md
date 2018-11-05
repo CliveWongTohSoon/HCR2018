@@ -7,5 +7,6 @@ This is the repository for ROS
 
  # Commands to connect to robot
 * sudo chmod 777 -R /dev/ttyUSB0
+* dmesg | grep tty
 * rosparam set /p2os/port /dev/ttyUSB0
 * rosrun p2os_driver p2os_driver 
