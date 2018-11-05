@@ -1,0 +1,3 @@
+export const REQUEST_STATUS = 'REQUEST_STATUS';
+export const POST_STATUS = 'POST_STATUS';
+export const RECEIVE_STATUS = 'RECEIVE_STATUS';
