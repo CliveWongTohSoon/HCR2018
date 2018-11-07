@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
     ros::Rate loop_rate(100);
 
     geometry_msgs::Twist cmd_vel;
-    ori = current_pose.x
+    float ori = current_pose.x;
     while(ros::ok()){
         cmd_vel.linear.y = 0;
         cmd_vel.angular.x = 0;
