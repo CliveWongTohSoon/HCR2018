@@ -3,7 +3,7 @@ This is the repository for ROS
 
 # Notes to self
 * if moving to a different directory, remove build and delevel files before running catkin_make
-
+* new cpp file -> add to cmake, add to launch file, catkin_make
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigationfor navigation
@@ -21,3 +21,4 @@ Currently not sure how to
 * rosrun p2os_driver p2os_driver
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
 * dmesg | grep tty
+ * roslaunch simple_navigation_goals subscribe.launch
