@@ -1,5 +1,7 @@
-# ROS code here
-This is the repository for ROS
+# Problems
+Currently does not work on the given human laptop, 
+...launch is neither a launch file ....
+* could be to do with ROS
 # HOW TO RUN ROBOT 
 * Find USB port with ```dmesg | grep tty```
 * Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
@@ -10,7 +12,7 @@ This is the repository for ROS
 * new cpp file -> add to cmake, add to launch file, catkin_make
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
-* sudo apt install ros-kinetic-navigationfor navigation
+* sudo apt install ros-kinetic-navigation for navigation
 * roslaunch simple_navigation_goals nav.launch
 
 Currently not sure how to 
