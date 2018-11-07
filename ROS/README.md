@@ -1,9 +1,19 @@
 # ROS code here
 This is the repository for ROS
 
+# Notes to self
+* if moving to a different directory, remove build and delevel files before running catkin_make
+
+# Navigation
+* [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
+* sudo apt install ros-kinetic-navigationfor navigation
+* roslaunch simple_navigation_goals nav.launch
+
+Currently not sure how to 
 # Add to bashRC - replace second with directory
 * source /opt/ros/kinetic/setup.bash
 * source ~/Programming/HCR2018/ROS/catkin_ws/devel/setup.bash
+* source devel/setup.bash
 
  # Commands to connect to robot
 * sudo chmod 777 -R /dev/ttyUSB0 
