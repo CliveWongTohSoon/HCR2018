@@ -1,6 +1,10 @@
 # ROS code here
 This is the repository for ROS
-
+# HOW TO RUN ROBOT 
+* Find USB port with ```dmesg | grep tty```
+* Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
+* catkin_make in directory, e.g. motorControl
+* launch file, e.g. roslaunch simple_navigation_goals subscribe.launch
 # Notes to self
 * if moving to a different directory, remove build and delevel files before running catkin_make
 * new cpp file -> add to cmake, add to launch file, catkin_make
