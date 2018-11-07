@@ -22,3 +22,12 @@ Currently not sure how to
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
 * dmesg | grep tty
  * roslaunch simple_navigation_goals subscribe.launch
+
+ # Useful ROS commands
+ ## Publish/subscribe tools
+ * rosnode list
+ * rosnode info /some_node
+ * rostopic list
+ * rostopic info /some_topic
+ * rostopic echo /some_topic
+ * rostopic pub /some_topic msg/MessageType "data:value" 
