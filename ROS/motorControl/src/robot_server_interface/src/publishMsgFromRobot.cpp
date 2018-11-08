@@ -29,7 +29,7 @@ class publishMsgFromRobot
 publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle &nh) 
 {
     // Publish to web
-    web_pub = nh.advertise<p2os_msgs::BatteryState>("webserver", 10);
+    //web_pub = nh.advertise<robotInfo>("webserver", 10);
     // get battery status
     battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 100, &publishMsgFromRobot::batteryCallback, this);
     // get motorStatus
@@ -52,7 +52,7 @@ void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::Const
 // Publish to server based on per second callback
 void publishMsgFromRobot::publishToServer()
 {
-    web_pub.publish(robot_Info);
+   // web_pub.publish(robot_Info);
 }
 
 
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
     // Default constructed
     publishMsgFromRobot publishMsgFromRobot(nh);
     // timer to callback publish to topic every second
-    ros::Timer timer1 = nh.createTimer(ros::Duration(1), publishMsgFromRobot.publishToServer);
+    //ros::Timer timer1 = nh.createTimer(ros::Duration(1), &publishMsgFromRobot::publishToServer);
     // Spin and leave work for callbacks
     ros::spin();
 }
