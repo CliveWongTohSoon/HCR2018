@@ -31,9 +31,9 @@ Currently not sure how to
 * source devel/setup.bash
 
  # Commands to connect to robot
-* sudo chmod 777 -R /dev/ttyUSB0 
+* sudo chmod 777 -R /dev/ttyUSB0   - give permission for usb
 * rosparam set /p2os/port /dev/ttyUSB0 
 * rosrun p2os_driver p2os_driver
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
-* dmesg | grep tty
+* dmesg | grep tty  - check which usb is plugged in
 * roslaunch simple_navigation_goals subscribe.launch
