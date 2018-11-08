@@ -19,6 +19,7 @@ Currently does not work on the given human laptop,
 * if moving to a different directory, remove build and delevel files before running catkin_make
 * new cpp file -> add to cmake, add to launch file, catkin_make
 * source files in -> cd /opt/ros/kinetic/include
+* for custom messages - http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigation for navigation
