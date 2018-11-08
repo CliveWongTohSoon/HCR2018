@@ -140,9 +140,9 @@ link_directories(${OPENNI2_REDIST})
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(
-opencv_test_node src/internal_cam_test.cpp
-)
+#add_executable(
+#opencv_test_node src/internal_cam_test.cpp
+#)
 #add_executable(opencv_test_node src/internal_cam_test_7trackers.cpp)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
