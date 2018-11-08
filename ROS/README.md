@@ -1,7 +1,15 @@
+# TODO
+* Sending robot status to webserver
+    * movement, location?
+* Receiving stuff from webserver
+    * start, destination
+
 # Problems
 Currently does not work on the given human laptop, 
 ...launch is neither a launch file ....
 * could be to do with ROS
+
+
 # HOW TO RUN ROBOT 
 * Find USB port with ```dmesg | grep tty```
 * Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
@@ -10,6 +18,7 @@ Currently does not work on the given human laptop,
 # Notes to self
 * if moving to a different directory, remove build and delevel files before running catkin_make
 * new cpp file -> add to cmake, add to launch file, catkin_make
+* source files in -> cd /opt/ros/kinetic/include
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigation for navigation
@@ -27,4 +36,4 @@ Currently not sure how to
 * rosrun p2os_driver p2os_driver
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
 * dmesg | grep tty
- * roslaunch simple_navigation_goals subscribe.launch
+* roslaunch simple_navigation_goals subscribe.launch

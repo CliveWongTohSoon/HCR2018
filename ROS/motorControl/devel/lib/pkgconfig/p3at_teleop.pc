@@ -1,8 +1,0 @@
-prefix=/home/elisa/Programming/HCR2018/ROS/motorControl/devel
-
-Name: p3at_teleop
-Description: Description of p3at_teleop
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/elisa/Programming/HCR2018/ROS/motorControl/devel/lib 
-Requires: geometry_msgs p2os_driver p2os_urdf joy roscpp rospy sensor_msgs
