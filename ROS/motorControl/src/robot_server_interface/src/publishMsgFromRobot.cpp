@@ -28,16 +28,16 @@ class publishMsgFromRobot
 publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle &nh) 
 {
     // Publish to web
-    web_pub = nh.advertise<geometry_msgs::Twist>("webserver", 10);
+    web_pub = nh.advertise<p2os_msgs::BatteryState>("webserver", 10);
     // Subscriber 3rd and 4th arguments are the callback member function and instance pointed to for the callback
-    battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 10, &publishMsgFromRobot::batteryCallback, this);
+    battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 100, &publishMsgFromRobot::batteryCallback, this);
 }
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr& battery_msg)
 {
     // print out battery msg for now
-    ROS_INFO("Charge voltage [%f]", battery_msg->voltage);
-
+   // ROS_INFO("Charge voltage [%f]", battery_msg->voltage);
+    web_pub.publish(*battery_msg);
     // send to web server
     // vel_pub_.publish(twist_msg);
 }
