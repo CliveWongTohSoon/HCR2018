@@ -1,7 +1,15 @@
+# TODO
+* Sending robot status to webserver
+    * movement, location?
+* Receiving stuff from webserver
+    * start, destination
+
 # Problems
 Currently does not work on the given human laptop, 
 ...launch is neither a launch file ....
 * could be to do with ROS
+
+
 # HOW TO RUN ROBOT 
 * Find USB port with ```dmesg | grep tty```
 * Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
@@ -10,6 +18,8 @@ Currently does not work on the given human laptop,
 # Notes to self
 * if moving to a different directory, remove build and delevel files before running catkin_make
 * new cpp file -> add to cmake, add to launch file, catkin_make
+* source files in -> cd /opt/ros/kinetic/include
+* for custom messages - http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigation for navigation
@@ -22,10 +32,11 @@ Currently not sure how to
 * source devel/setup.bash
 
  # Commands to connect to robot
-* sudo chmod 777 -R /dev/ttyUSB0 
+* sudo chmod 777 -R /dev/ttyUSB0   - give permission for usb
 * rosparam set /p2os/port /dev/ttyUSB0 
 * rosrun p2os_driver p2os_driver
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
+<<<<<<< HEAD
 * dmesg | grep tty
  * roslaunch simple_navigation_goals subscribe.launch
 
@@ -37,3 +48,7 @@ Currently not sure how to
  * rostopic info /some_topic
  * rostopic echo /some_topic
  * rostopic pub /some_topic msg/MessageType "data:value" 
+=======
+* dmesg | grep tty  - check which usb is plugged in
+* roslaunch simple_navigation_goals subscribe.launch
+>>>>>>> 4ea280403ff3e180e9641146a6880d5f425b31c2
