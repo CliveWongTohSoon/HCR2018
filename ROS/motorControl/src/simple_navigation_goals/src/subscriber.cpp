@@ -13,18 +13,117 @@ float distance;
 
 float current_angle;
 float initial_angle;
-float degree;
+float angle;
 
-bool toggle = 0;
+
+
+
+void moveForward(){
+    cmd_vel.linear.y = 0;
+    cmd_vel.angular.x = 0;
+    cmd_vel.angular.y = 0;
+    cmd_vel.angular.z = 0;
+
+    if(current_pose.x < initial_pose.x + distance){
+        cmd_vel.linear.x = 2;
+    }
+    else{
+        cmd_vel.linear.x = 0;
+        distance = 0;
+    }
+}
+
+
+void moveBackward(){
+    cmd_vel.linear.y = 0;
+    cmd_vel.angular.x = 0;
+    cmd_vel.angular.y = 0;
+    cmd_vel.angular.z = 0;
+
+    if(current_pose.x > initial_pose.x + distance){
+        cmd_vel.linear.x = -2;
+    }
+    else{
+        cmd_vel.linear.x = 0;
+        distance = 0;
+    }
+}
+
+
+/*
+    angle:orientation.z
+    0=0
+    90=0.5
+    180=1,-1
+    270=-0.5
+    360 = 0
+    */
+void turnLeft(){
+    cmd_vel.linear.x = 0;
+    cmd_vel.linear.y = 0;
+    cmd_vel.angular.x = 0;
+    cmd_vel.angular.y = 0;
+
+    /*
+    while(Math.Abs(current_angle - initial_angle) > 180){
+        current_angle += (current_angle > initial_angle ? -360 : 360);
+    }
+    */
+    if(current_angle < initial_angle + angle){
+        cmd_vel.angular.z = 2;
+    }
+    else{
+        cmd_vel.angular.z = 0;
+        angle = 0;
+    }
+
+}
+
+
+void turnRight(){
+    cmd_vel.linear.x = 0;
+    cmd_vel.linear.y = 0;
+    cmd_vel.angular.x = 0;
+    cmd_vel.angular.y = 0;
+
+    /*
+    while(Math.Abs(current_angle - initial_angle) > 180){
+        current_angle += (current_angle > initial_angle ? -360 : 360);
+    }
+    */
+    if(current_angle > initial_angle + angle){
+        cmd_vel.angular.z = -2;
+    }
+    else{
+        cmd_vel.angular.z = 0;
+        angle = 0;
+    }
+
+}
+
+
+
+
+float getDegrees(float angular){
+    if(angular >= 0 && angular <= 1){
+        return angular * 180;
+    }
+    else if(angular < 0 && angular >= -1)
+        return 360 + (angular * 180);
+} 
+
 
 void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     ROS_INFO("Seq: [%d]", msg->header.seq);
-    // linear position
+ 
     current_pose.x = msg->pose.pose.position.x;
     current_pose.y = msg->pose.pose.position.y;
+    current_angle = getDegrees(msg->pose.pose.orientation.z);
+
     ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", msg->pose.pose.position.x,msg->pose.pose.position.y, msg->pose.pose.position.z);
     ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
     ROS_INFO("Vel-> Linear: [%f], Angular: [%f]", msg->twist.twist.linear.x,msg->twist.twist.angular.z);
+    
     /*
     // quaternion to RPY conversion
     tf::Quaternion q(
@@ -39,84 +138,33 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     current_pose.theta = yaw;*/
 }
 
-void moveForward(float distance){
-    cmd_vel.linear.y = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    cmd_vel.angular.z = 0;
-    if(current_pose.x - initial_pose.x < distance){
-        cmd_vel.linear.x = 2;
-    }
-    else{
-        cmd_vel.linear.x = 0;
-        toggle = !toggle;
 
-        initial_pose = current_pose;
-    }
-}
-
-void moveBackward(float distance){
-    cmd_vel.linear.y = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    cmd_vel.angular.z = 0;
-    if(current_pose.x - initial_pose.x > -distance){
-        cmd_vel.linear.x = -2;
-    }
-    else{
-        cmd_vel.linear.x = 0;
-        toggle = !toggle;
-        initial_pose = current_pose;
-    }
-}
-
-
-void moveDiagonal(float degree, float distance){
-
-}
-
-void turnLeft(float degree){
-    cmd_vel.linear.x = 0;
-    cmd_vel.linear.y = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    // if(current_angle - initial_angle > degree){
-    //     cmd_vel.linear.x = -0.25;
-    // }
-    // else{
-    //     cmd_vel.linear.x = 0;
-    // }
-    cmd_vel.angular.z = 2;
-
-
-    /*
-    angle:orientation.z
-    0=0
-    90=0.5
-    180=1,-1
-    270=-0.5
-    360 = 0
-    */
-}
-
-
-void newOrder(){
-    initial_pose = current_pose;
+//set global parameters to subscribed motorControl oder
+void controlCallback(){
     distance = 2;
+    angle = 0;
+
+    initial_pose = current_pose;
+    initial_angle = current_angle;
 }
 
 
 void update_cmd_vel(){
+    if(angle > 0){
+        turnLeft();
+    }
+    else if(angle < 0){
+        turnRight();
+    }
+    else{
+        if(distance > 0){
+            moveForward();
+        }
+        else if(distance < 0){
+            moveBackward();
+        }
+    }
 
-    // if forward
-    //moveBackward(distance);
-    // if (!toggle)
-    //     moveForward(distance);
-    // else{
-    //     moveBackward(distance);
-    // }
-    
-    turnLeft(1);
 }
 
 
@@ -127,10 +175,12 @@ int main(int argc, char *argv[]){
     ros::init(argc, argv, "subscriber");
     ros::NodeHandle n;
 
+
+    //ros::Subscriber sub_nav = n.subscribe("motorControl", 100, controlCallback);
     ros::Subscriber sub_pose = n.subscribe("pose", 1000, poseCallback);
     ros::Publisher pub_cmd_vel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
 
-    newOrder();
+    controlCallback();
 
     ros::Rate loop_rate(100);
     while(ros::ok()){
