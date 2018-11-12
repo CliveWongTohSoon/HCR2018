@@ -39,7 +39,7 @@ Currently not sure how to
 * roslaunch p3at_teleop p3at_teleop.launch rviz:=false
 * dmesg | grep tty
 * roslaunch simple_navigation_goals subscribe.launch
-
+* roslaunch robot_server_interface robot_server_interface.launch
  # Useful ROS commands
  ## Publish/subscribe tools
  * rosnode list
