@@ -27,7 +27,7 @@ cv2.createTrackbar('erode', 'Video',4,10,nothing)#after plenty of testing
 imn=cv2.imread('src/kinect_nav-master/blank.bmp')
 #cv2.createTrackbar('dilate', 'edge',0,10,nothing)
 def pretty_depth(depth):
-    np.clip(depth, 0, 2**10 - 1, depth)
+    np.clip(depth, 0, 2**10 - 1, depth)  #clip to certain range
     depth >>= 2
     depth = depth.astype(np.uint8)
     return depth
@@ -50,11 +50,11 @@ while 1:
     	#orig = cv2.cvtColor(orig,cv2.COLOR_BGR2RGB) #to get RGB image, which we don't want
 	#cv2.flip(orig, 0, orig)#since we keep kinect upside-down
     	#cv2.flip(orig, 1,orig)# thus correcting upside-down mirror effect
-    	cv2.flip(dst, 1, dst)#since we keep kinect upside-down
-	cv2.flip(dst, 1,dst)# thus correcting upside-down mirror effect
+    	#cv2.flip(dst, 1, dst)#since we keep kinect upside-down
+	#cv2.flip(dst, 1,dst)# thus correcting upside-down mirror effect
     
 #rectangular border (improved edge detection + closed contours)___________________________ 
-	cv2.rectangle(dst,(0,0),(640,480),(40,100,0),2)
+	cv2.rectangle(dst,(0,0),(640,480),(40,100,0),2)  #unknown
 	   
 #image binning (for distinct edges)________________________________________________________
     	binn=cv2.getTrackbarPos('bin', 'Video') 
