@@ -22,6 +22,8 @@ class Socket{
 
             cout << pub_str.data.c_str() << endl;
 
+            h.socket()->emit("ros", ss.str());
+
             ros::spinOnce();
         }
     
@@ -37,10 +39,7 @@ int main(int argc, char* argv[]) {
     ros::init(argc, argv, "socket");
 
     // Initialise the socket class
-    // Socket s;
-    sio::client h;
-
-    h.connect("http://localhost:5000");
+    Socket s;
 
     ros::spin();
     return 0;

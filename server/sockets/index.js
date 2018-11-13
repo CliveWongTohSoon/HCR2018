@@ -19,12 +19,16 @@ const ioSocket = (app) => {
             switch (status) {
                 case 'dispatch':
                     socket.emit('location', data);
-                    console.log(io.sockets.sockets);
                     break;
                 default:
                     console.log('Not available yet!');
                     break;
             }
+        });
+
+        // Message from ROS
+        socket.on('ros', data => {
+            console.log('Received: ', data);
         });
 
         socket.on('disconnect', () => {
