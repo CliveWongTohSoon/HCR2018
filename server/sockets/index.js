@@ -19,6 +19,7 @@ const ioSocket = (app) => {
             switch (status) {
                 case 'dispatch':
                     socket.emit('location', data);
+                    // Send to 
                     console.log(io.sockets.sockets);
                     break;
                 default:
