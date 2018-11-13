@@ -11,8 +11,10 @@ geometry_msgs::Pose2D current_pose;
 geometry_msgs::Pose2D initial_pose;
 float distance;
 
-float current_angle;
+float old_current_angle = 0;
+float current_angle = 0;
 float initial_angle;
+float final_angle;
 float angle;
 
 
@@ -24,13 +26,25 @@ void moveForward(){
     cmd_vel.angular.y = 0;
     cmd_vel.angular.z = 0;
 
-    if(current_pose.x < initial_pose.x + distance){
+    float traveled = sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2));
+    if(traveled < distance*0.9){
         cmd_vel.linear.x = 2;
+    }
+    else if(traveled < distance){
+        cmd_vel.linear.x = 1;
     }
     else{
         cmd_vel.linear.x = 0;
         distance = 0;
     }
+
+    // if(current_pose.x < initial_pose.x + distance){
+    //     cmd_vel.linear.x = 2;
+    // }
+    // else{
+    //     cmd_vel.linear.x = 0;
+    //     distance = 0;
+    // }
 }
 
 
@@ -40,13 +54,21 @@ void moveBackward(){
     cmd_vel.angular.y = 0;
     cmd_vel.angular.z = 0;
 
-    if(current_pose.x > initial_pose.x + distance){
+    if(sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2)) < distance){
         cmd_vel.linear.x = -2;
     }
     else{
         cmd_vel.linear.x = 0;
         distance = 0;
     }
+
+    // if(current_pose.x > initial_pose.x + distance){
+    //     cmd_vel.linear.x = -2;
+    // }
+    // else{
+    //     cmd_vel.linear.x = 0;
+    //     distance = 0;
+    // }
 }
 
 
@@ -57,24 +79,40 @@ void moveBackward(){
     180=1,-1
     270=-0.5
     360 = 0
-    */
+*/
+
 void turnLeft(){
     cmd_vel.linear.x = 0;
     cmd_vel.linear.y = 0;
     cmd_vel.angular.x = 0;
     cmd_vel.angular.y = 0;
 
-    /*
-    while(Math.Abs(current_angle - initial_angle) > 180){
-        current_angle += (current_angle > initial_angle ? -360 : 360);
+    
+    if(old_current_angle - current_angle > 180){
+        final_angle -= 360;
     }
-    */
-    if(current_angle < initial_angle + angle){
-        cmd_vel.angular.z = 2;
+    old_current_angle = current_angle;
+    
+    if(angle < 135){
+        if(current_angle < final_angle*1.25){
+            cmd_vel.angular.z = 1.5;
+        }
+        else{
+            cmd_vel.angular.z = 0;
+            angle = 0;
+        }
     }
     else{
-        cmd_vel.angular.z = 0;
-        angle = 0;
+        if(current_angle < final_angle*0.95){
+        cmd_vel.angular.z = 1.5;
+        }
+        else if(current_angle < final_angle){
+            cmd_vel.angular.z = 1.4;
+        }
+        else{
+            cmd_vel.angular.z = 0;
+            angle = 0;
+        }
     }
 
 }
@@ -86,17 +124,31 @@ void turnRight(){
     cmd_vel.angular.x = 0;
     cmd_vel.angular.y = 0;
 
-    /*
-    while(Math.Abs(current_angle - initial_angle) > 180){
-        current_angle += (current_angle > initial_angle ? -360 : 360);
+    if(old_current_angle - current_angle < -r180){
+        final_angle += 360;
     }
-    */
-    if(current_angle > initial_angle + angle){
-        cmd_vel.angular.z = -2;
+    old_current_angle = current_angle;
+    
+    if(angle > -135){
+        if(current_angle > final_angle*1.25){
+            cmd_vel.angular.z = -1.5;
+        }
+        else{
+            cmd_vel.angular.z = 0;
+            angle = 0;
+        }
     }
     else{
-        cmd_vel.angular.z = 0;
-        angle = 0;
+        if(current_angle > final_angle*0.95){
+        cmd_vel.angular.z = -1.5;
+        }
+        else if(current_angle > final_angle){
+            cmd_vel.angular.z = -1.4;
+        }
+        else{
+            cmd_vel.angular.z = 0;
+            angle = 0;
+        }
     }
 
 }
@@ -120,8 +172,9 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     current_pose.y = msg->pose.pose.position.y;
     current_angle = getDegrees(msg->pose.pose.orientation.z);
 
+
     ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", msg->pose.pose.position.x,msg->pose.pose.position.y, msg->pose.pose.position.z);
-    ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
+    ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, getDegrees(msg->pose.pose.orientation.z), msg->pose.pose.orientation.w);
     ROS_INFO("Vel-> Linear: [%f], Angular: [%f]", msg->twist.twist.linear.x,msg->twist.twist.angular.z);
     
     /*
@@ -141,11 +194,13 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
 
 //set global parameters to subscribed motorControl oder
 void controlCallback(){
-    distance = 2;
-    angle = 0;
+    distance = 1.5;
+    angle = 330;
 
     initial_pose = current_pose;
     initial_angle = current_angle;
+
+    final_angle = initial_angle + angle;
 }
 
 
