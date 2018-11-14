@@ -24,50 +24,52 @@ class publishMsgFromRobot
         // Subscriber for various robot functions
         ros::Subscriber battery_sub_;
         ros::Subscriber motor_status_sub_ ;
-        // struct with robotInfo details
+        // custom msg
         custom_msgs::robotInfo robot_Info;
+
 };
 
 
 // Default constructor for our teleoperator class
 publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle &nh) 
 {
-    // Publish to web
+     // Publish to web
     web_pub = nh.advertise<custom_msgs::robotInfo>("webserver", 10);
     // get battery status
-    battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 100, &publishMsgFromRobot::batteryCallback, this);
+    battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 1000, &publishMsgFromRobot::batteryCallback, this);
     // get motorStatus
-    motor_status_sub_ = nh.subscribe<p2os_msgs::MotorState>("/motor_state", 100, &publishMsgFromRobot::motor_stateCallback, this);
-    robot_Info.voltage = 5;
-    robot_Info.motor_state = 0;
-    ROS_INFO("Charge voltage [%f]", robot_Info.voltage);
+    motor_status_sub_ = nh.subscribe<p2os_msgs::MotorState>("/motor_state", 1000, &publishMsgFromRobot::motor_stateCallback, this);
+
+
 }
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr& battery_msg)
 {
     // print out battery msg for now
-   ROS_INFO("Charge voltage [%f]", battery_msg->voltage);
+    robot_Info.voltage = battery_msg -> voltage;
+   ROS_INFO("Charge voltage using robot_Info [%f]", robot_Info.voltage);
+   
     //web_pub.publish(*battery_msg);
-   robot_Info.voltage = battery_msg-> voltage;
+   //robot_Info.voltage = battery_msg-> voltage;
 }
 void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::ConstPtr& motor_msg)
 {
-   //ROS_INFO("Motor state [%d]", motor_msg->state);
-   robot_Info.motor_state = motor_msg-> state;
+   robot_Info.motor_state = motor_msg->state;
+   ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
     // For now publish in motor
-    this->publishToServer();
-}
+    publishToServer();
 
-// Publish to server based on per second callback
+}
 void publishMsgFromRobot::publishToServer()
-{
+{   
+
    web_pub.publish(robot_Info);
 }
 
 
 int main(int argc, char** argv)
 {
-    ROS_INFO("Starting publishMsgFromRobot2");
+    ROS_INFO("Starting publishMsgFromRobot");
     // Initialise our ROS node
     ros::init(argc, argv, "publishMsgFromRobot");
     // Public node handle for global namespaces

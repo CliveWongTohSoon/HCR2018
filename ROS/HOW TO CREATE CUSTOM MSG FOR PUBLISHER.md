@@ -1,3 +1,5 @@
+[Good Link](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/cpp_msg_dependencies.html)
+
 # Create a custom message file
 You may want to publish something in a struct/class such that only one publisher is needed for multiple data transfers (e.g. battery state, motor state, etc)
 

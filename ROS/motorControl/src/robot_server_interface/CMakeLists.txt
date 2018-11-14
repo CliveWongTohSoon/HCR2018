@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robot_server_interface)
 
+
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -8,12 +10,12 @@ project(robot_server_interface)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  custom_msgs
   geometry_msgs
   roscpp
   rospy
   sensor_msgs
   std_msgs
-  custom_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -73,7 +75,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES robotServerInterface
   CATKIN_DEPENDS custom_msgs geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs 
-#  DEPENDS system_lib
+  #DEPENDS system_lib
 )
 
 ###########
@@ -126,3 +128,4 @@ add_executable(publishMsgFromRobot src/publishMsgFromRobot.cpp)
 target_link_libraries(publishMsgFromRobot
   ${catkin_LIBRARIES}
 )
+include_directories(include ${catkin_INCLUDE_DIRS})
