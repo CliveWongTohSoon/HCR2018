@@ -48,3 +48,6 @@ Currently not sure how to
  * rostopic info /some_topic
  * rostopic echo /some_topic
  * rostopic pub /some_topic msg/MessageType "data:value" 
+
+# P2OS_driver meanings
+* AIO - The aio interface provides access to an analog I/O device.

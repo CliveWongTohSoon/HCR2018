@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -74,7 +75,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES robotServerInterface
-  CATKIN_DEPENDS custom_msgs geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs 
+  CATKIN_DEPENDS nav_msgs custom_msgs geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs 
   #DEPENDS system_lib
 )
 
