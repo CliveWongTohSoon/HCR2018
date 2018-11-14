@@ -1,0 +1,6 @@
+[submodule "ROS/motorControl/src/socket_webserver/src/lib/websocketpp"]
+	path = ROS/motorControl/src/socket_webserver/src/lib/websocketpp
+	url = https://github.com/zaphoyd/websocketpp.git
+[submodule "ROS/motorControl/src/socket_webserver/src/lib/rapidjson"]
+	path = ROS/motorControl/src/socket_webserver/src/lib/rapidjson
+	url = https://github.com/miloyip/rapidjson.git
