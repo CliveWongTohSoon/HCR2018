@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
 #include "geometry_msgs/Twist.h"
+#include "geometry_msgs/Pose2D.h"
 #include "p2os_msgs/SonarArray.h"
 //#include "hcr_vip/sonar_vip.h"
 //#include "rosaria_client/sonar_vip.h"
@@ -19,11 +20,11 @@
 using geometry_msgs::Twist;
 using namespace std;
 int begin = 1;
-//float sonar_truoc = 0;
-
+geometry_msgs::Pose2D msg;
 void sonarCallback(const p2os_msgs::SonarArray::ConstPtr& SonarArray)
 { 
-
+ros::NodeHandle nh;
+ros::Publisher movement = nh.advertise<geometry_msgs::Pose2D>("movement", 1000);
 
 float _so0_range =SonarArray->ranges[0] ;
 float _so1_range =SonarArray->ranges[1] ;
@@ -38,6 +39,10 @@ float heading_min =  min (min (min (_so0_range, _so1_range), min(_so2_range, _so
         
 	if (_so3_range < 3 && _so4_range < 3) {
 		ROS_INFO ("forwards"); // move forwards 20cm
+		msg.x =0.2;
+		msg.theta=0;
+		movement.publish(msg);
+		
 	}
 	else if (heading_min < 3){
 		float sonar_min = SonarArray->ranges[0];
@@ -48,12 +53,17 @@ float heading_min =  min (min (min (_so0_range, _so1_range), min(_so2_range, _so
 				ind = i;
 			}
 		}
-		double angle = 77.5-ind*25;
+		float angle = 77.5-ind*25;
 		ROS_INFO ("turn angle: [%f]", angle);  // angle = 77.5-i*25
-		//ROS_INFO (angle.c_str());
+		msg.x =0;
+		msg.theta=angle;
+		movement.publish(msg);
 	}
 		else {
 			ROS_INFO ("backwards"); // move backwards 20cm
+			msg.x =0.2;
+			msg.theta=180;
+			movement.publish(msg);
 		}
 		  
 	}
