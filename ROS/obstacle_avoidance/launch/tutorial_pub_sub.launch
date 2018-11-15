@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="turtlesim" name="turtlesim" type="turtlesim_node" required="true"/>
+
+    <node pkg="obstacle_avoidance" name="obstacle_avoidance" type="obstacle_avoidance" required="true">
+        <remap from="/pose" to="/turtle1/pose"/>
+    </node>
+</launch>
