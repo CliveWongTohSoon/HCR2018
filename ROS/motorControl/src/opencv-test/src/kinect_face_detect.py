@@ -31,8 +31,6 @@ face_cascade = cv2.CascadeClassifier("/home/skeyang/opencv/data/haarcascades/haa
 tracker = dlib.correlation_tracker()
 trackingFace = 0
 
-
-
 rectangleColor = (0,165,255)
 
 while True:
@@ -94,8 +92,8 @@ while True:
 			t_w = int(tracked_position.width())
 			t_h = int(tracked_position.height())
 			cv2.rectangle(resultImage, (t_x, t_y),
-                                    (t_x + t_w , t_y + t_h),
-                                    rectangleColor ,2)
+									(t_x + t_w , t_y + t_h),
+									rectangleColor ,2)
 			pos_x = t_x
 			pos_y = t_y
 		else:
@@ -126,7 +124,6 @@ while True:
 		cv2.putText(resultImage, "MIDDLE", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
 		
 		
-	
 	#cv2.imshow("base-image", baseImage)
 	cv2.imshow("result-image", resultImage)
 	if cv2.waitKey(1) & 0xFF == ord('q'):

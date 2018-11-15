@@ -4,11 +4,29 @@
 * Receiving stuff from webserver
     * start, destination
 
-
 # Problems
 Currently does not work on the given human laptop, 
 ...launch is neither a launch file ....
 * could be to do with ROS
+
+# Make python executable
+To make python package executable, run 
+```
+$ chmod u+x opencv-test/src/kinect_face_detect.py
+```
+
+Install dlib
+```
+$ sudo apt-get install python-pip
+$ pip install dlib
+```
+
+Install freenect
+```
+$ sudo apt-get install freenect
+$ sudo apt-get install python-freenect
+```
+
 
 
 # HOW TO RUN ROBOT 

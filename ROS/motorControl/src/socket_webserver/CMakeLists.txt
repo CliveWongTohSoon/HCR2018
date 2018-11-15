@@ -202,7 +202,6 @@ set(SOURCES
   src/src/sio_socket.cpp
   src/src/internal/sio_client_impl.cpp
   src/src/internal/sio_packet.cpp
-  
 )
 
 set(HEADERS
