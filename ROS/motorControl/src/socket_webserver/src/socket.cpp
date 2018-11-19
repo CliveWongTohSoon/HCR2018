@@ -1,7 +1,8 @@
 #include <ros/ros.h>
 #include <sio_client.h>
 #include <sstream>
-#include <std_msgs/String.h>
+#include <socket_msg/socketMsg.h>
+#include <string>
 
 using namespace std;
 
@@ -12,17 +13,27 @@ class Socket{
             sub = n.subscribe("webserver", 1000, &Socket::callback, this);
         }
 
-        void callback(const std_msgs::String::ConstPtr& msg) {
-            std_msgs::String pub_str;
+        string matchMessageToSocket(const socket_msg::socketMsg::ConstPtr& msg) {
+            string msgType = msg->type;
+            cout << "Socket heard message type: " + msgType << endl;
             stringstream ss;
 
-            ss << "Socket heard: " << msg->data.c_str();
+            if(msgType == "facial_recognition") {
+                float eye_pos_x = msg->eye_pos_x;
+                float eye_pos_y = msg->eye_pos_y;
+                ss << "{eye_pos_x:" << eye_pos_x << "," "eyes_pos_y:" << eye_pos_y << "}";
+                return ss.str();
+            } else {
+                return "Error Type";
+            }
+        }
 
-            pub_str.data = ss.str();
+        void callback(const socket_msg::socketMsg::ConstPtr& msg) {
+            stringstream ss;
 
-            cout << pub_str.data.c_str() << endl;
+            string s = matchMessageToSocket(msg);
 
-            h.socket()->emit("ros", ss.str());
+            h.socket()->emit("ros", s);
 
             ros::spinOnce();
         }
@@ -32,6 +43,7 @@ class Socket{
         ros::Subscriber sub;
         ros::Publisher pub;
         sio::client h;
+        socket_msg::socketMsg socket_msg;
 };
 
 int main(int argc, char* argv[]) {
