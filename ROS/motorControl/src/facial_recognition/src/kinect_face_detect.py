@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import dlib
 from std_msgs.msg import String
+from socket_msg.msg import socketMsg
 
 def talker(position):
     pub = rospy.Publisher('chatter', String, queue_size=10)
@@ -22,22 +23,41 @@ def talker(position):
     	pub.publish(hello_str)
     	rate.sleep()
 
+def pub_to_websocket(x, y):
+	pub = rospy.Publisher('webserver', socketMsg)
+	rospy.init_node('kinect_face', anonymous=True)
+	rate = rospy.Rate(10)
+	msg = socketMsg()
+	msg.type = 'facial_recognition'
+	msg.eye_pos_x = x
+	msg.eye_pos_y = y
+	rospy.loginfo(msg)
+	pub.publish(msg)
+	rate.sleep()
+
 def get_video(video):
-	video = cv2.cvtColor(video,cv2.COLOR_RGB2BGR)
+	video = cv2.cvtColor(video, cv2.COLOR_RGB2BGR)
 	return video
 
-face_cascade = cv2.CascadeClassifier("/home/skeyang/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier("/home/clivewong/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
 
 tracker = dlib.correlation_tracker()
 trackingFace = 0
 
 rectangleColor = (0,165,255)
 
+cap = cv2.VideoCapture(0)
+
 while True:
 	pos_x = 0
 	pos_y = 0
 	#Retrieve the latest image from the Kinect
-	baseImage = get_video(freenect.sync_get_video()[0])
+
+	#Get from freenet
+	ret, frame = cap.read()
+
+	baseImage = frame
+	# baseImage = get_video(freenect.sync_get_video()[0])
 	
 	#Result image is the image we will show the user, which is a
 	#combination of the original image from the webcam and the
@@ -106,22 +126,25 @@ while True:
 	cv2.putText(resultImage, str(pos_x), (350,400), font, 1,(255,255,255),2,cv2.LINE_AA)
 	cv2.putText(resultImage, "Face y coordinate = ", (10,450), font, 1,(255,255,255),2,cv2.LINE_AA)	
 	cv2.putText(resultImage, str(pos_y), (350,450), font, 1,(255,255,255),2,cv2.LINE_AA)
-	if pos_x > 350 and pos_x != 0:
-		talker(1)
-		rospy.is_shutdown()
-		cv2.putText(resultImage, "LEFT", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
-	elif pos_x < 150 and pos_x != 0:
-		talker(2)
-		rospy.is_shutdown()
-		cv2.putText(resultImage, "RIGHT", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
-	elif pos_x > 150 and pos_x < 350 and pos_x != 0:	
-		talker(3)
-		rospy.is_shutdown
-		cv2.putText(resultImage, "MIDDLE", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
-	elif pos_x == 0 and pos_y == 0:
-		talker(3)
-		rospy.is_shutdown()
-		cv2.putText(resultImage, "MIDDLE", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
+	
+	pub_to_websocket(pos_x, pos_y)
+
+	# if pos_x > 350 and pos_x != 0:
+	# 	talker(1)
+	# 	rospy.is_shutdown()
+	# 	cv2.putText(resultImage, "LEFT", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
+	# elif pos_x < 150 and pos_x != 0:
+	# 	talker(2)
+	# 	rospy.is_shutdown()
+	# 	cv2.putText(resultImage, "RIGHT", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
+	# elif pos_x > 150 and pos_x < 350 and pos_x != 0:	
+	# 	talker(3)
+	# 	rospy.is_shutdown
+	# 	cv2.putText(resultImage, "MIDDLE", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
+	# elif pos_x == 0 and pos_y == 0:
+	# 	talker(3)
+	# 	rospy.is_shutdown()
+	# 	cv2.putText(resultImage, "MIDDLE", (450,400), font, 1,(255,255,255),2,cv2.LINE_AA)
 		
 		
 	#cv2.imshow("base-image", baseImage)

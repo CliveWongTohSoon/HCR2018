@@ -47,7 +47,10 @@ export class App extends React.Component<App.Props> {
             />
           </div>
           <div className='col-sm-8'>
-            {<ContentCard />}
+            <ContentCard 
+              routeState={0}
+              socket={socket}
+            />
           </div>
         </div>
       </div>

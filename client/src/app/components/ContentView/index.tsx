@@ -1,10 +1,10 @@
-import * as React from 'react';
+// import * as React from 'react';
 import ContentCard from './ContentCard';
 
-export default () => {
-    return (
-        <ContentCard 
-            routeState={0}
-        />
-    );
-};
+export default ContentCard;
+// export default () => {
+//     return (
+//         <ContentCard 
+//         />
+//     );
+// };

@@ -21,7 +21,7 @@ class Socket{
             if(msgType == "facial_recognition") {
                 float eye_pos_x = msg->eye_pos_x;
                 float eye_pos_y = msg->eye_pos_y;
-                ss << "{eye_pos_x:" << eye_pos_x << "," "eyes_pos_y:" << eye_pos_y << "}";
+                ss << "{\"eye_pos_x\":" << eye_pos_x << ", \"eye_pos_y\":" << eye_pos_y << "}";
                 return ss.str();
             } else {
                 return "Error Type";

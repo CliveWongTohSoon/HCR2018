@@ -28,7 +28,9 @@ const ioSocket = (app) => {
 
         // Message from ROS
         socket.on('ros', data => {
-            console.log('Received: ', data);
+            jsonData = JSON.parse(data);
+            console.log('Received: ', jsonData);
+            socket.broadcast.emit('eyePos', jsonData);
         });
 
         socket.on('disconnect', () => {
