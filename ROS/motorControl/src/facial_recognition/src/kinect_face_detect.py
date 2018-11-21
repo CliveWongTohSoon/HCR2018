@@ -7,6 +7,11 @@ import numpy as np
 import dlib
 from std_msgs.msg import String
 from socket_msg.msg import socketMsg
+import os
+
+# current working directory
+cwd = os.getcwd()
+print(cwd, type(cwd))
 
 def talker(position):
     pub = rospy.Publisher('chatter', String, queue_size=10)
@@ -39,7 +44,7 @@ def get_video(video):
 	video = cv2.cvtColor(video, cv2.COLOR_RGB2BGR)
 	return video
 
-face_cascade = cv2.CascadeClassifier("/home/clivewong/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier(cwd + "/src/facial_recognition/src/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
 
 tracker = dlib.correlation_tracker()
 trackingFace = 0

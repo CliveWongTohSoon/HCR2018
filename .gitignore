@@ -4,7 +4,6 @@
 node_modules/
 .module-cache
 *.log*
-*.txt
 build
 dist
 ROS/motorControl/devel/

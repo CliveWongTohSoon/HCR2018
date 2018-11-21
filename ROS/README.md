@@ -39,10 +39,15 @@ $ sudo apt-get install python-freenect
 * new cpp file -> add to cmake, add to launch file, catkin_make
 * source files in -> cd /opt/ros/kinetic/include
 * for custom messages - http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
+
 # Navigation
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigation for navigation
 * roslaunch simple_navigation_goals nav.launch
+* Install the tf package to run ros navigation stack 
+```
+sudo apt-get install ros-kinetic-tf*
+```
 
 Currently not sure how to 
 # Add to bashRC - replace second with directory
