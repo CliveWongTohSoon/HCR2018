@@ -294,6 +294,7 @@ int main(int argc, char *argv[]){
             initial_angle = current_angle;
 
             final_angle = initial_angle + angle;
+            update_cmd_vel();
         }
         else if (c == 's'){
              ROS_INFO("s");
@@ -304,37 +305,38 @@ int main(int argc, char *argv[]){
             initial_angle = current_angle;
 
             final_angle = initial_angle + angle;
+            update_cmd_vel();
         }
         else if (c == 'a'){
             ROS_INFO("a");
+            cmd_vel.linear.x = 0;
+            cmd_vel.linear.y = 0;
+            cmd_vel.angular.x = 0;
+            cmd_vel.angular.y = 0;
+            cmd_vel.angular.z = 1.5;
             distance = 0;
-            angle = 20;
-
-            initial_pose = current_pose;
-            initial_angle = current_angle;
-
-            final_angle = initial_angle + angle;
+            angle = 0;
         }
         else if (c == 'd'){
             ROS_INFO("d");
-            distance = 0;
-            angle = -20;
-
-            initial_pose = current_pose;
-            initial_angle = current_angle;
-
-            final_angle = initial_angle + angle;
-        }
-        else if (c == 'f'){
+            cmd_vel.linear.x = 0;
+            cmd_vel.linear.y = 0;
+            cmd_vel.angular.x = 0;
+            cmd_vel.angular.y = 0;
+            cmd_vel.angular.z = -1.5;
             distance = 0;
             angle = 0;
-
-            initial_pose = current_pose;
-            initial_angle = current_angle;
-
-            final_angle = initial_angle + angle;
         }
-        update_cmd_vel();
+        else if (c == 'f'){
+            cmd_vel.linear.x = 0;
+            cmd_vel.linear.y = 0;
+            cmd_vel.angular.x = 0;
+            cmd_vel.angular.y = 0;
+            cmd_vel.angular.z = 0;
+            distance = 0;
+            angle = 0;
+        }
+        
         pub_cmd_vel.publish(cmd_vel);
 
         ros::spinOnce();
