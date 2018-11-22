@@ -4,20 +4,32 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/tf.h>
 #include <math.h>
+#include <termios.h>
 
 geometry_msgs::Twist cmd_vel;
 
 geometry_msgs::Pose2D current_pose;
 geometry_msgs::Pose2D initial_pose;
-float distance;
+float distance = 0;
 
 float old_current_angle = 0;
 float current_angle = 0;
-float initial_angle;
-float final_angle;
-float angle;
+float initial_angle = 0;
+float final_angle = 0;
+float angle = 0;
 
+int getch(){
+  static struct termios oldt, newt;
+  tcgetattr( STDIN_FILENO, &oldt);           // save old settings
+  newt = oldt;
+  newt.c_lflag &= ~(ICANON);                 // disable buffering      
+  tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
 
+  int c = getchar();  // read character (non-blocking)
+
+  tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
+  return c;
+}
 
 
 void moveForward(){
@@ -28,7 +40,7 @@ void moveForward(){
 
     float traveled = sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2));
     if(traveled < distance*0.9){
-        cmd_vel.linear.x = 2;
+        cmd_vel.linear.x = 1.5;
     }
     else if(traveled < distance){
         cmd_vel.linear.x = 1;
@@ -54,8 +66,13 @@ void moveBackward(){
     cmd_vel.angular.y = 0;
     cmd_vel.angular.z = 0;
 
-    if(sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2)) < distance){
-        cmd_vel.linear.x = -2;
+    //if(sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2)) < distance){
+    float traveled = -sqrt(pow(current_pose.x - initial_pose.x, 2) + pow(current_pose.y - initial_pose.y, 2));
+    if(traveled > distance*0.9){
+        cmd_vel.linear.x = -1.5;
+    }
+    else if(traveled > distance){
+        cmd_vel.linear.x = -1;
     }
     else{
         cmd_vel.linear.x = 0;
@@ -124,14 +141,14 @@ void turnRight(){
     cmd_vel.angular.x = 0;
     cmd_vel.angular.y = 0;
 
-    if(old_current_angle - current_angle < -r180){
+    if(old_current_angle - current_angle < -180){
         final_angle += 360;
     }
     old_current_angle = current_angle;
     
     if(angle > -135){
         if(current_angle > final_angle*1.25){
-            cmd_vel.angular.z = -1.5;
+            cmd_vel.angular.z = -1.2;
         }
         else{
             cmd_vel.angular.z = 0;
@@ -140,7 +157,7 @@ void turnRight(){
     }
     else{
         if(current_angle > final_angle*0.95){
-        cmd_vel.angular.z = -1.5;
+        cmd_vel.angular.z = -1.2;
         }
         else if(current_angle > final_angle){
             cmd_vel.angular.z = -1.4;
@@ -151,6 +168,17 @@ void turnRight(){
         }
     }
 
+}
+
+
+void stop(){
+    cmd_vel.linear.x = 0;
+    cmd_vel.linear.y = 0;
+    cmd_vel.angular.x = 0;
+    cmd_vel.angular.y = 0;
+    cmd_vel.angular.z = 0;
+    distance = 0;
+    angle = 0;
 }
 
 
@@ -205,21 +233,26 @@ void controlCallback(){
 
 
 void update_cmd_vel(){
-    if(angle > 0){
-        turnLeft();
-    }
-    else if(angle < 0){
-        turnRight();
+    if(distance == 0 && angle == 0){
+        stop();
     }
     else{
-        if(distance > 0){
-            moveForward();
+        if(angle > 0){
+            turnLeft();
         }
-        else if(distance < 0){
-            moveBackward();
+        else if(angle < 0){
+            turnRight();
+        }
+        else{
+            if(distance > 0){
+                moveForward();
+            }
+            else if(distance < 0){
+                moveBackward();
+            }
         }
     }
-
+    
 }
 
 
@@ -238,11 +271,72 @@ int main(int argc, char *argv[]){
     controlCallback();
 
     ros::Rate loop_rate(100);
-    while(ros::ok()){
+    // while(ros::ok()){
 
+    //     update_cmd_vel();
+    //     pub_cmd_vel.publish(cmd_vel);
+        
+    //     ros::spinOnce();
+    //     loop_rate.sleep();
+    // }
+
+
+
+    while (ros::ok())
+    {
+        int c = getch();   // call your non-blocking input function
+        if (c == 'w'){
+            ROS_INFO("w");
+            distance = 0.1;
+            angle = 0;
+
+            initial_pose = current_pose;
+            initial_angle = current_angle;
+
+            final_angle = initial_angle + angle;
+        }
+        else if (c == 's'){
+             ROS_INFO("s");
+            distance = -0.1;
+            angle = 0;
+
+            initial_pose = current_pose;
+            initial_angle = current_angle;
+
+            final_angle = initial_angle + angle;
+        }
+        else if (c == 'a'){
+            ROS_INFO("a");
+            distance = 0;
+            angle = 20;
+
+            initial_pose = current_pose;
+            initial_angle = current_angle;
+
+            final_angle = initial_angle + angle;
+        }
+        else if (c == 'd'){
+            ROS_INFO("d");
+            distance = 0;
+            angle = -20;
+
+            initial_pose = current_pose;
+            initial_angle = current_angle;
+
+            final_angle = initial_angle + angle;
+        }
+        else if (c == 'f'){
+            distance = 0;
+            angle = 0;
+
+            initial_pose = current_pose;
+            initial_angle = current_angle;
+
+            final_angle = initial_angle + angle;
+        }
         update_cmd_vel();
         pub_cmd_vel.publish(cmd_vel);
-        
+
         ros::spinOnce();
         loop_rate.sleep();
     }
