@@ -14,12 +14,14 @@ const ioSocket = (app) => {
         });
 
         socket.on('status', (statusData) => {
-            const {status, data} = statusData;
+            const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
             console.log(statusData);
             switch (status) {
                 case 'dispatch':
                     socket.emit('location', data);
                     break;
+                case 'storage':
+                    console.log(data);
                 default:
                     console.log('Not available yet!');
                     break;
