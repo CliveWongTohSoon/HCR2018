@@ -10,7 +10,7 @@ project(robot_server_interface)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  custom_msgs
+  socket_msg
   geometry_msgs
   roscpp
   rospy

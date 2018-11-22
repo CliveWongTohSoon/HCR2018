@@ -2,7 +2,7 @@
 // Necessary include files for message types
 #include <p2os_msgs/BatteryState.h>
 #include <p2os_msgs/MotorState.h>
-#include <custom_msgs/robotInfo.h>
+#include <socket_msg/socketMsg.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Vector3.h>
@@ -25,14 +25,14 @@
     ros::Subscriber motor_status_sub_;
     ros::Subscriber odometry_sub_;
     // custom msg
-    custom_msgs::robotInfo robot_Info;
+    socket_msg::socketMsg robot_Info;
 
   };
 
 // Default constructor for our teleoperator class
 publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
   // Publish to web
-  web_pub = nh.advertise < custom_msgs::robotInfo > ("webserver", 10);
+  web_pub = nh.advertise < socket_msg::socketMsg> ("webserver", 10);
   // get battery status
   battery_sub_ = nh.subscribe < p2os_msgs::BatteryState > ("/battery_state", 1000, & publishMsgFromRobot::batteryCallback, this);
   // get motorStatus
@@ -42,10 +42,13 @@ publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
 }
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
   // print out battery msg for now
+  robot_Info.type = "battery_Voltage";
   robot_Info.voltage = battery_msg -> voltage;
   //ROS_INFO("Charge voltage using robot_Info [%f]", robot_Info.voltage);
+  publishToServer();
 }
 void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg) {
+  robot_Info.type = "motor_state";
   robot_Info.motor_state = motor_msg -> state;
   //ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
   // For now publish in motor
@@ -53,6 +56,7 @@ void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::Const
 
 }
 void publishMsgFromRobot::odometry_Callback(const nav_msgs::Odometry::ConstPtr & msg) {
+    robot_Info.type = "motor_velocities";
     // Set values for parameters to send
     robot_Info.linear_x = msg->twist.twist.linear.x ;
     robot_Info.linear_y = msg->twist.twist.linear.y ;
@@ -61,6 +65,7 @@ void publishMsgFromRobot::odometry_Callback(const nav_msgs::Odometry::ConstPtr &
     robot_Info.angular_y = msg->twist.twist.angular.y ;
     robot_Info.angular_z = msg->twist.twist.angular.z ;
   //ROS_INFO("Linear velocity using [%f]", msg->twist.twist.linear.x);
+  publishToServer();
 }
 void publishMsgFromRobot::publishToServer() {
 
