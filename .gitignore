@@ -6,5 +6,5 @@ node_modules/
 *.log*
 build
 dist
-ROS/motorControl/devel/
-ROS/motorControl/build/
+ROS/main/devel/
+ROS/main/build/
