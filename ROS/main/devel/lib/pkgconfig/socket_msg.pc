@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: socket_msg
-Description: Description of socket_msg
-Version: 0.0.0
-Cflags: -I/home/clivewong/github/HCR2018/ROS/main/devel/include
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
-Requires: message_runtime

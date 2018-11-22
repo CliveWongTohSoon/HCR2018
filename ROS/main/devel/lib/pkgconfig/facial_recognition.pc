@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: facial_recognition
-Description: Description of facial_recognition
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lopencv_test
-Requires: cv_bridge image_transport roscpp rospy sensor_msgs std_msgs

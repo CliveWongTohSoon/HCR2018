@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: socket_webserver
-Description: Description of socket_webserver
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
-Requires: 

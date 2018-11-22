@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: move_base
-Description: Description of move_base
-Version: 1.16.2
-Cflags: -I/home/clivewong/github/HCR2018/ROS/main/devel/include
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
-Requires: dynamic_reconfigure geometry_msgs move_base_msgs nav_msgs roscpp

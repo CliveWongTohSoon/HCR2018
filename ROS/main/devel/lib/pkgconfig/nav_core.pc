@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: nav_core
-Description: Description of nav_core
-Version: 1.16.2
-Cflags: -I/home/clivewong/github/HCR2018/ROS/main/src/nav_core/include
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
-Requires: std_msgs geometry_msgs tf2_ros costmap_2d

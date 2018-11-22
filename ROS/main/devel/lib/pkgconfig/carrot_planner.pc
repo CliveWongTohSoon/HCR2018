@@ -1,8 +1,0 @@
-prefix=/home/clivewong/github/HCR2018/ROS/main/devel
-
-Name: carrot_planner
-Description: Description of carrot_planner
-Version: 1.16.2
-Cflags: -I/home/clivewong/github/HCR2018/ROS/main/src/carrot_planner/include
-Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lcarrot_planner
-Requires: base_local_planner costmap_2d nav_core pluginlib roscpp tf2 tf2_ros
