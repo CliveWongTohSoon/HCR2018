@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: amcl
+Description: Description of amcl
+Version: 1.16.2
+Cflags: -I/home/clivewong/github/HCR2018/ROS/main/devel/include -I/home/clivewong/github/HCR2018/ROS/main/src/amcl/include
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lamcl_sensors -lamcl_map -lamcl_pf
+Requires: dynamic_reconfigure geometry_msgs nav_msgs rosbag roscpp sensor_msgs std_srvs tf2 tf2_msgs tf2_ros

@@ -1,6 +1,0 @@
-<launch>
-
-  <node pkg="opencv_test" name="face_detect" type="kinect_face_detect.py" output="screen">
-  </node>
-
-</launch>

@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: dwa_local_planner
+Description: Description of dwa_local_planner
+Version: 1.16.2
+Cflags: -I/home/clivewong/github/HCR2018/ROS/main/devel/include -I/home/clivewong/github/HCR2018/ROS/main/src/dwa_local_planner/include
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -ldwa_local_planner
+Requires: base_local_planner dynamic_reconfigure nav_msgs pluginlib sensor_msgs roscpp tf2 tf2_ros

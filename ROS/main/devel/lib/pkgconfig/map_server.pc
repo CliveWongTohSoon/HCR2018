@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: map_server
+Description: Description of map_server
+Version: 1.16.2
+Cflags: -I/home/clivewong/github/HCR2018/ROS/main/src/map_server/include
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lmap_server_image_loader
+Requires: roscpp nav_msgs tf2

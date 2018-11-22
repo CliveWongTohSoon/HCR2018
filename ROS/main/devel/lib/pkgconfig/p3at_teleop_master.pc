@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: p3at_teleop_master
+Description: Description of p3at_teleop_master
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
+Requires: geometry_msgs p2os_driver p2os_urdf joy roscpp rospy sensor_msgs

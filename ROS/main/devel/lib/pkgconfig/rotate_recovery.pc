@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: rotate_recovery
+Description: Description of rotate_recovery
+Version: 1.16.2
+Cflags: -I/home/clivewong/github/HCR2018/ROS/main/src/rotate_recovery/include
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lrotate_recovery
+Requires: costmap_2d geometry_msgs nav_core pluginlib roscpp tf2 tf2_ros

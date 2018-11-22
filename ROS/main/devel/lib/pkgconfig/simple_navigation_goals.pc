@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: simple_navigation_goals
+Description: Description of simple_navigation_goals
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
+Requires: 

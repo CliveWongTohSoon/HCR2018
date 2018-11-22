@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: voxel_grid
+Description: Description of voxel_grid
+Version: 1.16.2
+Cflags: -I/home/clivewong/github/HCR2018/ROS/main/src/voxel_grid/include
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib -lvoxel_grid
+Requires: roscpp

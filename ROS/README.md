@@ -27,8 +27,6 @@ $ sudo apt-get install freenect
 $ sudo apt-get install python-freenect
 ```
 
-
-
 # HOW TO RUN ROBOT 
 * Find USB port with ```dmesg | grep tty```
 * Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
@@ -74,3 +72,12 @@ Currently not sure how to
 
 # P2OS_driver meanings
 * AIO - The aio interface provides access to an analog I/O device.
+
+# Troubleshoot
+If you see the following error:
+* fatal error: custom_msgs/robotInfo.h: No such file or directory
+  * This is due to the custom_msgs not compiled before it is used. Therefore, compile it first by running the following command
+    ```
+    $ catkin_make --pkg custom_msgs
+    ```
+  * You can fix the same error if you face same error for socket_msg/socketMsg.h

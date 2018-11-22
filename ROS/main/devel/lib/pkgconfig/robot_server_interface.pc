@@ -1,0 +1,8 @@
+prefix=/home/clivewong/github/HCR2018/ROS/main/devel
+
+Name: robot_server_interface
+Description: Description of robot_server_interface
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/clivewong/github/HCR2018/ROS/main/devel/lib 
+Requires: nav_msgs custom_msgs geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs
