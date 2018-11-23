@@ -1,13 +1,7 @@
-# TODO
-* Sending robot status to webserver
-    * movement, location?
-* Receiving stuff from webserver
-    * start, destination
-
-# Problems
-Currently does not work on the given human laptop, 
-...launch is neither a launch file ....
-* could be to do with ROS
+# Graph command
+* rosrun rqt_tf_tree rqt_tf_tree
+* rosrun rqt_graph rqt_graph
+* roswtf
 
 # Make python executable
 To make python package executable, run 
