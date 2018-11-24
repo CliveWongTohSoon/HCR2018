@@ -2,12 +2,10 @@
 #include <nav_msgs/Odometry.h>
 
 nav_msgs::Odometry odom;
-ros::Time current_time = ros::Time::now();
-ros::Time last_time = ros::Time::now();
-
+ros::Time last_time;
 void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     //ROS_INFO("Seq: [%d]", msg->header.seq);
-    current_time = ros::Time::now();
+    ros::Time current_time = ros::Time::now();
     
     odom.header.stamp = current_time;
     odom.header.frame_id = "odom";
@@ -36,7 +34,8 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
-
+  ros::Time::init();
+  
   ros::NodeHandle n;
   ros::Subscriber sub_pose = n.subscribe("pose", 100, poseCallback);
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);

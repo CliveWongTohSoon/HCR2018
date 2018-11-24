@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(simple_navigation_goals)
+project(silver_retriever_2dnav)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,9 +8,9 @@ project(simple_navigation_goals)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  move_base_msgs
-  roscpp
+  odometry_source
+  robot_setup_tf_tutorial
+  rplidar_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -70,7 +70,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   move_base_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -104,8 +104,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES simple_navigation_goals
-#  CATKIN_DEPENDS actionlib move_base_msgs roscpp
+#  LIBRARIES silver_retriever_2dnav
+#  CATKIN_DEPENDS odometry_source robot_setup_tf_tutorial rplidar_ros
 #  DEPENDS system_lib
 )
 
@@ -122,7 +122,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/simple_navigation_goals.cpp
+#   src/${PROJECT_NAME}/silver_retriever_2dnav.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -133,7 +133,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/simple_navigation_goals_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/silver_retriever_2dnav_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -190,15 +190,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_simple_navigation_goals.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_silver_retriever_2dnav.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(subscriber src/subscriber.cpp)
-target_link_libraries(subscriber ${catkin_LIBRARIES})
-
-add_executable(nav_goals src/simple_navigation_goals.cpp)
-target_link_libraries(nav_goals ${catkin_LIBRARIES})
