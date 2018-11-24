@@ -8,6 +8,11 @@ ROS Navigation Stack
     * Waiting move_base to start
     * ..., tf error: canTransform: target_frame odom does not exist.. canTransform returned after 0.100653 timeout was 0.1
 
+# Problem known
+* Resolution of odom is not matched with the map
+* The robot seems to not be able to locate itself locally
+* The goal needs to me scaled properly as well. 
+
 
 A 2D navigation stack that takes in information from odometry, sensor
 streams, and a goal pose and outputs safe velocity commands that are sent
