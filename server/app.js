@@ -13,7 +13,7 @@ const socketIO = require('./sockets');
 const router = express.Router();
 const url = process.env.MONGODB_URI || "mongodb://localhost";
 
-const port = 5000 || process.env.PORT;
+const port = 9000 || process.env.PORT;
 
 routes(router);
 
