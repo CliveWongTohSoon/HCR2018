@@ -125,6 +125,10 @@ module.exports = {
     },
     stats: 'minimal',
     clientLogLevel: 'warning',
+    port: '8080',
+    allowedHosts: [
+      '.amazonaws.com'
+    ],
     proxy: {
       '/api': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com/api/',
       '/socket': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000'
