@@ -32,7 +32,10 @@ export class App extends React.Component<App.Props> {
   constructor(props: App.Props) {
     super(props);
     // socket = io.connect('/socket');
-    socket = io.connect('http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000');
+    socket = io.connect('http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000', {
+      agent: false,
+      transports: ['websocket', 'htmlfile', 'xhr-polling', 'json-polling', 'polling']
+    });
   }
 
   render() {
