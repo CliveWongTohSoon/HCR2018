@@ -126,7 +126,7 @@ module.exports = {
     stats: 'minimal',
     clientLogLevel: 'warning',
     proxy: {
-      '/api': 'http://localhost:5000/api/'
+      '/api': 'http://localhost:9000/api/'
     }
   },
   // https://webpack.js.org/configuration/devtool/

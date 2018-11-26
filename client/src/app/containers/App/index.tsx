@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export class App extends React.Component<App.Props> {
   constructor(props: App.Props) {
     super(props);
-    socket = io.connect('http://localhost:5000');
+    socket = io.connect('http://localhost:9000');
   }
 
   render() {
