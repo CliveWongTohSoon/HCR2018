@@ -68,7 +68,7 @@ module.exports = {
                 require('postcss-url')(),
                 require('postcss-preset-env')({
                   /* use stage 2 features (defaults) */
-                  stage: 2,
+                  stage: 2
                 }),
                 require('postcss-reporter')(),
                 require('postcss-browser-reporter')({
@@ -126,7 +126,8 @@ module.exports = {
     stats: 'minimal',
     clientLogLevel: 'warning',
     proxy: {
-      '/api': 'http://localhost:9000/api/'
+      '/api': 'http://ec2-35-164-158-64.us-west-2.compute.amazonaws.com:9000/api/',
+      '/socket': 'http://ec2-35-164-158-64.us-west-2.compute.amazonaws.com:9000'
     }
   },
   // https://webpack.js.org/configuration/devtool/
