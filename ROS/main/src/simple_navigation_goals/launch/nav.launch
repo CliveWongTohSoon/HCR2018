@@ -10,7 +10,7 @@
 
     <!-- Run the teleoperator node we have created -->
     <!-- Setting appropriate parameters to refer to the correct joystick axes for commands -->
-    <node pkg="simple_navigation_goals" type="nav_goals" name="nav_goals">  
+    <node pkg="simple_navigation_goals" type="nav_goals" name="nav_goals" output="screen">  
     </node> 
 
     <!-- Enable the p2os motors -->

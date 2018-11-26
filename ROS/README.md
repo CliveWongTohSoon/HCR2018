@@ -75,3 +75,8 @@ If you see the following error:
     $ catkin_make --pkg custom_msgs
     ```
   * You can fix the same error if you face same error for socket_msg/socketMsg.h
+* qmake: could not exec '/usr/lib/x86_64-linux-gnu/qt4/bin/qmake': No such file or directory
+CMake Error at /usr/share/cmake-3.5/Modules/FindQt4.cmake:1326 (message):
+```
+sudo apt-get install qt-sdk
+```
