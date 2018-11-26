@@ -32,12 +32,12 @@ app.use((res, req, next) => {
 
 app.use('/api', router);
 
-const http = socketIO(app);
+// const http = socketIO(app);
 
-// const server = app.listen(port, () => {
-//     console.log(`Server started at port ${port}`)
-// })
+const server = app.listen(port, () => {
+    console.log(`Server started at port ${port}`)
+})
 
-http.listen(port, () => {
-    console.log(`Server started at port: ${port}`);
-});
+// http.listen(port, () => {
+//     console.log(`Server started at port: ${port}`);
+// });
