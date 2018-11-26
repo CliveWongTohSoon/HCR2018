@@ -3,7 +3,7 @@ const routes = require('./routes');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 const app = express();
 
 // const http = require('http').Server(app);
@@ -21,7 +21,7 @@ app.use(cors({
     origin: '*'
 }));
 app.use(bodyParser.json());
-// app.use(helmet());
+app.use(helmet());
 app.use((res, req, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUTS, PATCH, DELETE');
@@ -32,12 +32,8 @@ app.use((res, req, next) => {
 
 app.use('/api', router);
 
-// const http = socketIO(app);
+const http = socketIO(app);
 
-const server = app.listen(port, () => {
-    console.log(`Server started at port ${port}`)
-})
-
-// http.listen(port, () => {
-//     console.log(`Server started at port: ${port}`);
-// });
+http.listen(port, () => {
+    console.log(`Server started at port: ${port}`);
+});

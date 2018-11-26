@@ -1,16 +1,20 @@
 const http = require('http');
 const ioSocketServer = require('socket.io');
 
-const ioSocket = (server) => {
-    // const httpServer = http.Server(app);
-    const io = ioSocketServer.listen(server, {
+const ioSocket = (app) => {
+    const httpServer = http.Server(app);
+    const io = ioSocketServer(httpServer);
+    
+    // io.origins('*:*');
+    io.listen(http, {
         log: false,
         agent: false,
         origins: '*:*',
         transports: ['websocket', 'htmlfile', 'xhr-polling', 'json-polling', 'polling']
-    });  
-    // io.origins('*:*');
+    });
+    // const io = ioSocketServer.listen(server, {
 
+    // });  
     // io.set("origins", "http://http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com:8080/");
 
     io.on('connection', (socket) => {
