@@ -14,3 +14,15 @@ Otherwise, to update the submodules in the webserver_socket (if there is any), r
 ```
 git submodule update --recursive --remote
 ```
+
+## To connect to AWS
+* Connect to server EC2 instance
+```
+ssh -i node.pem ubuntu@ec2-35-176-128-102.eu-west-2.compute.amazonaws.com
+```
+
+* Connect to client EC2 instance
+```
+ssh -i client.pem ubuntu@ec2-52-56-71-140.eu-west-2.compute.amazonaws.com
+
+```

@@ -126,8 +126,8 @@ module.exports = {
     stats: 'minimal',
     clientLogLevel: 'warning',
     proxy: {
-      '/api': 'http://ec2-35-164-158-64.us-west-2.compute.amazonaws.com:9000/api/',
-      '/socket': 'http://ec2-35-164-158-64.us-west-2.compute.amazonaws.com:9000'
+      '/api': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com/api/',
+      '/socket': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000'
     }
   },
   // https://webpack.js.org/configuration/devtool/
