@@ -123,7 +123,7 @@ module.exports = {
     historyApiFallback: {
       disableDotRule: true
     },
-    public: 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com',
+    // public: 'http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com/',
     stats: 'minimal',
     clientLogLevel: 'warning',
     allowedHosts: ['.amazonaws.com'],
@@ -133,9 +133,9 @@ module.exports = {
       '/api': isProduction
         ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000/api/'
         : 'http://localhost:9000/api/',
-      // '/socket': isProduction 
-      //   ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000' 
-      //   : 'http://localhost:9000'
+      '/socket': isProduction
+        ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000'
+        : 'http://localhost:9000'
     }
   },
   // https://webpack.js.org/configuration/devtool/
