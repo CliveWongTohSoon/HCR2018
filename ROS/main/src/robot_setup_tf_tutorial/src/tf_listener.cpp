@@ -47,13 +47,14 @@ http://wiki.ros.org/navigation/Tutorials/RobotSetup/TF
 void transformPoint(const tf::TransformListener& listener){
   //we'll create a point in the base_laser frame that we'd like to transform to the base_link frame
   geometry_msgs::PointStamped laser_point;
-  laser_point.header.frame_id = "base_laser";
+  laser_point.header.frame_id = "laser";
 
   //we'll just use the most recent transform available for our simple example
   laser_point.header.stamp = ros::Time();
 
+  // TODO:- Cannot be arbitrary point
   //just an arbitrary point in space
-  laser_point.point.x = 1.0;
+  laser_point.point.x = 0.5;
   laser_point.point.y = 0.2;
   laser_point.point.z = 0.0;
 
