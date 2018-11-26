@@ -123,13 +123,19 @@ module.exports = {
     historyApiFallback: {
       disableDotRule: true
     },
+    public: 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com',
     stats: 'minimal',
     clientLogLevel: 'warning',
-    port: '8080',
     allowedHosts: ['.amazonaws.com'],
     proxy: {
-      '/api': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000/api/',
-      '/socket': 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000'
+      // '/api': 'http://localhost:9000/api/',
+      // '/socket': 'http://localhost:9000'
+      '/api': isProduction
+        ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000/api/'
+        : 'http://localhost:9000/api/',
+      // '/socket': isProduction 
+      //   ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000' 
+      //   : 'http://localhost:9000'
     }
   },
   // https://webpack.js.org/configuration/devtool/
