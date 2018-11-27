@@ -17,7 +17,11 @@ export namespace App {
   }
 }
 
-let socket = io.connect('http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000', {
+const socketUrl = process.env.NODE_ENV == 'production' 
+? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000' 
+: 'http://localhost:9000';
+
+let socket = io.connect(socketUrl, {
   agent: false,
   transports: ['websocket', 'htmlfile', 'xhr-polling', 'json-polling', 'polling']
 });

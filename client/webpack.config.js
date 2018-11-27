@@ -123,7 +123,7 @@ module.exports = {
     historyApiFallback: {
       disableDotRule: true
     },
-    // public: 'http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com/',
+    public: isProduction ? 'http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com' : 'http://localhost:8080',
     stats: 'minimal',
     clientLogLevel: 'warning',
     allowedHosts: ['.amazonaws.com'],

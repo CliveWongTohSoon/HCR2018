@@ -28,7 +28,8 @@ const scaleBetween = (unscaledNum: number, minAllowed: number, maxAllowed: numbe
 // };
 
 export const getEyePos = (socket: any, dispatch: Dispatch) => {
-    let prevX = 0
+    let prevX = 0;
+    
     socket.on('eyePos', (data: any) => {
         const { eye_pos_x } = data;
         const x = Math.abs(scaleBetween(eye_pos_x, 0, 70, -80, 500) - 70) - 20;
