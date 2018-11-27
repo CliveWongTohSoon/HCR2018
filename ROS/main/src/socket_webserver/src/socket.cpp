@@ -9,7 +9,7 @@ using namespace std;
 class Socket{
     public:
         Socket() {
-            h.connect("http://localhost:5000");
+            h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
             sub = n.subscribe("webserver", 1000, &Socket::callback, this);
         }
 
