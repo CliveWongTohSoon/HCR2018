@@ -86,8 +86,10 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: true,
     splitChunks: {
       name: true,
+      chunks: 'all',
       cacheGroups: {
         commons: {
           chunks: 'initial',
@@ -124,8 +126,9 @@ module.exports = {
       disableDotRule: true
     },
     public: isProduction ? 'http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com' : 'http://localhost:8080',
-    stats: 'minimal',
+    stats: isProduction ? 'errors-only' : 'minimal',
     clientLogLevel: 'warning',
+    // warning: !isProduction,
     allowedHosts: ['.amazonaws.com'],
     proxy: {
       // '/api': 'http://localhost:9000/api/',
