@@ -10,6 +10,7 @@ class Socket{
     public:
         Socket() {
             h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
+            // h.connect("http://localhost:9000");
             sub = n.subscribe("webserver", 1000, &Socket::callback, this);
         }
 
@@ -31,10 +32,22 @@ class Socket{
         void callback(const socket_msg::socketMsg::ConstPtr& msg) {
             stringstream ss;
 
-            string s = matchMessageToSocket(msg);
+            if (facial_recognition_counter > 10) {
+                string s = matchMessageToSocket(msg);
+                
+                if (s.compare(prev_s) != 0) { // If they are not equal
+                    cout << "They are not equal!" << endl;
+                    h.socket()->emit("ros", s);
+                    prev_s = s;
+                }
 
-            h.socket()->emit("ros", s);
-
+                // Reset counter
+                facial_recognition_counter = 0;
+            } else {
+                cout << "Caching..." << facial_recognition_counter << endl;
+                facial_recognition_counter++;
+            }
+            
             ros::spinOnce();
         }
     
@@ -44,6 +57,8 @@ class Socket{
         ros::Publisher pub;
         sio::client h;
         socket_msg::socketMsg socket_msg;
+        string prev_s = "";
+        int facial_recognition_counter = 0;
 };
 
 int main(int argc, char* argv[]) {

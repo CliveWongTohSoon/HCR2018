@@ -10,7 +10,9 @@ const eyesStyle = (eyePos: any) => {
         width: '90%',
         height: '100px',
         left: `${x}px`,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        transition: '1s',
+        '-webkit-transition': '1s'
     }
 };
 
