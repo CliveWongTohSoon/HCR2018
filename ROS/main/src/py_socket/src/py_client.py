@@ -6,7 +6,10 @@ from socket_msg.msg import socketMsg
 
 class PySocket:
     def __init__(self):
-        self.socketIO = SocketIO('localhost', 9000, LoggingNamespace)
+        # h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
+        url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
+        url_local = 'localhost'
+        self.socketIO = SocketIO(url, 9000, LoggingNamespace)
         self.pub = rospy.Publisher('webserver_ros', socketMsg, queue_size=10)
         self.sub = rospy.Subscriber('webserver', socketMsg, self.call_back)
         
