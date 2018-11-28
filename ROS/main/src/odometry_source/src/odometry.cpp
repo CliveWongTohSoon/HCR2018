@@ -34,7 +34,6 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     //ROS_INFO("Vel-> Linear: [%f], Angular: [%f]", msg->twist.twist.linear.x,msg->twist.twist.angular.z);
 }
 
-
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
   ros::Time::init();
@@ -50,7 +49,7 @@ int main(int argc, char** argv){
     
     odom_pub.publish(odom);
 
-    odom_trans.header.stamp = current_time;
+    odom_trans.header.stamp = ros::Time::now();
     odom_trans.header.frame_id = "odom";
     odom_trans.child_frame_id = "base_link";
     odom_trans.transform.translation.x = odom.pose.pose.position.x;
