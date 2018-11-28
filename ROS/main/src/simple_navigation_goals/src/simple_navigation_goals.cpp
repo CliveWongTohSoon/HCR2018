@@ -18,11 +18,11 @@ int main(int argc, char** argv){
   move_base_msgs::MoveBaseGoal goal;
 
   //we'll send a goal to the robot to move 1 meter forward
-  goal.target_pose.header.frame_id = "base_link";
+  goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
   // -51.224998, -51.224998, 0.000000
-  goal.target_pose.pose.position.x = -51.0;
-  goal.target_pose.pose.position.y = -51.0;
+  goal.target_pose.pose.position.x = 22.0;
+  goal.target_pose.pose.position.y = 22.0;
   goal.target_pose.pose.position.z = 0.0;
   goal.target_pose.pose.orientation.w = 1.0;
 

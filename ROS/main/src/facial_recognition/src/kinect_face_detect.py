@@ -44,7 +44,7 @@ def get_video(video):
 	video = cv2.cvtColor(video, cv2.COLOR_RGB2BGR)
 	return video
 
-face_cascade = cv2.CascadeClassifier(cwd + "/src/facial_recognition/src/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier("/home/human/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
 
 tracker = dlib.correlation_tracker()
 trackingFace = 0
@@ -59,10 +59,10 @@ while True:
 	#Retrieve the latest image from the Kinect
 
 	#Get from freenet
-	ret, frame = cap.read()
+	#ret, frame = cap.read()
 
-	baseImage = frame
-	# baseImage = get_video(freenect.sync_get_video()[0])
+	#baseImage = frame
+	baseImage = get_video(freenect.sync_get_video()[0])
 	
 	#Result image is the image we will show the user, which is a
 	#combination of the original image from the webcam and the

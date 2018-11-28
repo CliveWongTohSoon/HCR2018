@@ -1,17 +1,18 @@
 <launch>
     <!-- Arguments to configure the launch file e.g. whether to run RViz or not -->
-    <arg name="rviz" default="false"/> 
-    
+    <arg name="rviz" default="true"/> 
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simple_navigation_goals)/config/nav.rviz"/>
     <!-- Start the p2os driver for Pioneer robots e.g. the P3AT -->
     <node pkg="p2os_driver" type="p2os_driver" name="p2os_driver">
         <param name="port" value="/dev/ttyUSB0"/>
         <param name="pulse" value="1.0"/>
+        <!-- <param name="pose" value="odom"/> -->
     </node>
 
     <!-- Run the teleoperator node we have created -->
     <!-- Setting appropriate parameters to refer to the correct joystick axes for commands -->
-    <node pkg="simple_navigation_goals" type="nav_goals" name="nav_goals" output="screen">  
-    </node> 
+    <!--node pkg="simple_navigation_goals" type="nav_goals" name="nav_goals" output="screen">  
+    </node--> 
 
     <!-- Enable the p2os motors -->
     <!-- Publish once to the topic name '/cmd_motor_state' a message of type 'p2os_driver/MotorState' with a value of '1' -->

@@ -1,7 +1,10 @@
 #include <ros/ros.h>
+#include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 
 nav_msgs::Odometry odom;
+geometry_msgs::TransformStamped odom_trans;
+
 ros::Time last_time;
 void poseCallback(const nav_msgs::Odometry::ConstPtr& msg){
     //ROS_INFO("Seq: [%d]", msg->header.seq);
@@ -39,12 +42,25 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
   ros::Subscriber sub_pose = n.subscribe("pose", 100, poseCallback);
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
+  tf::TransformBroadcaster odom_broadcaster;
 
-  ros::Rate loop_rate(1.0);
+  ros::Rate loop_rate(100);
   while(n.ok()){
     ros::spinOnce();
     
     odom_pub.publish(odom);
+
+    odom_trans.header.stamp = ros::Time::now();
+    odom_trans.header.frame_id = "odom";
+    odom_trans.child_frame_id = "base_link";
+    odom_trans.transform.translation.x = odom.pose.pose.position.x;
+    odom_trans.transform.translation.y = odom.pose.pose.position.y;
+    odom_trans.transform.translation.z = odom.pose.pose.position.z;
+    odom_trans.transform.rotation.x = odom.pose.pose.orientation.x;
+    odom_trans.transform.rotation.y = odom.pose.pose.orientation.y;
+    odom_trans.transform.rotation.z = odom.pose.pose.orientation.z;
+    odom_trans.transform.rotation.w = odom.pose.pose.orientation.w;
+    odom_broadcaster.sendTransform(odom_trans);
 
     ros::spinOnce();
     loop_rate.sleep();
