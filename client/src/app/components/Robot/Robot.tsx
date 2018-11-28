@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as styles from './style.css';
 import { connect } from 'react-redux';
 import { getEyePos } from './action';
+import {TextField} from '@material-ui/core';
 
 const eyesStyle = (eyePos: any) => {
     const x = eyePos.eyePos;
@@ -12,7 +13,7 @@ const eyesStyle = (eyePos: any) => {
         left: `${x}px`,
         overflow: 'hidden',
         transition: '1s',
-        '-webkit-transition': '1s'
+        WebkitTransition: '1s'
     }
 };
 
@@ -32,6 +33,13 @@ export class RobotFace extends React.Component<RobotFace.Props> {
         getSocketEyePos(socket);
     }
 
+    handleKeyPress = (event: any) => {
+        const { socket } = this.props;
+        socket.emit('command', {
+            'key': event.target.value
+        });
+    }
+
     render() {
         const { eyePos } = this.props;
 
@@ -45,9 +53,13 @@ export class RobotFace extends React.Component<RobotFace.Props> {
                     <div className={styles.mouth}>
                         <div className={styles.lezu}></div>
                     </div>
-                    <h1 className={styles.status}>
+                    <TextField 
+                        value={''}
+                        onChange={this.handleKeyPress} 
+                        fullWidth={true} />
+                    {/* <h1 className={styles.status} onKeyPress={this.handleKeyPress}>
                         Arrived!
-                    </h1>
+                    </h1> */}
                 </div>
             </div>
         );

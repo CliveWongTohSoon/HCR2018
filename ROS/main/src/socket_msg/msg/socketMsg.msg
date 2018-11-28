@@ -11,3 +11,4 @@ float32 x
 float32 y
 float32 z
 # the rest of the data for the socket
+string key

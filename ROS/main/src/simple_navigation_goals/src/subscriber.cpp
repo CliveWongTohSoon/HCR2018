@@ -5,6 +5,8 @@
 #include <tf/tf.h>
 #include <math.h>
 #include <termios.h>
+#include <string>
+#include <socket_msg/socketMsg.h>
 
 geometry_msgs::Twist cmd_vel;
 
@@ -17,6 +19,7 @@ float current_angle = 0;
 float initial_angle = 0;
 float final_angle = 0;
 float angle = 0;
+std::string command_socket = "";
 
 int getch(){
   static struct termios oldt, newt;
@@ -255,8 +258,13 @@ void update_cmd_vel(){
     
 }
 
-
-
+// This receives command from the web server
+void webserverCallback(const socket_msg::socketMsg::ConstPtr& msg){
+    std::cout << msg->type << std::endl;
+    std::cout << "Received command: " << msg->key << std::endl;
+    command_socket = msg->key;
+    std::cout << "Command_socket is now: " << command_socket << std::endl;
+}
 
 int main(int argc, char *argv[]){
     ROS_INFO("start");
@@ -267,6 +275,7 @@ int main(int argc, char *argv[]){
     //ros::Subscriber sub_nav = n.subscribe("motorControl", 100, controlCallback);
     ros::Subscriber sub_pose = n.subscribe("pose", 1000, poseCallback);
     ros::Publisher pub_cmd_vel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
+    ros::Subscriber sub_cmd = n.subscribe("webserver_ros", 1000, webserverCallback);
 
     controlCallback();
 
@@ -285,7 +294,8 @@ int main(int argc, char *argv[]){
     while (ros::ok())
     {
         int c = getch();   // call your non-blocking input function
-        if (c == 'w'){
+
+        if (c == 'w' || command_socket == "w"){
             ROS_INFO("w");
             distance = 0.1;
             angle = 0;
@@ -296,8 +306,8 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 's'){
-             ROS_INFO("s");
+        else if (c == 's' || command_socket == "s"){
+            ROS_INFO("s");
             distance = -0.1;
             angle = 0;
 
@@ -307,7 +317,7 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 'a'){
+        else if (c == 'a' || command_socket == "a"){
             ROS_INFO("a");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -317,7 +327,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'd'){
+        else if (c == 'd' || command_socket == "d"){
             ROS_INFO("d");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -327,7 +337,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'f'){
+        else if (c == 'f' || command_socket == "f"){
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
             cmd_vel.angular.x = 0;

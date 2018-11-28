@@ -8,6 +8,7 @@ project(simple_navigation_goals)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  socket_msg
   actionlib
   move_base_msgs
   roscpp

@@ -11,7 +11,6 @@ const ioSocket = (app) => {
     });
     
     // io.set("origins", "http://http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com:8080/");
-
     io.on('connection', (socket) => {
         console.log(`User ${socket.id} connected`);
         
@@ -19,6 +18,19 @@ const ioSocket = (app) => {
             const {x, y, z} = locationData;
             console.log(`Received location (${x}, ${y}, ${z}) `);
         });
+
+        socket.on('box', boxData => {
+            console.log(boxData);
+        });
+
+        socket.on('command', data => {
+            console.log('Received data: ', data);
+            socket.broadcast.emit('webserver_ros', data);
+        });
+
+        // setInterval(() => {
+        //     socket.emit('webserver_ros', {'key': 'w'});
+        // }, 1000);
 
         socket.on('status', (statusData) => {
             const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
@@ -37,9 +49,8 @@ const ioSocket = (app) => {
 
         // Message from ROS
         socket.on('ros', data => {
-            jsonData = JSON.parse(data);
-            console.log('Received: ', jsonData);
-            socket.broadcast.emit('eyePos', jsonData);
+            console.log('Received: ', data);
+            socket.broadcast.emit('eyePos', data);
         });
 
         socket.on('disconnect', () => {

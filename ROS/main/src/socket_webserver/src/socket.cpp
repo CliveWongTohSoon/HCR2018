@@ -11,6 +11,7 @@ class Socket{
         Socket() {
             h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
             // h.connect("http://localhost:9000");
+
             sub = n.subscribe("webserver", 1000, &Socket::callback, this);
         }
 
@@ -35,8 +36,10 @@ class Socket{
             if (facial_recognition_counter > 10) {
                 string s = matchMessageToSocket(msg);
                 
-                if (s.compare(prev_s) != 0) { // If they are not equal
+                if (s.compare(prev_s) != 0) { 
+                    // If they are not equal, so we don't have to update same data to the server
                     cout << "They are not equal!" << endl;
+                    // Emit to the socket
                     h.socket()->emit("ros", s);
                     prev_s = s;
                 }
