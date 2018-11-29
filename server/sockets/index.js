@@ -19,8 +19,9 @@ const ioSocket = (app) => {
             console.log(`Received location (${x}, ${y}, ${z}) `);
         });
 
-        socket.on('box', boxData => {
+        socket.on('box', (boxData) => {
             console.log(boxData);
+            socket.broadcast.emit('box', boxData);
         });
 
         socket.on('command', data => {
