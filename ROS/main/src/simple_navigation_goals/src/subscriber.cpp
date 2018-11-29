@@ -294,8 +294,8 @@ int main(int argc, char *argv[]){
     while (ros::ok())
     {
         int c = getch();   // call your non-blocking input function
-
-        if (c == 'w' || command_socket == "w"){
+        int c_socket = command_socket[0];
+        if (c == 'w' || c_socket == 'w'){
             ROS_INFO("w");
             distance = 0.1;
             angle = 0;
@@ -306,7 +306,7 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 's' || command_socket == "s"){
+        else if (c == 's' || c_socket == 's'){
             ROS_INFO("s");
             distance = -0.1;
             angle = 0;
@@ -317,7 +317,7 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 'a' || command_socket == "a"){
+        else if (c == 'a' || c_socket == 'a'){
             ROS_INFO("a");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -327,7 +327,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'd' || command_socket == "d"){
+        else if (c == 'd' || c_socket == 'd'){
             ROS_INFO("d");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -337,7 +337,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'f' || command_socket == "f"){
+        else if (c == 'f' || c_socket == 'f'){
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
             cmd_vel.angular.x = 0;
@@ -348,6 +348,9 @@ int main(int argc, char *argv[]){
         }
         
         pub_cmd_vel.publish(cmd_vel);
+
+        // Reset the c_socket
+        command_socket = "";
 
         ros::spinOnce();
         loop_rate.sleep();
