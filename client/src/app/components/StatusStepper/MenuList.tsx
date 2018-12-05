@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { List, ListItem, ListItemText, MenuItem, Menu } from '@material-ui/core';
-// import Button from '@material-ui/core/Button';
-// import Paper from '@material-ui/core/Paper';
-import { openMenu, closeMenu, selectMenu } from './action';
+import { openMenu, closeMenu, updateStatus } from './action';
 import { connect } from 'react-redux'; 
 import { Dispatch } from 'redux';
 
@@ -10,11 +8,13 @@ const options = ["Please select a destination", "Samuel's Room", "Jin Yee's Room
 
 export namespace MenuList {
     export interface Props {
+        socket: SocketIOClient.Socket;
         selectedIndex: number;
         anchorEl: any;
+        postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => (dispatch: Dispatch) => void;
         openMenu: (event: any) => Dispatch;
         closeMenu: () => Dispatch;
-        selectMenu: (index: number) => Dispatch;
+        selectMenu: (index: number, socket: SocketIOClient.Socket) => Dispatch;
     }
 }
 
@@ -25,8 +25,12 @@ export class MenuList extends React.Component<MenuList.Props> {
     };
 
     handleMenuItemClick = (index: number) => {
-        console.log(index);
-        this.props.selectMenu(index);
+        const { postStatus, socket } = this.props;
+        const locationData = { x: 2, y: 3, z: 4 + index };
+        const statusData = {status: 'dispatch', data: locationData}
+        // TODO:- locationData needs modified
+        postStatus(socket, statusData, index);
+        // selectMenu(index, socket);
     };
 
     handleClose = () => {
@@ -80,9 +84,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     openMenu: (event: any) => dispatch(openMenu(event)),
     closeMenu: () => dispatch(closeMenu()),
-    selectMenu: (index: number) => dispatch(selectMenu(index))
+    postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => dispatch(updateStatus(socket, statusData, index) as any)
 });
 
 export default (connect(mapStateToProps, mapDispatchToProps) as any)(MenuList);
-
-

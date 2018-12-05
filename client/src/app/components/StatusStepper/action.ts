@@ -15,11 +15,14 @@ export const getStatus = (socket: any) => {
     };
 };
 
-export const updateStatus = (socket: any, {status, data}: any) => {
+type DispatchFunction = (dispatch: Dispatch) => void;
+
+export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any, index: number): DispatchFunction => {
     // console.log(status, data);
     return (dispatch: Dispatch) => {
         switch (status) {
             case 'dispatch':
+                dispatch(selectMenu(index));
                 dispatch(setDestination(data));
                 socket.emit('status', {status, data});
                 break;

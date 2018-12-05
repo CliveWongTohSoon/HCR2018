@@ -4,7 +4,6 @@ import * as React from 'react';
 import { StepContent, StepLabel, Step, Stepper, Typography } from '@material-ui/core';
 import * as styles from './style.css';
 import { connect } from 'react-redux'; 
-import { updateStatus } from './action';
 import MenuList from './MenuList';
 
 const getSteps = () => {
@@ -34,7 +33,7 @@ const getStepContent = (step: number) => {
     }
 }
 
-const renderStepContent = (steps: string[], onClickHandler: any) => {
+const renderStepContent = (steps: string[], socket: SocketIOClient.Socket) => {
     return steps.map((label, index) => {
         return (
             <Step key={label}>
@@ -43,7 +42,9 @@ const renderStepContent = (steps: string[], onClickHandler: any) => {
                     <Typography>
                         {getStepContent(index)}
                     </Typography>
-                    <MenuList />
+                    <MenuList 
+                        socket={socket}
+                    />
                     {/* <Button 
                         onClick={onClickHandler}
                     >
@@ -59,7 +60,7 @@ export namespace StatusStepper {
     export interface Props {
         status: any;
         postStatus: any;
-        socket: any;
+        socket: SocketIOClient.Socket;
     }
 }
 
@@ -73,14 +74,8 @@ export class StatusStepper extends React.Component<StatusStepper.Props> {
         });
     }
 
-    setDestination = () => {
-        const { postStatus, socket } = this.props;
-        const locationData = {x: 2, y: 3, z: 4};
-        postStatus(socket, locationData);
-    };
-
     render() {
-
+        const { socket } = this.props;
         const steps = getSteps();
 
         return (
@@ -89,7 +84,7 @@ export class StatusStepper extends React.Component<StatusStepper.Props> {
                     activeStep={0}
                     orientation='vertical'
                 >
-                    {renderStepContent(steps, this.setDestination)}
+                    {renderStepContent(steps, socket)}
                 </Stepper>
             </div>
         );
@@ -101,7 +96,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    postStatus: (socket: any, locationData: any) => dispatch(updateStatus(socket, { status: 'dispatch', data: locationData }))
+    // postStatus: (socket: any, locationData: any) => dispatch(updateStatus(socket, { status: 'dispatch', data: locationData }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (StatusStepper);
