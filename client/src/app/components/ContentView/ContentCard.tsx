@@ -13,6 +13,7 @@ export namespace ContentCard {
     export interface Props {
         routeState: any;
         theme?: any;
+        socket: any;
     }
 }
 
@@ -41,7 +42,7 @@ export class ContentCard extends React.Component<ContentCard.Props> {
     }
 
     render() {
-        const { routeState, theme } = this.props;
+        const { routeState, theme, socket } = this.props;
         return (
             <Card className={styles.card}>
                 <CardContent>
@@ -51,7 +52,11 @@ export class ContentCard extends React.Component<ContentCard.Props> {
                         onChangeIndex={this.handleChange}
                         className={styles.swipe}
                     >
-                        <TabContainer dir={theme.direction}>{<RobotFace />}</TabContainer>
+                        <TabContainer dir={theme.direction}><RobotFace 
+                                                                eyePos={0}
+                                                                socket={socket}
+                                                                getSocketEyePos={()=>{}}
+                                                            /></TabContainer>
                         <TabContainer dir={theme.direction}>{<LocationComponent />}</TabContainer>
                         <TabContainer dir={theme.direction}>Video</TabContainer>
                     </SwipeableViews>

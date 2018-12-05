@@ -5,6 +5,7 @@ export interface RootState {
   router: RouterState;
   routeState: any;
   status: any;
+  eyePos: any;
   // response: any
 }
 

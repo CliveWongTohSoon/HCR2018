@@ -1,0 +1,123 @@
+*{
+  -webkit-user-select: none;
+  cursor: default;
+}
+body{
+  background: #34495e;
+}
+.wrap{
+  margin: auto;
+  width: auto;
+  height: auto;
+}
+.cat{
+  position: relative;
+  height: 300px;
+  /* background: #2c3e50; */
+  /* border-top-right-radius: 10px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px; */
+  -webkit-animation-name: move; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 5s; /* Chrome, Safari, Opera */
+  animation-name: move;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+.time{
+  position: absolute;
+  top: 0;
+  left: 120px;
+  font-family: 'Segoe UI';
+  font-weight: 300;
+  color: whitesmoke;
+  font-size: 40px;
+}
+.time b{
+  font-weight: normal;
+  font-size: 18px;
+  padding-left: 10px;
+}
+.eyes{
+  position: absolute;
+  top: 100px;
+  width: 90%;
+  height: 100px;
+  left: 25px;
+  overflow: hidden;
+   -webkit-animation-name: eyes; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+  animation-name: eyes;
+  animation-duration: 3s;
+  animation-delay: 6s;
+  animation-iteration-count: infinite;
+}
+.eye{
+  position: absolute;
+  left: 0;
+  width: 100px;
+  border-radius: 50px;
+  height: 100%;
+  /* background: green; */
+  background: #3592f0;
+}
+.eye.two{
+  left: initial;
+  right: 0;
+}
+.mouth{
+  position: absolute;
+  width: 60px;
+  height: 35px;
+  background: #c0392b;
+  left: 180px;
+  top: 250px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  overflow: hidden;
+  -webkit-animation-name: laught; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
+  animation-name: laught;
+  animation-duration: 2s;
+  animation-delay: 10s;
+  animation-iteration-count: infinite;
+}
+.lezu{
+  position: absolute;
+  bottom: -30px;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  background: #e74c3c;
+}
+
+.status {
+    margin: auto;
+    text-align: center;
+}
+
+@-webkit-keyframes laught {
+    0%   {height: 0px;}
+    50%  {height: 35px;}
+    100% {height: 0px;}
+}
+@-webkit-keyframes eyes {
+    0%   {height: 0px;}
+    10%  {height: 80px;}
+    20%  {height: 80px;}
+    30%  {height: 80px;}
+    40%  {height: 80px;}
+    50%  {height: 80px;}
+    60%  {height: 80px;}
+    70%  {height: 80px;}
+    80%  {height: 80px;}
+    90%  {height: 80px;}
+    100% {height: 0px;}
+}
+@-webkit-keyframes move {
+  0% { -webkit-transform: translateY(0); }
+  50% { -webkit-transform: translateY(0); }
+  100% { -webkit-transform: translateY(0); }
+}

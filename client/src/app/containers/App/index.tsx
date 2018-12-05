@@ -17,7 +17,14 @@ export namespace App {
   }
 }
 
-let socket: any;
+const socketUrl = process.env.NODE_ENV == 'production' 
+? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000' 
+: 'http://localhost:9000';
+
+let socket = io.connect(socketUrl, {
+  agent: false,
+  transports: ['websocket', 'htmlfile', 'xhr-polling', 'json-polling', 'polling']
+});
 
 const mapStateToProps = (state: any) => ({
   response: state.response
@@ -31,7 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export class App extends React.Component<App.Props> {
   constructor(props: App.Props) {
     super(props);
-    socket = io.connect('http://localhost:5000');
+    // socket = io.connect('/socket');
   }
 
   render() {
@@ -47,7 +54,10 @@ export class App extends React.Component<App.Props> {
             />
           </div>
           <div className='col-sm-8'>
-            {<ContentCard />}
+            <ContentCard 
+              routeState={0}
+              socket={socket}
+            />
           </div>
         </div>
       </div>

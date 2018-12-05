@@ -1,4 +1,4 @@
-import { POST_STATUS } from './action.type';
+import { POST_STATUS, OPEN_MENU, CLOSE_MENU, SELECT_MENU } from './action.type';
 import { Dispatch } from 'redux';
 
 // Send a post request to initiate a socket
@@ -15,11 +15,14 @@ export const getStatus = (socket: any) => {
     };
 };
 
-export const updateStatus = (socket: any, {status, data}: any) => {
+type DispatchFunction = (dispatch: Dispatch) => void;
+
+export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any, index: number): DispatchFunction => {
     // console.log(status, data);
     return (dispatch: Dispatch) => {
         switch (status) {
             case 'dispatch':
+                dispatch(selectMenu(index));
                 dispatch(setDestination(data));
                 socket.emit('status', {status, data});
                 break;
@@ -29,3 +32,17 @@ export const updateStatus = (socket: any, {status, data}: any) => {
         }
     }
 }
+
+export const openMenu = (event: any) => ({
+    type: OPEN_MENU,
+    anchorEl: event.currentTarget
+});
+
+export const closeMenu = () => ({
+    type: CLOSE_MENU
+});
+
+export const selectMenu = (index: number) => ({
+    type: SELECT_MENU,
+    selectedIndex: index
+});

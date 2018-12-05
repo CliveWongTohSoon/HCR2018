@@ -68,7 +68,7 @@ module.exports = {
                 require('postcss-url')(),
                 require('postcss-preset-env')({
                   /* use stage 2 features (defaults) */
-                  stage: 2,
+                  stage: 2
                 }),
                 require('postcss-reporter')(),
                 require('postcss-browser-reporter')({
@@ -86,8 +86,10 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: true,
     splitChunks: {
       name: true,
+      chunks: 'all',
       cacheGroups: {
         commons: {
           chunks: 'initial',
@@ -123,10 +125,20 @@ module.exports = {
     historyApiFallback: {
       disableDotRule: true
     },
-    stats: 'minimal',
+    public: isProduction ? 'http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com' : 'http://localhost:8080',
+    stats: isProduction ? 'errors-only' : 'minimal',
     clientLogLevel: 'warning',
+    // warning: !isProduction,
+    allowedHosts: ['.amazonaws.com'],
     proxy: {
-      '/api': 'http://localhost:5000/api/'
+      // '/api': 'http://localhost:9000/api/',
+      // '/socket': 'http://localhost:9000'
+      '/api': isProduction
+        ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000/api/'
+        : 'http://localhost:9000/api/',
+      '/socket': isProduction
+        ? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000'
+        : 'http://localhost:9000'
     }
   },
   // https://webpack.js.org/configuration/devtool/

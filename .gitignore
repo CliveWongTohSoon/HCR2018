@@ -6,3 +6,5 @@ node_modules/
 *.log*
 build
 dist
+ROS/main/devel/
+ROS/main/build/
