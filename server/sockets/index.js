@@ -10,7 +10,6 @@ const ioSocket = (app) => {
         transports: ['websocket', 'htmlfile', 'xhr-polling', 'json-polling', 'polling']
     });
     
-    // io.set("origins", "http://http://ec2-52-56-71-140.eu-west-2.compute.amazonaws.com:8080/");
     io.on('connection', (socket) => {
         console.log(`User ${socket.id} connected`);
         
@@ -29,10 +28,6 @@ const ioSocket = (app) => {
             socket.broadcast.emit('webserver_ros', data);
         });
 
-        // setInterval(() => {
-        //     socket.emit('webserver_ros', {'key': 'w'});
-        // }, 1000);
-
         socket.on('status', (statusData) => {
             const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
             console.log(statusData);
@@ -41,7 +36,8 @@ const ioSocket = (app) => {
                     socket.emit('location', data);
                     break;
                 case 'storage':
-                    console.log(data);
+                    socket.emit('box', data);
+                    break;
                 default:
                     console.log('Not available yet!');
                     break;

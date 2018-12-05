@@ -1,10 +1,11 @@
 import * as React from 'react';
 // import Button from '@material-ui/core/Button';
 // import Paper from '@material-ui/core/Paper';
-import { StepContent, StepLabel, Step, Stepper, Typography, Button } from '@material-ui/core';
+import { StepContent, StepLabel, Step, Stepper, Typography } from '@material-ui/core';
 import * as styles from './style.css';
 import { connect } from 'react-redux'; 
 import { updateStatus } from './action';
+import MenuList from './MenuList';
 
 const getSteps = () => {
     return [
@@ -19,7 +20,7 @@ const getSteps = () => {
 const getStepContent = (step: number) => {
     switch (step) {
         case 0:
-            return 'Let me go to the destination.';
+            return 'Select a destination.';
         case 1:
             return 'Moving...'
         case 2:
@@ -42,11 +43,12 @@ const renderStepContent = (steps: string[], onClickHandler: any) => {
                     <Typography>
                         {getStepContent(index)}
                     </Typography>
-                    <Button 
+                    <MenuList />
+                    {/* <Button 
                         onClick={onClickHandler}
                     >
                         Click to send to socket    
-                    </Button>
+                    </Button> */}
                 </StepContent>
             </Step>
         );
