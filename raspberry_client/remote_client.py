@@ -8,8 +8,7 @@ socketIO=SocketIO(cloud_url, 9000, LoggingNamespace)
 
 motor1 = Motor(14,15)
 
-
-def box_status( *args):
+def box_status(*args):
     if args[0] == "open":
         print ("open")
         motor1.forward()
