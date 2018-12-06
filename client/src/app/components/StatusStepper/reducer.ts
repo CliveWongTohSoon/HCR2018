@@ -1,7 +1,7 @@
-import { POST_STATUS, OPEN_MENU, CLOSE_MENU, SELECT_MENU } from './action.type';
+import { POST_STATUS, OPEN_MENU, CLOSE_MENU, SELECT_MENU, RECEIVE_STATUS } from './action.type';
 
 const initialState = {
-    status: 'end',
+    status: 'start',
     data: {},
     anchorEl: null,
     selectedIndex: 0,
@@ -29,6 +29,12 @@ export const statusReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 anchorEl: null
+            };
+        case RECEIVE_STATUS:
+            return {
+                ...state,
+                status: action.status.status,
+                data: action.status.data
             };
         default:
             return {

@@ -38,6 +38,7 @@ class PySocket:
 
     def on_message(self, *args):
         msg = args[0]
+        print(msg)
         if msg['type'] == 'key_input':
             socket_msg = socketMsg()
             socket_msg.type = msg['type']
@@ -77,13 +78,13 @@ class PySocket:
         
         self.counter += 1
 
-    def emit_to_socket(self, eventName: str, status: str, data):
+    def emit_to_socket(self, eventName, status, data):
         self.socketIO.emit(eventName, {
                 'status': status,
                 'data': data
         })
 
-    def listen_to_socket(self, eventName: str):
+    def listen_to_socket(self, eventName):
         self.socketIO.on(eventName, self.on_message)
 
     def match_message(self, msg):

@@ -34,6 +34,19 @@ int getch(){
   return c;
 }
 
+int getchsocket() {
+    static struct termios oldt, newt;
+    tcgetattr( STDIN_FILENO, &oldt);           // save old settings
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON);                 // disable buffering      
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
+
+    int c = ;  // read character (non-blocking)
+
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
+    return c;
+}
+
 
 void moveForward(){
     cmd_vel.linear.y = 0;

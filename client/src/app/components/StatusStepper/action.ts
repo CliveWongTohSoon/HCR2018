@@ -1,4 +1,4 @@
-import { POST_STATUS, OPEN_MENU, CLOSE_MENU, SELECT_MENU } from './action.type';
+import { POST_STATUS, OPEN_MENU, CLOSE_MENU, SELECT_MENU, RECEIVE_STATUS } from './action.type';
 import { Dispatch } from 'redux';
 
 // Send a post request to initiate a socket
@@ -7,28 +7,39 @@ export const setDestination = ({x, y, z}: any) => ({
     status: {status: 'dispatch', data: {x, y, z}}
 });
 
+export const receiveStatus = (status: string, {x, y, z}: any) => ({
+    type: RECEIVE_STATUS,
+    status: {status, data: {x, y, z}}
+});
+
 export const getStatus = (socket: SocketIOClient.Socket) => {
-    return socket.on('location', (statusData: any) => {
-        const {status, data} = statusData;
-        switch (status) {
-            case 'to_dest':
-                console.log('On the way.', data);
-                break;
-            case 'to_origin':
-                console.log('On the way back', data);
-                break;
-            case 'arrived_destination':
-                console.log('Arrived destination', data);
-                break;
-            case 'arrived_origin':
-                console.log('Arrived origin');
-                socket.off('location');
-                break;
-            default:
-                console.log('Something went wrong!');
-                break;
-        }
-    });
+    return (dispatch: Dispatch) => {
+        socket.on('location', (statusData: any) => {
+            const {status, data} = statusData;
+            switch (status) {
+                case 'to_dest':
+                    console.log('On the way.', data);
+                    dispatch(receiveStatus(status, data));
+                    break;
+                case 'to_origin':
+                    console.log('On the way back', data);
+                    dispatch(receiveStatus(status, data));
+                    break;
+                case 'arrived_destination':
+                    console.log('Arrived destination', data);
+                    dispatch(receiveStatus(status, data));
+                    break;
+                case 'arrived_origin':
+                    console.log('Arrived origin');
+                    dispatch(receiveStatus(status, data));
+                    socket.off('location');
+                    break;
+                default:
+                    console.log('Something went wrong!');
+                    break;
+            }
+        });
+    } 
 };
 
 export const closeStatus = (socket: SocketIOClient.Socket, socketEvent: string) => {
@@ -44,8 +55,8 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any,
             case 'dispatch':
                 dispatch(selectMenu(index));
                 dispatch(setDestination(data));
-                socket.emit('status', {type: status, data});
-                getStatus(socket);
+                socket.emit('status', {type: status, status, data});
+                dispatch(getStatus(socket) as any);
                 break;
             // case 'arrived':
             //     // TODO:- Need to be done on client

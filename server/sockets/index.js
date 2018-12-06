@@ -13,10 +13,10 @@ const ioSocket = (app) => {
     io.on('connection', (socket) => {
         console.log(`User ${socket.id} connected`);
         
-        socket.on('location', (locationData) => {
-            const {x, y, z} = locationData;
-            console.log(`Received location (${x}, ${y}, ${z}) `);
-        });
+        // socket.on('location', (locationData) => {
+        //     const {x, y, z} = locationData;
+        //     console.log(`Received location (${x}, ${y}, ${z}) `);
+        // });
 
         socket.on('box', (boxData) => {
             console.log(boxData);
@@ -35,10 +35,11 @@ const ioSocket = (app) => {
 
         socket.on('status', (statusData) => {
             const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
+            console.log(statusData);
             switch (status) {
                 case 'dispatch':
                     // Emit this to the ROS
-                    socket.broadcast.emit('destination', data);
+                    socket.broadcast.emit('destination', {type: status, data});
                     break;
                 default:
                     console.log('Not available yet!');
