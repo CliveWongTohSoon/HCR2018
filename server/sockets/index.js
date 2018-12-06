@@ -35,8 +35,8 @@ const ioSocket = (app) => {
                 case 'dispatch':
                     socket.emit('location', data);
                     break;
-                case 'storage':
-                    socket.emit('box', data);
+                case 'arrived':
+                    socket.broadcast.emit('box', data);
                     break;
                 default:
                     console.log('Not available yet!');

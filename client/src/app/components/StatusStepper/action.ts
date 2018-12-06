@@ -26,6 +26,10 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any,
                 dispatch(setDestination(data));
                 socket.emit('status', {status, data});
                 break;
+            case 'arrived':
+                // TODO:- Need to be done on client
+                socket.emit('status', { status, data})
+                break;
             default:
                 console.log('Not available yet!');
                 break;
