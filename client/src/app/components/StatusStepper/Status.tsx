@@ -68,10 +68,6 @@ export class StatusStepper extends React.Component<StatusStepper.Props> {
 
     constructor(props: StatusStepper.Props) {
         super(props);
-        const { socket } = this.props;
-        socket.on('location', (locationData: any) => {
-            console.log('Received location data: ', locationData);
-        });
     }
 
     render() {

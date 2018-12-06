@@ -3,6 +3,17 @@
 import rospy
 from socketIO_client_nexus import SocketIO, LoggingNamespace
 from socket_msg.msg import socketMsg
+import threading
+
+
+def set_interval(func, sec):
+    def func_wrapper():
+        set_interval(func, sec)
+        func()
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
+
 
 class PySocket:
     def __init__(self):
@@ -15,22 +26,65 @@ class PySocket:
         
         self.facial_recognition_counter = 0
         self.prev_s = ""
+        self.counter = 0
 
         # Listen to socket
-        self.listen_to_socket()
+        self.listen_to_socket('webserver_ros')
+
+        # Listen to destination
+        self.listen_to_socket('destination')
 
         self.socketIO.wait()
 
     def on_message(self, *args):
         msg = args[0]
-        socket_msg = socketMsg()
-        socket_msg.type = 'key_input'
-        print(msg['key'])
-        socket_msg.key = msg['key']
-        self.pub.publish(socket_msg)
+        if msg['type'] == 'key_input':
+            socket_msg = socketMsg()
+            socket_msg.type = msg['type']
+            print(msg['data'])
+            socket_msg.key = msg['data']
+            self.pub.publish(socket_msg)
+        elif msg['type'] == 'dispatch':
+            print(msg['data'])
+            # TOOD:- Listen to a ros topic
+            set_interval(self.mock_wrapper, 1)
+    
+    def mock_wrapper(self):
+        if self.counter <= 10:
+            self.emit_to_socket('location', 'to_dest', {
+                'x': self.counter,
+                'y': self.counter, 
+                'z': self.counter
+            })
+        elif self.counter > 10 and self.counter <= 20:
+            self.emit_to_socket('location', 'arrived_destination', {
+                'x': self.counter,
+                'y': self.counter, 
+                'z': self.counter
+            })
+        elif self.counter > 20 and self.counter <= 30:
+            self.emit_to_socket('location', 'to_origin', {
+                'x': self.counter,
+                'y': self.counter, 
+                'z': self.counter
+            })
+        else:
+            self.emit_to_socket('location', 'arrived_origin', {
+                'x': self.counter,
+                'y': self.counter, 
+                'z': self.counter
+            })
+        
+        self.counter += 1
 
-    def listen_to_socket(self):
-        self.socketIO.on('webserver_ros', self.on_message)
+    def emit_to_socket(self, eventName: str, status: str, data):
+        self.socketIO.emit(eventName, {
+                'status': status,
+                'data': data
+        })
+
+    def listen_to_socket(self, eventName: str):
+        self.socketIO.on(eventName, self.on_message)
 
     def match_message(self, msg):
         msg_type = msg.type

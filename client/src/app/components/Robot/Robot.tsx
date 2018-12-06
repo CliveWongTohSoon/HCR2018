@@ -36,7 +36,8 @@ export class RobotFace extends React.Component<RobotFace.Props> {
     handleKeyPress = (event: any) => {
         const { socket } = this.props;
         socket.emit('command', {
-            'key': event.target.value
+            'type': 'key_input',
+            'data': event.target.value
         });
     }
 

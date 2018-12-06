@@ -27,16 +27,18 @@ const ioSocket = (app) => {
             console.log('Received data: ', data);
             socket.broadcast.emit('webserver_ros', data);
         });
+        
+        socket.on('location', locationStatus => {
+            // Send to the client
+            socket.broadcast.emit('location', locationStatus);
+        });
 
         socket.on('status', (statusData) => {
             const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
-            console.log(statusData);
             switch (status) {
                 case 'dispatch':
-                    socket.emit('location', data);
-                    break;
-                case 'arrived':
-                    socket.broadcast.emit('box', data);
+                    // Emit this to the ROS
+                    socket.broadcast.emit('destination', data);
                     break;
                 default:
                     console.log('Not available yet!');
