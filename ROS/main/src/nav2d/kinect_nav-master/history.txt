@@ -1,0 +1,126 @@
+    1  sudo sh -c ‘echo “deb https://packages.ros.org/ros/ubuntu $
+    2  sudo sh -c ‘echo “deb https://packages.ros.org/ros/ubuntu $(lsb_release -sc) main” > /etc/apt/sources.list.d/ros-latest.list’
+    3  mkdir -p ~/catkin_ws/src
+    4  cd ~/catkin_ws
+    5  PWD
+    6  pwd
+    7  ng@ng-Inspiron-3421:~/catkin_ws$ 
+    8  catkin_make
+    9  sudo apt install catkin
+   10  catkin_make
+   11  echo “source ~/catkin_ws/devel/setup.bash” >> ~/.bashrc
+   12  less ~/.bashrc
+   13  source ~/.bashrc
+   14  pwd
+   15  sudo apt-get install ros-kinetic-ros-tutorials
+   16  sudo sh -c ‘echo “deb https://packages.ros.org/ros/ubuntu $(lsb_release -sc) main” > /etc/apt/sources.list.d/ros-latest.list’
+   17  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+   18  sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+   19  sudo apt-get update
+   20  sudo apt-get install ros-kinetic-desktop-full
+   21  rosrun turtlesim turtlesim_node
+   22  sudo apt-get install ros-kinetic-p2os-*
+   23  cd src
+   24  catkin_create_pkg tutorial_pub_sub std_msgs roscpp
+   25  source ~/.bashrc
+   26  cd ..
+   27  catkin_make --pkg tutorial_pub_sub
+   28  ls -al
+   29  rosrun tutorial_pub_sub hello
+   30  catkin_make --pkg tutorial_pub_sub
+   31  rosrun tutorial_pub_sub hello
+   32  catkin_make --pkg tutorial_pub_sub
+   33  rosrun tutorial_pub_sub hello
+   34  catkin_make --pkg tutorial_pub_sub
+   35  rosrun tutorial_pub_sub hello
+   36  pwd
+   37  catkin_make 
+   38  rosrun tutorial_pub_sub hello
+   39  catkin_make --pkg tutorial_pub_sub
+   40  rosrun tutorial_pub_sub hello
+   41  rosrun tutorial_pub_sub tutorial_pub
+   42  rosrun turtlesim turtlesim_node
+   43  rosrun tutorial_pub_sub tutorial_pub
+   44  rosrun tutorial_pub_sub tutorial_pub_sub pose:/turtle1/pose
+   45  rosrun tutorial_pub_sub tutorial_pub
+   46  roslaunch tutorial_pub_sub tutorial_pub_sub.launch
+   47  rosnode list
+   48  rosnode out rosout
+   49  rosnode info
+   50  rosnode info rosout
+   51  rostopic list
+   52  sudo rosdep init
+   53  rosdep update
+   54  less ~/.bashrc
+   55  ls -al ~/.bashrc
+   56  gvi  ~/.bashrc
+   57  vi  ~/.bashrc
+   58  less ~/.bashrc
+   59  echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+   60  source ~/.bashrc
+   61  sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
+   62  cd ~/catkin_ws
+   63  catkin_make
+   64  echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+   65  source ~/.bashrc
+   66  less  ~/.bashrc
+   67  sudo apt-get install ros-kinetic-ros-tutorials
+   68  roscore
+   69  pwd
+   70  cd catkin_ws/src/kinect_nav-master
+   71  run mark3.py as su.
+   72  cd ..
+   73  catkin_make
+   74  pwd
+   75  cd ..
+   76  catkin_make
+   77  pwd
+   78  cd src/kinect_nav-master
+   79  cmake .
+   80  catkin_make
+   81  cd ..
+   82  catkin_make
+   83  cd src/kinect_nav-master
+   84  run mark3.py
+   85  grun mark3.py
+   86  cd ..
+   87  rosrun kinect_nav-master mark3.py
+   88  source  mark3.py
+   89  source src/kinect_nav-master/mark3.py
+   90  python  src/kinect_nav-master/mark3.py
+   91  pip install freenect
+   92  python  src/kinect_nav-master/mark3.py
+   93  sudo apt-get install libfreenect-dev
+   94  sudo apt-get install ros-kinetic-freenect-launch
+   95  python  src/kinect_nav-master/mark3.py
+   96  sudo apt-get install ros-kinetic-depthimage-to-laserscan
+   97  roslaunch_freenect_launch_freenect.launch
+   98  roslaunch_freenect_launch freenect.launch
+   99  python  src/kinect_nav-master/mark3.py
+  100  cd ~
+  101  roslaunch_freenect_launch freenect.launch
+  102  roslaunch freenect_launch freenect.launch
+  103  rostopic list
+  104  sudo apt-get install python-freenect
+  105  python  src/kinect_nav-master/mark3.py
+  106  rostopic echo /scan
+  107  rostopic echo /pose
+  108  rostopic info /scan
+  109  python  $HOME/catkin_ws/src/kinect_nav-master/mark3.py
+  110  print (ret)
+  111  cd catkin_make
+  112  cd catkin_ws
+  113  cd src/kinect_nav-master
+  114  ls
+  115  python mark3.py
+  116* 
+  117  python mark3.py as su.
+  118  run  mark3.py as su.
+  119  source mark3.py as su.
+  120  cccccc
+  121  python mark3.py as su.
+  122  python mark2.py 
+  123  python mark2.py as su.
+  124  python mark3.py as su.
+  125  history | less
+  126  history > history.txt

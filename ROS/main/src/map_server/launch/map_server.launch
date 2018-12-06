@@ -1,8 +1,0 @@
-<launch>
-    <master auto="start"/>
- <!-- Run the map server --> 
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find map_server)/assets/mymap.yaml"/>
-
-    <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/> -->
-
-</launch> 

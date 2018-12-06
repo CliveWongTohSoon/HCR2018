@@ -21,32 +21,18 @@ float final_angle = 0;
 float angle = 0;
 std::string command_socket = "";
 
-int getch(){
-  static struct termios oldt, newt;
-  tcgetattr( STDIN_FILENO, &oldt);           // save old settings
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON);                 // disable buffering      
-  tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
+int getchsocket(){
+  // static struct termios oldt, newt;
+  // tcgetattr( STDIN_FILENO, &oldt);           // save old settings
+  // newt = oldt;
+  // newt.c_lflag &= ~(ICANON);                 // disable buffering      
+  // tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
 
-  int c = getchar();  // read character (non-blocking)
+  int c = command_socket[0];  
 
-  tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
+  // tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
   return c;
 }
-
-int getchsocket() {
-    static struct termios oldt, newt;
-    tcgetattr( STDIN_FILENO, &oldt);           // save old settings
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON);                 // disable buffering      
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
-
-    int c = getch();  // read character (non-blocking)
-
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
-    return c;
-}
-
 
 void moveForward(){
     cmd_vel.linear.y = 0;
@@ -306,9 +292,11 @@ int main(int argc, char *argv[]){
 
     while (ros::ok())
     {
-        int c = getch();   // call your non-blocking input function
-        int c_socket = command_socket[0];
-        if (c == 'w' || c_socket == 'w'){
+        // int c = getchNonBlock();   // call your non-blocking input function
+        // int c = 0;
+        int c_socket = getchsocket();
+        // int c_socket = 0;
+        if (c_socket == 'w'){
             ROS_INFO("w");
             distance = 0.1;
             angle = 0;
@@ -319,7 +307,7 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 's' || c_socket == 's'){
+        else if (c_socket == 's'){
             ROS_INFO("s");
             distance = -0.1;
             angle = 0;
@@ -330,7 +318,7 @@ int main(int argc, char *argv[]){
             final_angle = initial_angle + angle;
             update_cmd_vel();
         }
-        else if (c == 'a' || c_socket == 'a'){
+        else if (c_socket == 'a'){
             ROS_INFO("a");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -340,7 +328,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'd' || c_socket == 'd'){
+        else if (c_socket == 'd'){
             ROS_INFO("d");
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
@@ -350,7 +338,7 @@ int main(int argc, char *argv[]){
             distance = 0;
             angle = 0;
         }
-        else if (c == 'f' || c_socket == 'f'){
+        else if (c_socket == 'f'){
             cmd_vel.linear.x = 0;
             cmd_vel.linear.y = 0;
             cmd_vel.angular.x = 0;
