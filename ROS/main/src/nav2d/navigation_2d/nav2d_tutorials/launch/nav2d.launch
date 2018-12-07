@@ -1,0 +1,70 @@
+<launch>
+
+	<!-- Some general parameters -->
+	<rosparam file="$(find nav2d_tutorials)/param/ros.yaml"/>
+	<param name="use_sim_time" value="false" />
+
+  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+  	<param name="serial_port"         type="string" value="/dev/rplidar"/>  
+  	<param name="serial_baudrate"     type="int"    value="115200"/>
+  	<param name="frame_id"            type="string" value="laser"/>
+ 	<param name="inverted"            type="bool"   value="false"/>
+  	<param name="angle_compensate"    type="bool"   value="true"/>
+  </node>
+  <node pkg="tf" type="static_transform_publisher" name="laser_tf" args="0 0 0.3 0 0 0 /base_link /laser 100" />
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+      name="laser_filter">
+    <rosparam command="load" file="$(find nav2d_tutorials)/my_laser_config.yaml" />
+  </node>
+
+	<!-- Start the p2os driver for Pioneer robots e.g. the P3AT -->
+    <node pkg="p2os_driver" type="p2os_driver" name="p2os_driver">
+        <param name="port" value="/dev/ttyUSB1"/>
+        <param name="pulse" value="1.0"/>
+    </node>
+
+   	<!-- <node pkg="robot_setup_tf_tutorial" type="tf_broadcaster" name="tf_broadcaster" output="screen">
+ 	</node>
+ 	<node pkg="robot_setup_tf_tutorial" type="tf_listener" name="tf_listener" output="screen">
+ 	</node> -->
+	 
+	<!-- Start the Operator to control the simulated robot -->
+	<node name="Operator" pkg="nav2d_operator" type="operator" >
+		<remap from="scan" to="scan_filtered" />
+		<rosparam file="$(find nav2d_tutorials)/param/operator.yaml"/>
+		<rosparam file="$(find nav2d_tutorials)/param/costmap.yaml" ns="local_map" />
+	</node>
+
+	<!-- Load the environment map in the map_server -->
+	<node name="MapServer" pkg="map_server" type="map_server" args="$(find nav2d_tutorials)/world/mymap.yaml" />
+
+	<!-- Start particle filter to track the robot's position -->
+	<node name="SelfLocalizer" pkg="nav2d_localizer" type="localizer">
+		<remap from="base_scan" to="scan_filtered" />
+		<param name="min_particles" type="int" value="1000"/>
+		<param name="max_particles" type="int" value="7000"/>
+	</node>
+
+	<!-- Start the Navigator to move the robot autonomously -->
+	<node name="Navigator" pkg="nav2d_navigator" type="navigator">
+		<rosparam file="$(find nav2d_tutorials)/param/navigator.yaml"/>
+	</node>
+
+	<node name="SetGoal" pkg="nav2d_navigator" type="set_goal_client" />
+
+	<!-- Start the joystick-driver and remote-controller for operation-->
+	<node name="Joystick" pkg="joy" type="joy_node" />
+	<node name="Remote" pkg="nav2d_remote" type="remote_joy" />
+	 <node name="rostopic" pkg="rostopic" type="rostopic" args="pub -1 /cmd_motor_state p2os_msgs/MotorState 1"/>
+	<param name="robot_description" command="$(find xacro)/xacro.py $(find p2os_urdf)/defs/pioneer3at.xacro" />
+	<node name="PioneerState" pkg="robot_state_publisher" type="state_publisher">
+  	<remap from="joint_state" to="joint_state"/>
+  	<param name="publish_frequency" type="double" value="15.0"/>
+  	<param name="tf_prefix" type="string" value=""/>
+	</node>
+
+	<!-- RVIZ to view the visualization -->
+	<node name="RVIZ" pkg="rviz" type="rviz" args=" -d $(find nav2d_tutorials)/param/params.rviz" />
+
+</launch>
