@@ -27,20 +27,22 @@ const scaleBetween = (unscaledNum: number, minAllowed: number, maxAllowed: numbe
 //     return n !== 0 ? (1 / n) * 70 - 20 : -20;
 // };
 
-export const getEyePos = (socket: any, dispatch: Dispatch) => {
+export const getEyePos = (socket: SocketIOClient.Socket) => {
     let prevX = 0;
     
-    socket.on('eyePos', (data: any) => {
-        const { eye_pos_x } = data;
-        const x = Math.abs(scaleBetween(eye_pos_x, 0, 70, -80, 500) - 70) - 20;
-        // const x = scaleNum(eye_pos_x);
-        if (eye_pos_x == 0) { // If no body is present
-            dispatch(receiveEyePos(25));
-        }
-        else if (Math.abs(x - prevX) > 8) {
-            prevX = x
-            dispatch(receiveEyePos(x));
-        } 
-        // console.log('Received Eye Data: ', eye_pos_x, eye_pos_y);
-    });
+    return (dispatch: Dispatch) => {
+        socket.on('eyePos', (data: any) => {
+            const { eye_pos_x } = data;
+            const x = Math.abs(scaleBetween(eye_pos_x, 0, 70, -80, 500) - 70) - 20;
+            // const x = scaleNum(eye_pos_x);
+            if (eye_pos_x == 0) { // If no body is present
+                dispatch(receiveEyePos(25));
+            }
+            else if (Math.abs(x - prevX) > 8) {
+                prevX = x
+                dispatch(receiveEyePos(x));
+            }
+            // console.log('Received Eye Data: ', eye_pos_x, eye_pos_y);
+        });
+    }
 };

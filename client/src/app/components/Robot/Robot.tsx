@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as styles from './style.css';
 import { connect } from 'react-redux';
 import { getEyePos } from './action';
-import {TextField} from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { Dispatch } from 'redux';
 
 const eyesStyle = (eyePos: any) => {
     const x = eyePos.eyePos;
@@ -20,7 +21,7 @@ const eyesStyle = (eyePos: any) => {
 export namespace RobotFace {
     export interface Props {
         eyePos: any;
-        socket: any;
+        socket: SocketIOClient.Socket;
         getSocketEyePos: any;
     }
 }
@@ -71,8 +72,8 @@ const mapStateToProps = (state: any) => ({
     eyePos: state.eyePos
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    getSocketEyePos: (socket: any) => getEyePos(socket, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    getSocketEyePos: (socket: SocketIOClient.Socket) => getEyePos(socket)(dispatch)
 }); 
 
-export default connect(mapStateToProps, mapDispatchToProps)(RobotFace);
+export default (connect(mapStateToProps, mapDispatchToProps) as any) (RobotFace);

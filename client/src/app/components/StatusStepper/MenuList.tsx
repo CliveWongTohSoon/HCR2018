@@ -84,7 +84,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     openMenu: (event: any) => dispatch(openMenu(event)),
     closeMenu: () => dispatch(closeMenu()),
-    postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => dispatch(updateStatus(socket, statusData, index) as any)
+    postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => updateStatus(socket, statusData, index)(dispatch)
 });
 
 export default (connect(mapStateToProps, mapDispatchToProps) as any)(MenuList);

@@ -52,12 +52,14 @@ export class ContentCard extends React.Component<ContentCard.Props> {
                         onChangeIndex={this.handleChange}
                         className={styles.swipe}
                     >
-                        <TabContainer dir={theme.direction}><RobotFace 
-                                                                eyePos={0}
-                                                                socket={socket}
-                                                                getSocketEyePos={()=>{}}
-                                                            /></TabContainer>
-                        <TabContainer dir={theme.direction}>{<LocationComponent />}</TabContainer>
+                        <TabContainer dir={theme.direction}>
+                            <RobotFace 
+                                socket={socket}
+                            />
+                        </TabContainer>
+                        <TabContainer dir={theme.direction}>
+                            <LocationComponent />
+                        </TabContainer>
                         <TabContainer dir={theme.direction}>Video</TabContainer>
                     </SwipeableViews>
                 </CardContent>

@@ -12,6 +12,11 @@ export const receiveStatus = (status: string, {x, y, z}: any) => ({
     status: {status, data: {x, y, z}}
 });
 
+export const resetStatus = () => ({
+    type: RECEIVE_STATUS, 
+    status: {status: 'start', data: {}}
+});
+
 export const getStatus = (socket: SocketIOClient.Socket) => {
     return (dispatch: Dispatch) => {
         socket.on('location', (statusData: any) => {
@@ -49,7 +54,6 @@ export const closeStatus = (socket: SocketIOClient.Socket, socketEvent: string) 
 type DispatchFunction = (dispatch: Dispatch) => void;
 
 export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any, index: number): DispatchFunction => {
-    // console.log(status, data);
     return (dispatch: Dispatch) => {
         switch (status) {
             case 'dispatch':
@@ -58,10 +62,6 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any,
                 socket.emit('status', {type: status, status, data});
                 dispatch(getStatus(socket) as any);
                 break;
-            // case 'arrived':
-            //     // TODO:- Need to be done on client
-            //     socket.emit('status', { status, data})
-            //     break;
             default:
                 console.log('Not available yet!');
                 break;
