@@ -41,6 +41,11 @@ $ sudo apt-get install python-freenect
 sudo apt-get install ros-kinetic-tf*
 ```
 
+# nav2d package
+```
+sudo apt-get install ros-kinetic-nav2d
+```
+
 Currently not sure how to 
 # Add to bashRC - replace second with directory
 * source /opt/ros/kinetic/setup.bash
@@ -69,7 +74,12 @@ Currently not sure how to
 
 # Troubleshoot
 If you see the following error:
-* fatal error: custom_msgs/robotInfo.h: No such file or directory
+* fatal error: custom_msgs/robotInfo.h: No such file or directory \[FIXED\]
+  * \[UPDATE\] Add dependencies on the CMakeLists.txt with the following command:
+    ```
+    add_dependencies([package_name] [msg_package_name]_generate_messages_cpp)
+    ```
+    Replace \[package_name\] with the package that uses the custom message, and \[msg_package_name\] with the custom message package name.
   * This is due to the custom_msgs not compiled before it is used. Therefore, compile it first by running the following command
     ```
     $ catkin_make --pkg custom_msgs

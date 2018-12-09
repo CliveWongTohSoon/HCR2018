@@ -200,4 +200,5 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_executable(control src/control.cpp)
+add_dependencies(control socket_msg_generate_messages_cpp)
 target_link_libraries(control ${catkin_LIBRARIES})

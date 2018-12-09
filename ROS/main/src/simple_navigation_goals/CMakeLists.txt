@@ -200,6 +200,7 @@ include_directories(
 # catkin_add_nosetests(test)
 add_executable(subscriber src/subscriber.cpp)
 target_link_libraries(subscriber ${catkin_LIBRARIES})
+add_dependencies(subscriber socket_msg_generate_messages_cpp)
 
 add_executable(nav_goals src/simple_navigation_goals.cpp)
 target_link_libraries(nav_goals ${catkin_LIBRARIES})
