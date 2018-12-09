@@ -23,34 +23,46 @@ const ioSocket = (app) => {
             socket.broadcast.emit('box', boxData);
         });
 
-        socket.on('command', data => {
-            console.log('Received data: ', data);
-            socket.broadcast.emit('webserver_ros', data);
+        socket.on('command', command => {
+            console.log('Received data: ', command);
+            // Data from client, send to ros
+            socket.broadcast.emit('webserver_ros', command);
         });
         
-        socket.on('location', locationStatus => {
-            // Send to the client
-            socket.broadcast.emit('location', locationStatus);
-        });
+        // socket.on('location', locationStatus => {
+        //     // Send to the client
+        //     socket.broadcast.emit('location', locationStatus);
+        // });
 
-        socket.on('status', (statusData) => {
-            const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
-            console.log(statusData);
-            switch (status) {
-                case 'dispatch':
-                    // Emit this to the ROS
-                    socket.broadcast.emit('destination', {type: status, data});
-                    break;
-                default:
-                    console.log('Not available yet!');
-                    break;
-            }
-        });
+        // socket.on('status', (statusData) => {
+        //     const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
+        //     console.log(statusData);
+        //     switch (status) {
+        //         case 'dispatch':
+        //             // Emit this to the ROS
+        //             socket.broadcast.emit('destination', {type: status, data});
+        //             break;
+        //         default:
+        //             console.log('Not available yet!');
+        //             break;
+        //     }
+        // });
 
         // Message from ROS
-        socket.on('ros', data => {
-            console.log('Received: ', data);
-            socket.broadcast.emit('eyePos', data);
+        socket.on('ros', message => {
+            console.log('Received: ', message);
+            const {type, content} = message
+            switch(type){
+                case 'facial_recognition':
+                    socket.broadcast.emit('eyePos', content);
+                    break;
+                case 'status':
+                    socket.broadcast.emit('location', content);
+                    break;
+                default:
+                    console.log('Unknown type', content);
+                    break;
+            }
         });
 
         socket.on('disconnect', () => {

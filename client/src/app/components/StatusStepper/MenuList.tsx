@@ -26,7 +26,7 @@ export class MenuList extends React.Component<MenuList.Props> {
 
     handleMenuItemClick = (index: number) => {
         const { postStatus, socket } = this.props;
-        const locationData = { x: 2, y: 3, z: 4 + index };
+        const locationData = { pos_x: 2, pos_y: 3, pos_z: 4 + index, orient_x: 1, orient_y: 2, orient_z: 3, orient_w: 4 };
         const statusData = {status: 'dispatch', data: locationData}
         // TODO:- locationData needs modified
         postStatus(socket, statusData, index);

@@ -1,5 +1,11 @@
+/*************************************************************************
+ * 
+ * This file acts as an interface between webserver topic and different
+ * topics in the robot
+ * 
+ * ***********************************************************************/
+
 #include <ros/ros.h>
-// Necessary include files for message types
 #include <p2os_msgs/BatteryState.h>
 #include <p2os_msgs/MotorState.h>
 #include <socket_msg/socketMsg.h>
@@ -7,54 +13,53 @@
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Vector3.h>
 #include <nav_msgs/Odometry.h>
-//This file deals with receiving things from the robot 
-//and publishing them to the webserver
 
-  class publishMsgFromRobot {
-    public:
-        publishMsgFromRobot(ros::NodeHandle & nh);
-    void batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg);
-    void motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg);
-    void odometry_Callback(const nav_msgs::Odometry::ConstPtr &msg);
-    void publishToServer();
-    private:
-        // Publish for webserver to receive 
-    ros::Publisher web_pub;
-    // Subscriber for various robot functions
-    ros::Subscriber battery_sub_;
-    ros::Subscriber motor_status_sub_;
-    ros::Subscriber odometry_sub_;
-    // custom msg
-    socket_msg::socketMsg robot_Info;
+class publishMsgFromRobot {
+	public:
+    	publishMsgFromRobot(ros::NodeHandle & nh);
+		void batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg);
+		void motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg);
+		void odometry_Callback(const nav_msgs::Odometry::ConstPtr &msg);
+		void publishToServer();
 
-  };
+  	private:
+		// Publish for webserver to receive 
+		ros::Publisher web_pub;
+		// Subscriber for various robot functions
+		ros::Subscriber battery_sub_;
+		ros::Subscriber motor_status_sub_;
+		ros::Subscriber odometry_sub_;
+		// custom msg
+		socket_msg::socketMsg robot_Info;
+};
 
 // Default constructor for our teleoperator class
 publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
-  // Publish to web
-  web_pub = nh.advertise < socket_msg::socketMsg> ("webserver", 10);
-  // get battery status
-  battery_sub_ = nh.subscribe < p2os_msgs::BatteryState > ("/battery_state", 1000, & publishMsgFromRobot::batteryCallback, this);
-  // get motorStatus
-  motor_status_sub_ = nh.subscribe < p2os_msgs::MotorState > ("/motor_state", 1000, & publishMsgFromRobot::motor_stateCallback, this);
-  odometry_sub_ = nh.subscribe("/pose", 1000, & publishMsgFromRobot::odometry_Callback, this);
-
+	// Publish to web
+	web_pub = nh.advertise<socket_msg::socketMsg>("webserver", 10);
+	// get battery status
+	battery_sub_ = nh.subscribe<p2os_msgs::BatteryState>("/battery_state", 1000, & publishMsgFromRobot::batteryCallback, this);
+	// get motorStatus
+	motor_status_sub_ = nh.subscribe<p2os_msgs::MotorState>("/motor_state", 1000, & publishMsgFromRobot::motor_stateCallback, this);
+	odometry_sub_ = nh.subscribe("/pose", 1000, & publishMsgFromRobot::odometry_Callback, this);
 }
+
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
-  // print out battery msg for now
-  robot_Info.type = "battery_Voltage";
-  robot_Info.voltage = battery_msg -> voltage;
-  //ROS_INFO("Charge voltage using robot_Info [%f]", robot_Info.voltage);
-  publishToServer();
+	// print out battery msg for now
+	robot_Info.type = "battery_Voltage";
+	robot_Info.voltage = battery_msg -> voltage;
+	//ROS_INFO("Charge voltage using robot_Info [%f]", robot_Info.voltage);
+	publishToServer();
 }
-void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg) {
-  robot_Info.type = "motor_state";
-  robot_Info.motor_state = motor_msg -> state;
-  //ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
-  // For now publish in motor
-  publishToServer();
 
+void publishMsgFromRobot::motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg) {
+	robot_Info.type = "motor_state";
+	robot_Info.motor_state = motor_msg -> state;
+	//ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
+	// For now publish in motor
+	publishToServer();
 }
+
 void publishMsgFromRobot::odometry_Callback(const nav_msgs::Odometry::ConstPtr & msg) {
     robot_Info.type = "motor_velocities";
     // Set values for parameters to send
@@ -64,12 +69,12 @@ void publishMsgFromRobot::odometry_Callback(const nav_msgs::Odometry::ConstPtr &
     robot_Info.angular_x = msg->twist.twist.angular.x ;
     robot_Info.angular_y = msg->twist.twist.angular.y ;
     robot_Info.angular_z = msg->twist.twist.angular.z ;
-  //ROS_INFO("Linear velocity using [%f]", msg->twist.twist.linear.x);
-  publishToServer();
+	//ROS_INFO("Linear velocity using [%f]", msg->twist.twist.linear.x);
+	publishToServer();
 }
-void publishMsgFromRobot::publishToServer() {
 
-  web_pub.publish(robot_Info);
+void publishMsgFromRobot::publishToServer() {
+  	web_pub.publish(robot_Info);
 }
 
 // // Temp callback for testing
@@ -79,16 +84,16 @@ void publishMsgFromRobot::publishToServer() {
 // }
 
 int main(int argc, char ** argv) {
-  ROS_INFO("Starting publishMsgFromRobot");
-  // Initialise our ROS node
-  ros::init(argc, argv, "publishMsgFromRobot");
-  // Public node handle for global namespaces
-  ros::NodeHandle nh;
+	ROS_INFO("Starting publishMsgFromRobot");
+	// Initialise our ROS node
+	ros::init(argc, argv, "publishMsgFromRobot");
+	// Public node handle for global namespaces
+	ros::NodeHandle nh;
 
-  // Default constructed
-  publishMsgFromRobot publishMsgFromRobot(nh);
-  // // temp callback
-  // ros::Subscriber temp= nh.subscribe("/webserver", 1000, &tempCallback);
-  // Spin and leave work for callbacks
-  ros::spin();
+	// Default constructed
+	publishMsgFromRobot publishMsgFromRobot(nh);
+	// // temp callback
+	// ros::Subscriber temp= nh.subscribe("/webserver", 1000, &tempCallback);
+	// Spin and leave work for callbacks
+	ros::spin();
 }

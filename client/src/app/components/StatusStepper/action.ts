@@ -59,7 +59,21 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any,
             case 'dispatch':
                 dispatch(selectMenu(index));
                 dispatch(setDestination(data));
-                socket.emit('status', {type: status, status, data});
+                // Emit the destination
+                /**
+                 * The data has the following shape
+                 * type: 'dispatch'
+                 * data: {
+                 *      pos_x
+                 *      pos_y
+                 *      pos_z
+                 *      orient_x
+                 *      orient_y
+                 *      orient_z
+                 *      orient_w
+                 * }
+                 */
+                socket.emit('command', {type: status, data});
                 dispatch(getStatus(socket) as any);
                 break;
             default:
