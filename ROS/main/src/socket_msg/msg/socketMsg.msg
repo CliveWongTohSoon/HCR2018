@@ -7,7 +7,8 @@ float32 eye_pos_x
 float32 eye_pos_y
 
 # Status of the delivery
-string status
+# has 4 states: 'to_dest', 'arrived_destination', 'to_origin', 'arrived_origin'
+string status 
 float64 pos_x
 float64 pos_y
 float64 pos_z

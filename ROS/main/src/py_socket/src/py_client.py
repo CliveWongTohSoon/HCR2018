@@ -153,6 +153,9 @@ class PySocket:
                         'pos_y': msg.pos_y,
                         'pos_z': msg.pos_z,
                         'orient_x': msg.orient_x,
+                        'orient_y': msg.orient_y,
+                        'orient_z': msg.orient_z,
+                        'orient_w': msg.orient_w
                         }
                     }
                 }
