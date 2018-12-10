@@ -12,41 +12,23 @@ const ioSocket = (app) => {
     
     io.on('connection', (socket) => {
         console.log(`User ${socket.id} connected`);
-        
-        // socket.on('location', (locationData) => {
-        //     const {x, y, z} = locationData;
-        //     console.log(`Received location (${x}, ${y}, ${z}) `);
-        // });
 
+        // Message from raspberry pi 
         socket.on('box', (boxData) => {
             console.log(boxData);
             socket.broadcast.emit('box', boxData);
         });
 
+        // Message from client to ROS
         socket.on('command', command => {
+            /****************************
+             * command takes the form of
+             * {type, data}
+             ****************************/
             console.log('Received data: ', command);
             // Data from client, send to ros
             socket.broadcast.emit('webserver_ros', command);
         });
-        
-        // socket.on('location', locationStatus => {
-        //     // Send to the client
-        //     socket.broadcast.emit('location', locationStatus);
-        // });
-
-        // socket.on('status', (statusData) => {
-        //     const {status, data} = statusData; // {status: 'storage', data: 'retrieved'}
-        //     console.log(statusData);
-        //     switch (status) {
-        //         case 'dispatch':
-        //             // Emit this to the ROS
-        //             socket.broadcast.emit('destination', {type: status, data});
-        //             break;
-        //         default:
-        //             console.log('Not available yet!');
-        //             break;
-        //     }
-        // });
 
         // Message from ROS
         socket.on('ros', message => {

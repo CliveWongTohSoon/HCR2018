@@ -22,7 +22,7 @@ class PySocket:
         # h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
         url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
         url_local = 'localhost'
-        self.socketIO = SocketIO(url_local, 9000, LoggingNamespace)
+        self.socketIO = SocketIO(url, 9000, LoggingNamespace)
         self.pub = rospy.Publisher('webserver_ros', socketMsg, queue_size=10)
         self.goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=10)
         self.sub = rospy.Subscriber('webserver', socketMsg, self.call_back)
@@ -153,6 +153,9 @@ class PySocket:
                         'pos_y': msg.pos_y,
                         'pos_z': msg.pos_z,
                         'orient_x': msg.orient_x,
+                        'orient_y': msg.orient_y,
+                        'orient_z': msg.orient_z,
+                        'orient_w': msg.orient_w
                         }
                     }
                 }
