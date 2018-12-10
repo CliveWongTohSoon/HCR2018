@@ -785,10 +785,6 @@ void RobotNavigator::receiveMoveGoal(const nav2d_navigator::MoveToPosition2DGoal
 	r.final_pose.theta = mCurrentDirection;
 	r.final_distance = mCurrentPlan[mStartPoint];
 	mMoveActionServer->setSucceeded(r);
-	// Public node handle for global namespaces
-	ros::NodeHandle nh;
-	ros::Publisher goal_pub =  nh.advertise<nav2d_navigator::MoveToPosition2DResult>("goal_pub", 10);
-	goal_pub.publish (r);
 	stop();
 
 }

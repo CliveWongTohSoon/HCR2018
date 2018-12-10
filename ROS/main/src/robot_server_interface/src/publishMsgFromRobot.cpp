@@ -22,7 +22,8 @@ class publishMsgFromRobot {
 		void batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg);
 		void motor_stateCallback(const p2os_msgs::MotorState::ConstPtr & motor_msg);
 		void odometry_Callback(const nav_msgs::Odometry::ConstPtr &msg);
-		void reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult &msg);
+		void reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult::ConstPtr &msg);
+		void start_goal_Callback(const nav2d_navigator::MoveToPosition2DActionGoal::ConstPtr &goal);
 		void publishToServer();
 
   	private:
@@ -33,6 +34,7 @@ class publishMsgFromRobot {
 		ros::Subscriber motor_status_sub_;
 		ros::Subscriber odometry_sub_;
 		ros::Subscriber reach_goal_sub_;
+		ros::Subscriber start_goal_sub_;
 		// custom msg
 		socket_msg::socketMsg robot_Info;
 };
@@ -47,6 +49,7 @@ publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
 	motor_status_sub_ = nh.subscribe<p2os_msgs::MotorState>("/motor_state", 1000, & publishMsgFromRobot::motor_stateCallback, this);
 	odometry_sub_ = nh.subscribe("/odom", 1000, & publishMsgFromRobot::odometry_Callback, this);
 	reach_goal_sub_ = nh.subscribe("MoveTo/result", 1000, & publishMsgFromRobot::reach_goal_Callback, this);
+	start_goal_sub_ = nh.subscribe("MoveTo/goal", 1000, & publishMsgFromRobot::start_goal_Callback, this);
 }
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
@@ -82,11 +85,24 @@ void publishMsgFromRobot::publishToServer() {
   	web_pub.publish(robot_Info);
 }
 
-void publishMsgFromRobot::reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult &msg){
-	robot_Info.type = "goal_reached";
+void publishMsgFromRobot::reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult::ConstPtr &msg){
+	robot_Info.type = "status";
+	robot_Info.status = "arrived_destination";
+	robot_Info.pos_x = msg->result.final_pose.x;
+	robot_Info.pos_y = msg->result.final_pose.y;
+	robot_Info.distance = msg->result.final_distance;	
+	
 	ROS_INFO("Reached goal from rs_interface1");
 	//ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
-	// For now publish in motor
+	publishToServer();
+}
+void publishMsgFromRobot::start_goal_Callback(const nav2d_navigator::MoveToPosition2DActionGoal::ConstPtr &goal){
+	robot_Info.type = "status";
+	robot_Info.status = "to_dest";
+	ROS_INFO("Moving to goal from rs_interface");
+	robot_Info.pos_x = goal->goal.target_pose.x;
+	robot_Info.pos_y = goal->goal.target_pose.y;
+	robot_Info.distance = goal->goal. target_distance;	
 	publishToServer();
 }
 // // Temp callback for testing
@@ -94,10 +110,10 @@ void publishMsgFromRobot::reach_goal_Callback(const nav2d_navigator::MoveToPosit
 //     ROS_INFO("Motor state using webserver", robot_Info.motor_state);
 //   //ROS_INFO("Motor state using callback", robot_Info.motor_state);
 // }
-// typedef actionlib::SimpleActionClient<nav2d_navigator::MoveToPosition2DAction> MoveActionClient;
+
 int main(int argc, char ** argv) {
 
-	ROS_INFO("Starting rs_interface nav2d");
+	ROS_INFO("Starting rs_interface");
 	// Initialise our ROS node
 	ros::init(argc, argv, "rs_interface");
 	// Public node handle for global namespaces
