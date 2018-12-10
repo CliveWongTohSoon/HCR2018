@@ -60,7 +60,9 @@ export class ContentCard extends React.Component<ContentCard.Props> {
                         <TabContainer dir={theme.direction}>
                             <LocationComponent />
                         </TabContainer>
-                        <TabContainer dir={theme.direction}>Video</TabContainer>
+                        <TabContainer dir={theme.direction}>
+                            Video
+                        </TabContainer>
                     </SwipeableViews>
                 </CardContent>
             </Card>

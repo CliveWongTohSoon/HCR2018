@@ -11,7 +11,7 @@ const styles = (theme: any) => ({
         maxWidth: 400,
     },
     media: {
-        height: 0,
+        height: 50,
         paddingTop: '56.25%', // 16:9
     },
     actions: {
@@ -22,26 +22,35 @@ const styles = (theme: any) => ({
     }
 });
 
-class RecipeReviewCard extends React.Component {
+export namespace RecipeReviewCard {
+    export interface Props {
+        socket: SocketIOClient.Socket;
+    }
+}
 
-    constructor(props: any) {
+class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
+
+    constructor(props: any, public image: HTMLImageElement) {
         super(props);
         const { socket }: any = props;
+        // Change this to http since it's static
         socket.on('image', (data: any) => {
-            console.log(data);
+            this.image = new Image();
+            this.image.src = `data:image/jpeg;base64,${data}`;
         })
     }
 
     render() {
         const { classes }: any = this.props;
-        
         return (
             <Card className={classes.card}>
                 <CardMedia
                     className={classes.media}
-                    image="/static/images/cards/paella.jpg"
-                    title="Paella dish"
+                    title="Video Stream"
+                    image={this.image.src}
+                    src={this.image.src}
                 />
+                
                 <CardContent>
                     <Typography component="p">
                         Destination Arrived! Would you like to open?
@@ -52,4 +61,4 @@ class RecipeReviewCard extends React.Component {
     }
 }
 
-export default withStyles(styles)(RecipeReviewCard);
+export default (withStyles(styles) as any)(RecipeReviewCard);

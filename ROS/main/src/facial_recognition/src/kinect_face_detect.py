@@ -9,6 +9,11 @@ from std_msgs.msg import String
 from socket_msg.msg import socketMsg
 import os
 from socketIO_client_nexus import SocketIO, LoggingNamespace
+import base64
+
+url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
+url_local = 'localhost'
+socketIO = SocketIO(url_local, 9000, LoggingNamespace)
 
 # current working directory
 cwd = os.getcwd()
@@ -42,9 +47,6 @@ def pub_to_websocket(x, y):
 	rate.sleep()
 
 def stream_video_to_socket(img):
-	url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
-	url_local = 'localhost'
-	socketIO = SocketIO(url_local, 9000, LoggingNamespace)
 	socketIO.emit('image', img)
 
 def get_video(video):
@@ -67,6 +69,9 @@ while True:
 
 	#Get from freenet
 	ret, frame = cap.read()
+
+	ret_jpg, jpeg = cv2.imencode('.jpg', frame)
+	encoded_jpeg = base64.b64encode(jpeg)
 
 	baseImage = frame
 	# baseImage = get_video(freenect.sync_get_video()[0])
@@ -139,7 +144,7 @@ while True:
 	cv2.putText(resultImage, "Face y coordinate = ", (10,450), font, 1,(255,255,255),2,cv2.LINE_AA)	
 	cv2.putText(resultImage, str(pos_y), (350,450), font, 1,(255,255,255),2,cv2.LINE_AA)
 	
-	stream_video_to_socket(baseImage)
+	stream_video_to_socket(encoded_jpeg)
 
 	pub_to_websocket(pos_x, pos_y)
 

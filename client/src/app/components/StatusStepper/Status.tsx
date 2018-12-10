@@ -55,7 +55,10 @@ const renderStepContent = (steps: string[], socket: SocketIOClient.Socket, onCli
                         Reset
                     </Button>}
 
-                    {index === 2 && <PopupBtn />}
+                    {index === 2 && 
+                        <PopupBtn 
+                            socket={socket}
+                        />}
                     
                 </StepContent>
             </Step>

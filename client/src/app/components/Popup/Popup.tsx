@@ -11,7 +11,13 @@ function Transition(props: any) {
     return <Slide direction="up" {...props} />;
 }
 
-class AlertDialogSlide extends React.Component {
+export namespace AlertDialogSlide {
+    export interface Props {
+        socket: SocketIOClient.Socket;
+    }
+}
+
+class AlertDialogSlide extends React.Component<AlertDialogSlide.Props> {
     state = {
         open: false,
     };
@@ -25,6 +31,8 @@ class AlertDialogSlide extends React.Component {
     };
 
     render() {
+
+        const {socket}: any = this.props;
         return (
             <div>
                 <Button onClick={this.handleClickOpen}>Click here to check</Button>
@@ -40,7 +48,9 @@ class AlertDialogSlide extends React.Component {
                         Destination Arrived!
                     </DialogTitle>
                     <DialogContent>
-                        <VideoCard />
+                        <VideoCard 
+                            socket={socket}
+                        />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
