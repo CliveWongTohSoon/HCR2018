@@ -37,14 +37,18 @@ $ sudo apt-get install python-freenect
 * sudo apt install ros-kinetic-navigation for navigation
 * roslaunch simple_navigation_goals nav.launch
 * Install the tf package to run ros navigation stack 
+
+
 ```
 sudo apt-get install ros-kinetic-tf*
 ```
 
 # nav2d package
+[http://wiki.ros.org/nav2d_navigator?distro=kinetic](info)
 ```
 sudo apt-get install ros-kinetic-nav2d
 ```
+* navigation_goal_distance 
 
 Currently not sure how to 
 # Add to bashRC - replace second with directory
