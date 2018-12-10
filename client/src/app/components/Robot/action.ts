@@ -27,7 +27,7 @@ const scaleBetween = (unscaledNum: number, minAllowed: number, maxAllowed: numbe
 //     return n !== 0 ? (1 / n) * 70 - 20 : -20;
 // };
 
-export const getEyePos = (socket: SocketIOClient.Socket) => {
+export const getEyePos = (socket: SocketIOClient.Socket, audio: HTMLAudioElement) => {
     let prevX = 0;
     
     return (dispatch: Dispatch) => {
@@ -43,6 +43,16 @@ export const getEyePos = (socket: SocketIOClient.Socket) => {
                 dispatch(receiveEyePos(x));
             }
             // console.log('Received Eye Data: ', eye_pos_x, eye_pos_y);
+        });
+        socket.on('box', (data: any) => {
+            // console.log(data);
+            const { authorised } = data;
+            if (authorised) {
+                audio.play();
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
         });
     }
 };
