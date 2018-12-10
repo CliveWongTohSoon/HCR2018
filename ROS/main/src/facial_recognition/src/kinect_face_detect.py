@@ -8,6 +8,7 @@ import dlib
 from std_msgs.msg import String
 from socket_msg.msg import socketMsg
 import os
+from socketIO_client_nexus import SocketIO, LoggingNamespace
 
 # current working directory
 cwd = os.getcwd()
@@ -39,6 +40,12 @@ def pub_to_websocket(x, y):
 	rospy.loginfo(msg)
 	pub.publish(msg)
 	rate.sleep()
+
+def stream_video_to_socket(img):
+	url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
+	url_local = 'localhost'
+	socketIO = SocketIO(url_local, 9000, LoggingNamespace)
+	socketIO.emit('image', img)
 
 def get_video(video):
 	video = cv2.cvtColor(video, cv2.COLOR_RGB2BGR)
@@ -132,8 +139,11 @@ while True:
 	cv2.putText(resultImage, "Face y coordinate = ", (10,450), font, 1,(255,255,255),2,cv2.LINE_AA)	
 	cv2.putText(resultImage, str(pos_y), (350,450), font, 1,(255,255,255),2,cv2.LINE_AA)
 	
+	stream_video_to_socket(baseImage)
+
 	pub_to_websocket(pos_x, pos_y)
 
+	
 	# if pos_x > 350 and pos_x != 0:
 	# 	talker(1)
 	# 	rospy.is_shutdown()
@@ -156,5 +166,5 @@ while True:
 	cv2.imshow("result-image", resultImage)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
-		
+	
 cv2.destroyAllWindows()

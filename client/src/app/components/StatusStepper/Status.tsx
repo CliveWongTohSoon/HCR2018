@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import MenuList from './MenuList';
 import { resetStatus } from './action';
 import { Dispatch } from 'redux';
+import { PopupBtn } from 'app/components/Popup';
 
 const getSteps = () => {
     return [
@@ -47,11 +48,15 @@ const renderStepContent = (steps: string[], socket: SocketIOClient.Socket, onCli
                     {index == 0 && <MenuList 
                         socket={socket}
                     />}
+                    
                     {index == steps.length - 1 && <Button 
                         onClick={onClickHandler}
                     >
                         Reset
                     </Button>}
+
+                    {index === 2 && <PopupBtn />}
+                    
                 </StepContent>
             </Step>
         );
@@ -101,6 +106,7 @@ export class StatusStepper extends React.Component<StatusStepper.Props> {
     render() {
         const { socket, status } = this.props;
         const steps = getSteps();
+
         return (
             <div className={styles.status}>
                 <Stepper

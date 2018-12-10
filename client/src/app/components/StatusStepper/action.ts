@@ -19,6 +19,8 @@ export const resetStatus = () => ({
 
 export const getStatus = (socket: SocketIOClient.Socket) => {
     return (dispatch: Dispatch) => {
+        // TODO:- Remove this
+        dispatch(receiveStatus('arrived_destination', {x: 1, y: 2, z: 3}));
         socket.on('location', (statusData: any) => {
             const {status, data} = statusData;
             switch (status) {
@@ -74,7 +76,7 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any,
                  * }
                  */
                 socket.emit('command', {type: status, data});
-                dispatch(getStatus(socket) as any);
+                getStatus(socket)(dispatch);
                 break;
             default:
                 console.log('Not available yet!');

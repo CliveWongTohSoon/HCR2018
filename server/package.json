@@ -31,6 +31,7 @@
     "express": "^4.16.4",
     "helmet": "^3.14.0",
     "mongoose": "^5.3.6",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "socket.io-stream": "^0.9.1"
   }
 }
