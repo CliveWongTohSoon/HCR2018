@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(robot_server_interface)
+project(rs_interface)
 
 
 
@@ -75,7 +75,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES robotServerInterface
-  CATKIN_DEPENDS nav_msgs custom_msgs geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs 
+  CATKIN_DEPENDS nav_msgs socket_msg geometry_msgs p2os_driver p2os_urdf p2os_msgs roscpp std_msgs rospy sensor_msgs 
   #DEPENDS system_lib
 )
 
@@ -123,10 +123,12 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(publishMsgFromRobot src/publishMsgFromRobot.cpp)
+add_executable(rs_interface src/publishMsgFromRobot.cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(publishMsgFromRobot
+target_link_libraries(rs_interface
   ${catkin_LIBRARIES}
 )
 include_directories(include ${catkin_INCLUDE_DIRS})
+
+add_dependencies(rs_interface ${catkin_EXPORTED_TARGETS})
