@@ -5,6 +5,35 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 const options = ["Please select a destination", "Samuel's Room", "Jin Yee's Room", "Guo Liang's Room"];
+const locationMap = [
+    {
+        pos_x: 15.54,
+        pos_y: -4.46,
+        pos_z: 0.00,
+        orient_x: 0.00,
+        orient_y: 0.00,
+        orient_z: 0.2235,
+        orient_w: 0.97469
+    },
+    {
+        pos_x: 14.108,
+        pos_y: -1.1461,
+        pos_z: 0.00,
+        orient_x: 0.00,
+        orient_y: 0.00,
+        orient_z: 0.2477,
+        orient_w: 0.9788
+    },
+    {
+        pos_x: 9.41,
+        pos_y: -7.397,
+        pos_z: 0.00,
+        orient_x: 0.00,
+        orient_y: 0.00,
+        orient_z: -0.113,
+        orient_w: 0.9936
+    }
+]
 
 export namespace MenuList {
     export interface Props {
@@ -26,10 +55,11 @@ export class MenuList extends React.Component<MenuList.Props> {
 
     handleMenuItemClick = (index: number) => {
         const { postStatus, socket, select } = this.props;
-        const locationData = { pos_x: 2, pos_y: 3, pos_z: 4 + index, orient_x: 1, orient_y: 2, orient_z: 3, orient_w: 4 };
+        const locationData = locationMap[index-1];
         const statusData = {status: 'dispatch', data: locationData}
         // TODO:- locationData needs modified
         select(index);
+        console.log(index);
         postStatus(socket, statusData);
         // selectMenu(index, socket);
     };
