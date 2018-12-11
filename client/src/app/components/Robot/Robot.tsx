@@ -28,10 +28,12 @@ export namespace RobotFace {
 
 export class RobotFace extends React.Component<RobotFace.Props> {
 
-    constructor(props: RobotFace.Props) {
+    constructor(props: RobotFace.Props, public url: string, public audio: any) {
         super(props);
         const { socket, getSocketEyePos } = this.props;
-        getSocketEyePos(socket);
+        this.url = 'http://soundbible.com/grab.php?id=2022&type=mp3';
+        this.audio = new Audio(this.url);
+        getSocketEyePos(socket, this.audio);
     }
 
     handleKeyPress = (event: any) => {
@@ -73,7 +75,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    getSocketEyePos: (socket: SocketIOClient.Socket) => getEyePos(socket)(dispatch)
+    getSocketEyePos: (socket: SocketIOClient.Socket, audio: HTMLAudioElement) => getEyePos(socket, audio)(dispatch)
 }); 
 
 export default (connect(mapStateToProps, mapDispatchToProps) as any) (RobotFace);

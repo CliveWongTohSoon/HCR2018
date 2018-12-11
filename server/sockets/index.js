@@ -12,11 +12,15 @@ const ioSocket = (app) => {
     
     io.on('connection', (socket) => {
         console.log(`User ${socket.id} connected`);
+        
+        socket.on('image', data => {
+            socket.broadcast.emit('image', data);
+        });
 
         // Message from raspberry pi 
         socket.on('box', (boxData) => {
             console.log(boxData);
-            socket.broadcast.emit('box', boxData);
+            socket.broadcast.emit(boxData);
         });
 
         // Message from client to ROS

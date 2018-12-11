@@ -2,13 +2,17 @@
 import { RouterState } from 'react-router-redux';
 
 export interface RootState {
-  router: RouterState;
-  routeState: any;
-  status: any;
-  eyePos: any;
-  // response: any
+	router: RouterState;
+	routeState: any;
+	status: any;
+	eyePos: any;
+	popup: RootState.Popup;
 }
 
-// export namespace RootState {
-//   export type TodoState = TodoModel[];
-// }
+// TODO:- Add more types
+export namespace RootState {
+	export interface Popup {
+		src: string,
+		open: boolean
+	}
+}

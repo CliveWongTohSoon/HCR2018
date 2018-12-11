@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { List, ListItem, ListItemText, MenuItem, Menu } from '@material-ui/core';
-import { openMenu, closeMenu, updateStatus } from './action';
+import { openMenu, closeMenu, updateStatus, selectMenu } from './action';
 import { connect } from 'react-redux'; 
 import { Dispatch } from 'redux';
 
@@ -11,10 +11,10 @@ export namespace MenuList {
         socket: SocketIOClient.Socket;
         selectedIndex: number;
         anchorEl: any;
-        postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => (dispatch: Dispatch) => void;
+        postStatus: (socket: SocketIOClient.Socket, statusData: any) => (dispatch: Dispatch) => void;
         openMenu: (event: any) => Dispatch;
         closeMenu: () => Dispatch;
-        selectMenu: (index: number, socket: SocketIOClient.Socket) => Dispatch;
+        select: (index: number) => Dispatch;
     }
 }
 
@@ -25,11 +25,12 @@ export class MenuList extends React.Component<MenuList.Props> {
     };
 
     handleMenuItemClick = (index: number) => {
-        const { postStatus, socket } = this.props;
+        const { postStatus, socket, select } = this.props;
         const locationData = { pos_x: 2, pos_y: 3, pos_z: 4 + index, orient_x: 1, orient_y: 2, orient_z: 3, orient_w: 4 };
         const statusData = {status: 'dispatch', data: locationData}
         // TODO:- locationData needs modified
-        postStatus(socket, statusData, index);
+        select(index);
+        postStatus(socket, statusData);
         // selectMenu(index, socket);
     };
 
@@ -84,7 +85,8 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     openMenu: (event: any) => dispatch(openMenu(event)),
     closeMenu: () => dispatch(closeMenu()),
-    postStatus: (socket: SocketIOClient.Socket, statusData: any, index: number) => updateStatus(socket, statusData, index)(dispatch)
+    postStatus: (socket: SocketIOClient.Socket, statusData: any) => updateStatus(socket, statusData)(dispatch),
+    select: (index: number) => dispatch(selectMenu(index))
 });
 
 export default (connect(mapStateToProps, mapDispatchToProps) as any)(MenuList);

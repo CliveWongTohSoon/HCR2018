@@ -1,5 +1,6 @@
-import { REQUEST_EYE_POS, RECEIVE_EYE_POS } from './action.type';
+import { REQUEST_EYE_POS, RECEIVE_EYE_POS, RECEIVE_BOX_STATUS, REQUEST_BOX_OPEN } from './action.type';
 import { Dispatch } from 'redux';
+import { updateStatus } from 'app/components/StatusStepper/action';
 
 export const requestGetEyePos = () => ({
     type: REQUEST_EYE_POS
@@ -8,6 +9,15 @@ export const requestGetEyePos = () => ({
 export const receiveEyePos = (x: number) => ({
     type: RECEIVE_EYE_POS,
     eyePos: x
+});
+
+export const receiveBoxStatus = (open: boolean) => ({
+    type: RECEIVE_BOX_STATUS,
+    boxOpen: open
+});
+
+export const requestOpenBox = () => ({
+    type: REQUEST_BOX_OPEN
 });
 
 export const getEyePosMock = (dispatch: Dispatch) => {
@@ -23,11 +33,7 @@ const scaleBetween = (unscaledNum: number, minAllowed: number, maxAllowed: numbe
     return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
 };
 
-// const scaleNum = (n: number) => {
-//     return n !== 0 ? (1 / n) * 70 - 20 : -20;
-// };
-
-export const getEyePos = (socket: SocketIOClient.Socket) => {
+export const getEyePos = (socket: SocketIOClient.Socket, audio: HTMLAudioElement) => {
     let prevX = 0;
     
     return (dispatch: Dispatch) => {
@@ -42,7 +48,44 @@ export const getEyePos = (socket: SocketIOClient.Socket) => {
                 prevX = x
                 dispatch(receiveEyePos(x));
             }
-            // console.log('Received Eye Data: ', eye_pos_x, eye_pos_y);
+        });
+
+        socket.on('box', (data: any) => {
+            // console.log(data);
+            const { type } = data;
+            switch (type) {
+                case 'alarm':
+                    const { authorised } = data;
+                    if (authorised) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                    break;
+                case 'box_status':
+                    // Dispatch to 
+                    const { open } = data;
+                    dispatch(receiveBoxStatus(open));
+                    // TODO:- Then dispatch socket to 'command' and gives location (origin)
+                    updateStatus(socket, {
+                        status: 'dispatch',
+                        data: {
+                            pos_x: 0,
+                            pos_y: 0,
+                            pos_z: 0,
+                            orient_x: 0,
+                            orient_y: 0,
+                            orient_z: 0,
+                            orient_w: 0
+                        }
+                    })(dispatch);
+                    break;
+                default:
+                    console.log('Error type');
+                    break;
+            }
+
         });
     }
 };
