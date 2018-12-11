@@ -93,7 +93,6 @@ void publishMsgFromRobot::reach_goal_Callback(const nav2d_navigator::MoveToPosit
 	robot_Info.distance = msg->result.final_distance;	
 	
 	ROS_INFO("Reached goal from rs_interface1");
-	//ROS_INFO("Motor state using robot_Info[%d]", robot_Info.motor_state);
 	publishToServer();
 }
 void publishMsgFromRobot::start_goal_Callback(const nav2d_navigator::MoveToPosition2DActionGoal::ConstPtr &goal){
@@ -111,6 +110,7 @@ void publishMsgFromRobot::start_goal_Callback(const nav2d_navigator::MoveToPosit
 //   //ROS_INFO("Motor state using callback", robot_Info.motor_state);
 // }
 
+
 int main(int argc, char ** argv) {
 
 	ROS_INFO("Starting rs_interface");
@@ -121,5 +121,5 @@ int main(int argc, char ** argv) {
 
 	// Default constructed
 	publishMsgFromRobot publishMsgFromRobot(nh);
-	ros::spin();
+	ros::spin() ;
 }

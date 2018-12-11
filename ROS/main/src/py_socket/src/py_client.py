@@ -166,7 +166,11 @@ class PySocket:
     def call_back(self, msg):
         s = self.match_message(msg)
         
-        if (s['type'] == 'facial_recognition'):
+        # send if dealing with goal
+        if (s['type'] == 'status'):
+            self.socketIO.emit('ros', s)
+        # otherwise slow down
+        else: 
             if self.facial_recognition_counter > 10:
                 if s != self.prev_s:
                     print('Prev_s and s are not equal, emitting socket...')
@@ -176,11 +180,7 @@ class PySocket:
             else:
                 print('Caching...', self.facial_recognition_counter)
                 self.facial_recognition_counter += 1
-        else: 
-            # if not facial recog just emit
-            print("emitting to scoket")
-            print (s)
-            self.socketIO.emit('ros', s)
+
 
         
 
