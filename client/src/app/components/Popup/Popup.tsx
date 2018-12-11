@@ -6,6 +6,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import VideoCard from './VideoCard';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { openPopup, closePopup, openBox } from './action';
 
 function Transition(props: any) {
     return <Slide direction="up" {...props} />;
@@ -14,30 +17,39 @@ function Transition(props: any) {
 export namespace AlertDialogSlide {
     export interface Props {
         socket: SocketIOClient.Socket;
+        openPopup: (socket: SocketIOClient.Socket) => (dispatch: Dispatch) => void;
+        closePopup: (socket: SocketIOClient.Socket) => (dispatch: Dispatch) => void;
+        openBox: (socket: SocketIOClient.Socket) => (dispatch: Dispatch) => void;
+        open: boolean;
     }
 }
 
 class AlertDialogSlide extends React.Component<AlertDialogSlide.Props> {
-    state = {
-        open: false,
-    };
 
     handleClickOpen = () => {
-        this.setState({ open: true });
+        const { socket, openPopup } = this.props;
+        openPopup(socket);
     };
 
     handleClose = () => {
-        this.setState({ open: false });
+        const { socket, closePopup } = this.props;
+        closePopup(socket);
     };
+
+    handleOpenBox = () => {
+        const { socket, openBox, closePopup } = this.props;
+        openBox(socket);
+        closePopup(socket);
+    }
 
     render() {
 
-        const {socket}: any = this.props;
+        const { open }  = this.props;
         return (
             <div>
                 <Button onClick={this.handleClickOpen}>Click here to check</Button>
                 <Dialog
-                    open={this.state.open}
+                    open={open}
                     TransitionComponent={Transition}
                     keepMounted
                     onClose={this.handleClose}
@@ -48,15 +60,13 @@ class AlertDialogSlide extends React.Component<AlertDialogSlide.Props> {
                         Destination Arrived!
                     </DialogTitle>
                     <DialogContent>
-                        <VideoCard 
-                            socket={socket}
-                        />
+                        <VideoCard />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Nope
                         </Button>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleOpenBox} color="primary">
                             Open
                         </Button>
                     </DialogActions>
@@ -66,4 +76,14 @@ class AlertDialogSlide extends React.Component<AlertDialogSlide.Props> {
     }
 }
 
-export default AlertDialogSlide;
+const mapStateToProps = (state: any) => ({
+    open: state.popup.open
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    openPopup: (socket: SocketIOClient.Socket) => openPopup(socket)(dispatch),
+    closePopup: (socket: SocketIOClient.Socket) => closePopup(socket)(dispatch),
+    openBox: (socket: SocketIOClient.Socket) => openBox(socket)(dispatch)
+});
+
+export default (connect(mapStateToProps, mapDispatchToProps) as any)(AlertDialogSlide);

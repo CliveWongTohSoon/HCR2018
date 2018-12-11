@@ -128,7 +128,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    resetStatus: () => dispatch(resetStatus())
+    resetStatus: () => dispatch(resetStatus()),
     // postStatus: (socket: any, locationData: any) => dispatch(updateStatus(socket, { status: 'dispatch', data: locationData }))
 });
 

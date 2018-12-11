@@ -5,6 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+import { connect } from 'react-redux'; 
 
 const styles = (theme: any) => ({
     card: {
@@ -24,39 +25,29 @@ const styles = (theme: any) => ({
 
 export namespace RecipeReviewCard {
     export interface Props {
-        socket: SocketIOClient.Socket;
+        classes: any;
+        imgSrc: string;
     }
 }
 
-const renderCardMedia = (src: any, classes: any) => {
-    return (
-        <CardMedia
-            className={classes.media}
-            title="Video Stream"
-            image={src}
-        />
-    )
-} 
-
 class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
 
-    constructor(props: any, public image: HTMLImageElement) {
+    constructor(props: any) {
         super(props);
-        const { socket }: any = props;
-        // Change this to http since it's static
-        socket.on('image', (data: any) => {
-            this.image = new Image();
-            this.image.src = `data:image/jpeg;base64,${data}`;
-            this.forceUpdate();
-            // To update the view
-        })
     }
 
     render() {
-        const { classes }: any = this.props;
+        const { classes, imgSrc } = this.props;
+        const img = new Image()
+        img.src = imgSrc;
+
         return (
             <Card className={classes.card}>
-                {renderCardMedia(this.image.src, classes)}
+                <CardMedia
+                    className={classes.media}
+                    title="Video Stream"
+                    image={img.src}
+                />
                 <CardContent>
                     <Typography component="p">
                         Destination Arrived! Would you like to open?
@@ -67,4 +58,8 @@ class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
     }
 }
 
-export default (withStyles(styles) as any)(RecipeReviewCard);
+export const mapStateToProps = (state: any) => ({
+    imgSrc: state.popup.src
+});
+
+export default (connect(mapStateToProps) as any)((withStyles(styles) as any)(RecipeReviewCard));

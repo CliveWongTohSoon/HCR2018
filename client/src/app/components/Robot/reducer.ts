@@ -1,7 +1,8 @@
-import {REQUEST_EYE_POS, RECEIVE_EYE_POS} from './action.type';
+import { REQUEST_EYE_POS, RECEIVE_EYE_POS, RECEIVE_BOX_STATUS, REQUEST_BOX_OPEN} from './action.type';
 
 const initialState = {
-    eyePos: 0
+    eyePos: 0,
+    boxOpen: false
 }
 
 export const eyePosReducer = (state: any = initialState, action: any) => {
@@ -14,6 +15,16 @@ export const eyePosReducer = (state: any = initialState, action: any) => {
             return {
                 ...state,
                 eyePos: action.eyePos
+            }
+        case REQUEST_BOX_OPEN:
+            return {
+                ...state,
+                boxOpen: true
+            }
+        case RECEIVE_BOX_STATUS:
+            return {
+                ...state,
+                boxOpen: action.boxOpen
             }
         default: {
             return {
