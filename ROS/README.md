@@ -5,6 +5,8 @@
 
 # Make python executable
 To make python package executable, run 
+* sudo python -m pip install socketIO_client_nexus
+* chmod u+x src/py_socket/src/py_client.py
 ```
 $ chmod u+x opencv-test/src/kinect_face_detect.py
 ```

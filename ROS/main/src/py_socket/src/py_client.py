@@ -155,7 +155,8 @@ class PySocket:
                         'orient_x': msg.orient_x,
                         'orient_y': msg.orient_y,
                         'orient_z': msg.orient_z,
-                        'orient_w': msg.orient_w
+                        'orient_w': msg.orient_w,
+                        'distance': msg.distance
                         }
                     }
                 }
@@ -163,17 +164,24 @@ class PySocket:
             return 'Error Type'
 
     def call_back(self, msg):
-        if self.facial_recognition_counter > 10:
-            s = self.match_message(msg)
-            
-            if s != self.prev_s:
-                print('Prev_s and s are not equal, emitting socket...')
-                self.socketIO.emit('ros', s)
-                self.prev_s = s
-            self.facial_recognition_counter = 0
-        else:
-            print('Caching...', self.facial_recognition_counter)
-            self.facial_recognition_counter += 1
+        s = self.match_message(msg)
+        
+        if (s['type'] == 'facial_recognition'):
+            if self.facial_recognition_counter > 10:
+                if s != self.prev_s:
+                    print('Prev_s and s are not equal, emitting socket...')
+                    self.socketIO.emit('ros', s)
+                    self.prev_s = s
+                self.facial_recognition_counter = 0
+            else:
+                print('Caching...', self.facial_recognition_counter)
+                self.facial_recognition_counter += 1
+        else: 
+            # if not facial recog just emit
+            print("emitting to scoket")
+            print (s)
+            self.socketIO.emit('ros', s)
+
         
 
 if __name__ == "__main__":
