@@ -34,7 +34,7 @@ RobotOperator::RobotOperator() : mTf2Buffer(), mTf2Listener(mTf2Buffer)
 	operatorNode.param("conformance_weight", mConformanceWeight, 1);
 	operatorNode.param("continue_weight", mContinueWeight, 1);
 	operatorNode.param("escape_weight", mEscapeWeight, 1);
-	operatorNode.param("max_velocity", mMaxVelocity, 3.0);
+	operatorNode.param("max_velocity", mMaxVelocity, 1.0);
 
 	// Apply tf_prefix to all used frame-id's
 	mRobotFrame = mTfListener.resolve(mRobotFrame);
@@ -356,7 +356,7 @@ void RobotOperator::executeCommand()
 		}
 		
 		controlMsg.linear.x = velocity;
-		controlMsg.angular.z = -2.0 / r * controlMsg.linear.x;
+		controlMsg.angular.z = -1.0 / r * controlMsg.linear.x;
 	}
 	mControlPublisher.publish(controlMsg);
 }

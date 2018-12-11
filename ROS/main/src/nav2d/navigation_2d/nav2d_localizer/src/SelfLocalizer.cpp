@@ -340,7 +340,7 @@ double SelfLocalizer::calculateLikelihoodFieldModel(LaserData *data, pf_sample_s
 			// TODO: outlier rejection for short readings
 
 			if(pz < 0.0 || pz > 1.0)
-				ROS_INFO("Value pz = %.2f, but it should be in range 0..1", pz);
+				ROS_WARN("Value pz = %.2f, but it should be in range 0..1", pz);
 
 			// here we have an ad-hoc weighting scheme for combining beam probs
 			// works well, though...
@@ -410,7 +410,7 @@ void SelfLocalizer::process(const sensor_msgs::LaserScan::ConstPtr& scan)
 		}
 		catch(tf::TransformException e)
 		{
-			ROS_INFO("Failed to compute odometry pose, skipping scan (%s)", e.what());
+			ROS_WARN("Failed to compute odometry pose, skipping scan (%s)", e.what());
 			return;
 		}
 	}
@@ -456,7 +456,7 @@ void SelfLocalizer::process(const sensor_msgs::LaserScan::ConstPtr& scan)
 	}
 	catch(tf::TransformException)
 	{
-		ROS_INFO("Failed to subtract base to odom transform");
+		ROS_WARN("Failed to subtract base to odom transform");
 	}
 
 	// Publish the particles for visualization
@@ -575,24 +575,24 @@ void SelfLocalizer::publishParticleCloud()
 		geometry_msgs::Pose pose_check = cloud_msg.poses.at(i);
 		geometry_msgs::Point pt = pose_check.position;
 		if(isNaN(pt.x))
-			ROS_INFO("NaN occured at pt.x before publishing particle cloud...");
+			ROS_WARN("NaN occured at pt.x before publishing particle cloud...");
 		if(isNaN(pt.y))
-			ROS_INFO("NaN occured at pt.y before publishing particle cloud...");
+			ROS_WARN("NaN occured at pt.y before publishing particle cloud...");
 		if(isNaN(pt.z))
-			ROS_INFO("NaN occured at pt.z before publishing particle cloud...");
+			ROS_WARN("NaN occured at pt.z before publishing particle cloud...");
 		geometry_msgs::Quaternion ori = pose_check.orientation;
 		if(isNaN(ori.x)){
-			ROS_INFO("NaN occured at ori.x before publishing particle cloud, setting it to zero (original x:%f y:%f yaw:%f) ...", set->samples[i].pose.v[0], set->samples[i].pose.v[1], set->samples[i].pose.v[2]);
+			ROS_WARN("NaN occured at ori.x before publishing particle cloud, setting it to zero (original x:%f y:%f yaw:%f) ...", set->samples[i].pose.v[0], set->samples[i].pose.v[1], set->samples[i].pose.v[2]);
 			cloud_msg.poses.at(i).orientation.x = 0;
 		}
 		if(isNaN(ori.y)){
-			ROS_INFO("NaN occured at ori.y before publishing particle cloud, setting it to zero (original x:%f y:%f yaw:%f) ...", set->samples[i].pose.v[0], set->samples[i].pose.v[1], set->samples[i].pose.v[2]);
+			ROS_WARN("NaN occured at ori.y before publishing particle cloud, setting it to zero (original x:%f y:%f yaw:%f) ...", set->samples[i].pose.v[0], set->samples[i].pose.v[1], set->samples[i].pose.v[2]);
 			cloud_msg.poses.at(i).orientation.y = 0;
 		}
 		if(isNaN(ori.z))
-			ROS_INFO("NaN occured at ori.z before publishing particle cloud ...");
+			ROS_WARN("NaN occured at ori.z before publishing particle cloud ...");
 		if(isNaN(ori.w))
-			ROS_INFO("NaN occured at ori.w before publishing particle cloud ...");
+			ROS_WARN("NaN occured at ori.w before publishing particle cloud ...");
 
 	}
 	mParticlePublisher.publish(cloud_msg);

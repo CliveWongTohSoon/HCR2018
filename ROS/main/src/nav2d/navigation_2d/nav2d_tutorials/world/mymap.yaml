@@ -1,4 +1,4 @@
-image: mymap3.pgm
+image: map.pgm
 resolution: 0.0500
 origin: [-51.224998, -51.224998, 0.000000]
 negate: 0

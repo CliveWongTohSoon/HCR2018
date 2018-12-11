@@ -7,7 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   tf
   tf2_ros
-  costmap_2d 
+  costmap_2d
   sensor_msgs
 )
 
