@@ -9,3 +9,4 @@ dist
 ROS/main/devel/
 ROS/main/build/
 __pycache__
+mock_ROS/*
