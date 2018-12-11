@@ -4,10 +4,11 @@ export class LocationComponent extends React.Component {
   render() {
 
    
-    return  <div>This is Location
-      <ReactTwitchEmbedVideo channel="p3at_robot" />
-      
-    </div>;
+    return (
+      <div style={{width: "100%"}}>
+        <ReactTwitchEmbedVideo channel="p3at_robot" style={{width: "100%"}}/>
+      </div>
+    );
   }
 }
 
