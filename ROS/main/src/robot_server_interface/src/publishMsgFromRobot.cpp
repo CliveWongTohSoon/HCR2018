@@ -78,7 +78,7 @@ void publishMsgFromRobot::odometry_Callback(const nav_msgs::Odometry::ConstPtr &
     robot_Info.angular_y = msg->twist.twist.angular.y ;
     robot_Info.angular_z = msg->twist.twist.angular.z ;
 	// ROS_INFO("Linear velocity using [%f]", msg->twist.twist.linear.x);
-	// publishToServer();
+	publishToServer();
 }
 
 void publishMsgFromRobot::publishToServer() {
