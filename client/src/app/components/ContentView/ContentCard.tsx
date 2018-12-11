@@ -8,6 +8,7 @@ import LocationComponent from 'app/components/Location';
 import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import { changeRouteState } from 'app/components/Header/action';
+import { VideoComponent } from 'app/components/Video';
 
 export namespace ContentCard {
     export interface Props {
@@ -61,7 +62,9 @@ export class ContentCard extends React.Component<ContentCard.Props> {
                             <LocationComponent />
                         </TabContainer>
                         <TabContainer dir={theme.direction}>
-                            Video
+                            <VideoComponent 
+                                socket={socket}
+                            />
                         </TabContainer>
                     </SwipeableViews>
                 </CardContent>
