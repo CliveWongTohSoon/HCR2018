@@ -28,6 +28,16 @@ export namespace RecipeReviewCard {
     }
 }
 
+const renderCardMedia = (src: any, classes: any) => {
+    return (
+        <CardMedia
+            className={classes.media}
+            title="Video Stream"
+            image={src}
+        />
+    )
+} 
+
 class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
 
     constructor(props: any, public image: HTMLImageElement) {
@@ -37,6 +47,8 @@ class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
         socket.on('image', (data: any) => {
             this.image = new Image();
             this.image.src = `data:image/jpeg;base64,${data}`;
+            this.forceUpdate();
+            // To update the view
         })
     }
 
@@ -44,13 +56,7 @@ class RecipeReviewCard extends React.Component<RecipeReviewCard.Props> {
         const { classes }: any = this.props;
         return (
             <Card className={classes.card}>
-                <CardMedia
-                    className={classes.media}
-                    title="Video Stream"
-                    image={this.image.src}
-                    src={this.image.src}
-                />
-                
+                {renderCardMedia(this.image.src, classes)}
                 <CardContent>
                     <Typography component="p">
                         Destination Arrived! Would you like to open?
