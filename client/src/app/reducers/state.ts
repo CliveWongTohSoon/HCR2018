@@ -7,6 +7,7 @@ export interface RootState {
 	status: any;
 	eyePos: any;
 	popup: RootState.Popup;
+	vid: RootState.Video;
 }
 
 // TODO:- Add more types
@@ -14,5 +15,9 @@ export namespace RootState {
 	export interface Popup {
 		src: string,
 		open: boolean
+	}
+
+	export interface Video {
+		vidSrc: string
 	}
 }
