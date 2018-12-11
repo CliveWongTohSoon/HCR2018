@@ -26,7 +26,7 @@ app.use((res, req, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUTS, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
-    res.setHeader('Access-Control-Allow-Credentials', false);
+    // res.setHeader('Access-Control-Allow-Credentials', false);
     next();
 });
 
