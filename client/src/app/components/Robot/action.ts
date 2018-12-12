@@ -66,20 +66,23 @@ export const getEyePos = (socket: SocketIOClient.Socket, audio: HTMLAudioElement
                 case 'box_status':
                     // Dispatch to 
                     const { open } = data;
-                    dispatch(receiveBoxStatus(open));
-                    // TODO:- Then dispatch socket to 'command' and gives location (origin)
-                    updateStatus(socket, {
-                        status: 'dispatch_to_origin',
-                        data: {
-                            pos_x: 3.64510726929,
-                            pos_y: -7.12953662872,
-                            pos_z: 0.00,
-                            orient_x: 0.00,
-                            orient_y: 0.00,
-                            orient_z: 0.853072113367,
-                            orient_w: 0.521793033104
-                        }
-                    })(dispatch);
+                    console.log('Received box_status!', open);
+                    if (!open) {
+                        dispatch(receiveBoxStatus(open));
+                        // TODO:- Then dispatch socket to 'command' and gives location (origin)
+                        updateStatus(socket, {
+                            status: 'dispatch_to_origin',
+                            data: {
+                                pos_x: 3.64510726929,
+                                pos_y: -7.12953662872,
+                                pos_z: 0.00,
+                                orient_x: 0.00,
+                                orient_y: 0.00,
+                                orient_z: 0.853072113367,
+                                orient_w: 0.521793033104
+                            }
+                        })(dispatch);
+                    }
                     break;
                 default:
                     console.log('Error type');
