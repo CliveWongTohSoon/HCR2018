@@ -2,6 +2,8 @@ import { REQUEST_EYE_POS, RECEIVE_EYE_POS, RECEIVE_BOX_STATUS, REQUEST_BOX_OPEN 
 import { Dispatch } from 'redux';
 import { updateStatus } from 'app/components/StatusStepper/action';
 
+const offset = 51.224998;
+
 export const requestGetEyePos = () => ({
     type: REQUEST_EYE_POS
 });
@@ -71,13 +73,13 @@ export const getEyePos = (socket: SocketIOClient.Socket, audio: HTMLAudioElement
                     updateStatus(socket, {
                         status: 'dispatch',
                         data: {
-                            pos_x: 0,
-                            pos_y: 0,
-                            pos_z: 0,
-                            orient_x: 0,
-                            orient_y: 0,
-                            orient_z: 0,
-                            orient_w: 0
+                            pos_x: 66.7656402588 - offset,
+                            pos_y: 46.7647209167 - offset,
+                            pos_z: 0.00,
+                            orient_x: 0.00,
+                            orient_y: 0.00,
+                            orient_z: 0.223521280461,
+                            orient_w: 0.974699049543
                         }
                     })(dispatch);
                     break;
