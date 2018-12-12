@@ -5,19 +5,21 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 const options = ["Please select a destination", "Samuel's Room", "Jin Yee's Room", "Guo Liang's Room"];
+const offset = 51.224998;
+
 const locationMap = [
     {
-        pos_x: 15.54,
-        pos_y: -4.46,
+        pos_x: 66.7656402588 - offset,
+        pos_y: 46.7647209167 - offset,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
-        orient_z: 0.2235,
-        orient_w: 0.97469
+        orient_z: 0.223521280461,
+        orient_w: 0.974699049543
     },
     {
-        pos_x: 14.108,
-        pos_y: -1.1461,
+        pos_x: 65.3328781128 - offset,
+        pos_y: 49.8089485168 - offset,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
@@ -25,13 +27,13 @@ const locationMap = [
         orient_w: 0.9788
     },
     {
-        pos_x: 9.41,
-        pos_y: -7.397,
+        pos_x: 64.1570129395 - offset,
+        pos_y: 48.6008529663 - offset,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
-        orient_z: -0.113,
-        orient_w: 0.9936
+        orient_z: 0.966374223104,
+        orient_w: -0.257139769229
     }
 ]
 
