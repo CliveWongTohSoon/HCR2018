@@ -54,7 +54,7 @@ publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
 	// print out battery msg for now
-	robot_Info.type = "battery_Voltage";
+	robot_Info.type = "battery_voltage";
 	robot_Info.voltage = battery_msg -> voltage;
 	//ROS_INFO("Charge voltage using robot_Info [%f]", robot_Info.voltage);
 	publishToServer();

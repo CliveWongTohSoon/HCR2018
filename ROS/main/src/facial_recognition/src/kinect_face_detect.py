@@ -18,7 +18,7 @@ class FaceSocket:
 	def __init__(self):
 		url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
 		url_local = 'localhost'
-		self.socketIO = SocketIO(url_local, 9000, LoggingNamespace)
+		self.socketIO = SocketIO(url, 9000, LoggingNamespace)
 		self.facial_count = 0
 
 	def stream_video_to_socket(self, img):
@@ -61,7 +61,7 @@ def get_video(video):
 
 
 if __name__ == "__main__":
-	face_cascade = cv2.CascadeClassifier(cwd + "/src/facial_recognition/src/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
+	face_cascade = cv2.CascadeClassifier("/home/human/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
 
 	tracker = dlib.correlation_tracker()
 	trackingFace = 0
