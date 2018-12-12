@@ -4,27 +4,27 @@ import { openMenu, closeMenu, updateStatus, selectMenu } from './action';
 import { connect } from 'react-redux'; 
 import { Dispatch } from 'redux';
 
-const options = ["Please select a destination", "Samuel's Room", "Jin Yee's Room", "Guo Liang's Room"];
+const options = ["Please select a destination", "Room 508", "Room 507", "Guo Liang's Room"];
 const offset = 51.224998;
 
 const locationMap = [
     {
-        pos_x: 66.7656402588 - offset,
-        pos_y: 46.7647209167 - offset,
+        pos_x: 6.37785959244,
+        pos_y: -1.27935290337,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
-        orient_z: 0.223521280461,
-        orient_w: 0.974699049543
+        orient_z: 0.207591423898,
+        orient_w: 0.978215620773
     },
     {
-        pos_x: 65.3328781128 - offset,
-        pos_y: 49.8089485168 - offset,
+        pos_x: 5.26348829269,
+        pos_y: 1.72698867321,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
-        orient_z: 0.2477,
-        orient_w: 0.9788
+        orient_z: 0.214523431334,
+        orient_w: 0.97676718842558
     },
     {
         pos_x: 64.1570129395 - offset,
@@ -61,7 +61,6 @@ export class MenuList extends React.Component<MenuList.Props> {
         const statusData = {status: 'dispatch', data: locationData}
         // TODO:- locationData needs modified
         select(index);
-        console.log(index);
         postStatus(socket, statusData);
         // selectMenu(index, socket);
     };
