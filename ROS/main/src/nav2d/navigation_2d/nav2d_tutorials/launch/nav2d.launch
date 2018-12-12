@@ -63,7 +63,9 @@
   	<param name="publish_frequency" type="double" value="15.0"/>
   	<param name="tf_prefix" type="string" value=""/>
 	</node>
-
+	<node name="kinect_face_detect" pkg="facial_recognition" type="kinect_face_detect.py"/>
+	<node name="py_socket" pkg="py_socket" type="py_client.py"/>
+	<node name="rs_interface" pkg="rs_interface" type="rs_interface" output = "screen"/>
 	<!-- RVIZ to view the visualization -->
 	<node name="RVIZ" pkg="rviz" type="rviz" args=" -d $(find nav2d_tutorials)/param/params.rviz" />
 

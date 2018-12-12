@@ -36,6 +36,7 @@ class publishMsgFromRobot {
 		ros::Subscriber odometry_sub_;
 		ros::Subscriber reach_goal_sub_;
 		ros::Subscriber start_goal_sub_;
+		ros::Subscriber to_origin_sub;
 		// custom msg
 		socket_msg::socketMsg robot_Info;
 		bool to_origin = false;
@@ -52,7 +53,7 @@ publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
 	odometry_sub_ = nh.subscribe("/odom", 1000, & publishMsgFromRobot::odometry_Callback, this);
 	reach_goal_sub_ = nh.subscribe("MoveTo/result", 1000, & publishMsgFromRobot::reach_goal_Callback, this);
 	start_goal_sub_ = nh.subscribe("MoveTo/goal", 1000, & publishMsgFromRobot::start_goal_Callback, this);
-	to_origin_sub = nh.subscribe("/to_origin", 1000, & publishMsgFromRobot::)
+	to_origin_sub = nh.subscribe("/to_origin", 1000, & publishMsgFromRobot::to_origin_callback, this);
 }
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
