@@ -20,7 +20,7 @@ const ioSocket = (app) => {
         // Message from raspberry pi 
         socket.on('box', (boxData) => {
             console.log(boxData);
-            socket.broadcast.emit(boxData);
+            socket.broadcast.emit('box', boxData);
         });
 
         // Message from client to ROS
