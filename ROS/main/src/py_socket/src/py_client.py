@@ -24,6 +24,9 @@ class PySocket:
         url_local = 'localhost'
         self.socketIO = SocketIO(url, 9000, LoggingNamespace)
         self.pub = rospy.Publisher('webserver_ros', socketMsg, queue_size=10)
+        
+        self.to_origin_pub = rospy.Publisher('to_origin', socketMsg, queue_size=10)
+
         self.goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=10)
         self.sub = rospy.Subscriber('webserver', socketMsg, self.call_back)
         
@@ -42,6 +45,11 @@ class PySocket:
         if msg['type'] == 'key_input':
             self.publish_key(msg)
         elif msg['type'] == 'dispatch':
+            self.publish_goal(msg['data'])
+        elif msg['type'] == 'dispatch_to_origin':
+            socket_msg = socketMsg()
+            socket_msg.to_origin = True
+            self.to_origin_pub.publish(socket_msg)
             self.publish_goal(msg['data'])
             # set_interval(self.mock_wrapper, 1)
 

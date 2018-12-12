@@ -17,6 +17,8 @@ float64 orient_y
 float64 orient_z
 float64 orient_w
 
+bool to_origin
+
 # Keyboard
 string key
 

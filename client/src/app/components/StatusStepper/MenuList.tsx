@@ -4,8 +4,7 @@ import { openMenu, closeMenu, updateStatus, selectMenu } from './action';
 import { connect } from 'react-redux'; 
 import { Dispatch } from 'redux';
 
-const options = ["Please select a destination", "Room 508", "Room 507", "Guo Liang's Room"];
-const offset = 51.224998;
+const options = ["Please select a destination", "Room 508", "Room 507", "Docking Area"];
 
 const locationMap = [
     {
@@ -27,13 +26,13 @@ const locationMap = [
         orient_w: 0.97676718842558
     },
     {
-        pos_x: 64.1570129395 - offset,
-        pos_y: 48.6008529663 - offset,
+        pos_x: 3.64510726929,
+        pos_y: -7.12953662872,
         pos_z: 0.00,
         orient_x: 0.00,
         orient_y: 0.00,
-        orient_z: 0.966374223104,
-        orient_w: -0.257139769229
+        orient_z: 0.853072113367,
+        orient_w: 0.521793033104
     }
 ]
 
