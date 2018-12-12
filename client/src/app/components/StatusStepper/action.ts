@@ -7,9 +7,9 @@ export const setDestination = ({x, y, z}: any) => ({
     status: {status: 'dispatch', data: {x, y, z}}
 });
 
-export const receiveStatus = (status: string, {x, y, z}: any) => ({
+export const receiveStatus = (status: string, {pos_x, pos_y, pos_z}: any) => ({
     type: RECEIVE_STATUS,
-    status: {status, data: {x, y, z}}
+    status: {status, data: {pos_x, pos_y, pos_z}}
 });
 
 export const resetStatus = () => ({
@@ -74,6 +74,11 @@ export const updateStatus = (socket: SocketIOClient.Socket, {status, data}: any)
                  *      orient_w
                  * }
                  */
+                socket.emit('command', {type: status, data});
+                getStatus(socket)(dispatch);
+                break;
+            case 'dispatch_to_origin':
+                dispatch(setDestination(data));
                 socket.emit('command', {type: status, data});
                 getStatus(socket)(dispatch);
                 break;

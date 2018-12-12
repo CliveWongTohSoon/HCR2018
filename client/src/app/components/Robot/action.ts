@@ -69,15 +69,15 @@ export const getEyePos = (socket: SocketIOClient.Socket, audio: HTMLAudioElement
                     dispatch(receiveBoxStatus(open));
                     // TODO:- Then dispatch socket to 'command' and gives location (origin)
                     updateStatus(socket, {
-                        status: 'dispatch',
+                        status: 'dispatch_to_origin',
                         data: {
-                            pos_x: 0,
-                            pos_y: 0,
-                            pos_z: 0,
-                            orient_x: 0,
-                            orient_y: 0,
-                            orient_z: 0,
-                            orient_w: 0
+                            pos_x: 3.64510726929,
+                            pos_y: -7.12953662872,
+                            pos_z: 0.00,
+                            orient_x: 0.00,
+                            orient_y: 0.00,
+                            orient_z: 0.853072113367,
+                            orient_w: 0.521793033104
                         }
                     })(dispatch);
                     break;

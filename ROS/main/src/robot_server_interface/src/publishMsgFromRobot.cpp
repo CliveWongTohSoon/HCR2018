@@ -24,6 +24,7 @@ class publishMsgFromRobot {
 		void odometry_Callback(const nav_msgs::Odometry::ConstPtr &msg);
 		void reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult::ConstPtr &msg);
 		void start_goal_Callback(const nav2d_navigator::MoveToPosition2DActionGoal::ConstPtr &goal);
+		void to_origin_callback(const socket_msg::socketMsg::ConstPtr &msg);
 		void publishToServer();
 
   	private:
@@ -35,8 +36,10 @@ class publishMsgFromRobot {
 		ros::Subscriber odometry_sub_;
 		ros::Subscriber reach_goal_sub_;
 		ros::Subscriber start_goal_sub_;
+		ros::Subscriber to_origin_sub;
 		// custom msg
 		socket_msg::socketMsg robot_Info;
+		bool to_origin = false;
 };
 
 // Default constructor for our teleoperator class
@@ -50,6 +53,7 @@ publishMsgFromRobot::publishMsgFromRobot(ros::NodeHandle & nh) {
 	odometry_sub_ = nh.subscribe("/odom", 1000, & publishMsgFromRobot::odometry_Callback, this);
 	reach_goal_sub_ = nh.subscribe("MoveTo/result", 1000, & publishMsgFromRobot::reach_goal_Callback, this);
 	start_goal_sub_ = nh.subscribe("MoveTo/goal", 1000, & publishMsgFromRobot::start_goal_Callback, this);
+	to_origin_sub = nh.subscribe("/to_origin", 1000, & publishMsgFromRobot::to_origin_callback, this);
 }
 
 void publishMsgFromRobot::batteryCallback(const p2os_msgs::BatteryState::ConstPtr & battery_msg) {
@@ -85,19 +89,24 @@ void publishMsgFromRobot::publishToServer() {
   	web_pub.publish(robot_Info);
 }
 
+void publishMsgFromRobot::to_origin_callback(const socket_msg::socketMsg::ConstPtr &msg) {
+	to_origin = msg->to_origin;
+}
+
 void publishMsgFromRobot::reach_goal_Callback(const nav2d_navigator::MoveToPosition2DActionResult::ConstPtr &msg){
 	robot_Info.type = "status";
-	robot_Info.status = "arrived_destination";
+	robot_Info.status = to_origin ? "arrived_origin" : "arrived_destination";
 	robot_Info.pos_x = msg->result.final_pose.x;
 	robot_Info.pos_y = msg->result.final_pose.y;
 	robot_Info.distance = msg->result.final_distance;	
 	
 	ROS_INFO("Reached goal from rs_interface1");
+	to_origin = false;
 	publishToServer();
 }
 void publishMsgFromRobot::start_goal_Callback(const nav2d_navigator::MoveToPosition2DActionGoal::ConstPtr &goal){
 	robot_Info.type = "status";
-	robot_Info.status = "to_dest";
+	robot_Info.status = to_origin ? "to_origin" : "to_dest";
 	ROS_INFO("Moving to goal from rs_interface");
 	robot_Info.pos_x = goal->goal.target_pose.x;
 	robot_Info.pos_y = goal->goal.target_pose.y;
