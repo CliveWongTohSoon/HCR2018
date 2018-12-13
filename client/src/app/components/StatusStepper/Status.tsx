@@ -115,6 +115,7 @@ export class StatusStepper extends React.Component<StatusStepper.Props> {
                 <Stepper
                     activeStep={matchActiveStep(status)}
                     orientation='vertical'
+                    style={{minWidth: 200}}
                 >
                     {renderStepContent(steps, socket, this.resetStatusHandler)}
                 </Stepper>

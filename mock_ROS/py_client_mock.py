@@ -18,7 +18,7 @@ class PySocket:
         # h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
         url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
         url_local = 'localhost'
-        self.socketIO = SocketIO(url_local, 9000, LoggingNamespace)
+        self.socketIO = SocketIO(url, 9000, LoggingNamespace)
         
         self.facial_recognition_counter = 0
         self.prev_s = ""

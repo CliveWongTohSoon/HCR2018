@@ -22,7 +22,7 @@ export class App extends React.Component {
       <div className={style.body}>
         {<MenuBar />}
         <div className='row'>
-          <div className={`col-sm-4 ${style.status}`}>
+          <div className={`col-sm-4`}>
             <StatusStepper 
               socket={socket}
             />
