@@ -20,7 +20,7 @@ class PySocket:
     
     def __init__(self):
         # h.connect("http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000");
-        url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
+        url = "http://ec2-52-56-122-124.eu-west-2.compute.amazonaws.com"
         url_local = 'localhost'
         self.socketIO = SocketIO(url, 9000, LoggingNamespace)
         self.pub = rospy.Publisher('webserver_ros', socketMsg, queue_size=10)
