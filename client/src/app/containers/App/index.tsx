@@ -6,8 +6,10 @@ import ContentCard from 'app/components/ContentView';
 import { StatusStepper } from 'app/components/StatusStepper';
 
 const socketUrl = process.env.NODE_ENV == 'production' 
-? 'http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com:9000' 
+  ? 'http://ec2-52-56-122-124.eu-west-2.compute.amazonaws.com:9000' 
 : 'http://localhost:9000';
+
+
 
 let socket = io.connect(socketUrl, {
   agent: false,
