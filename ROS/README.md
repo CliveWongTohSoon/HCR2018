@@ -1,64 +1,75 @@
-# Graph command
+# Instruction
+The exact instruction to run the ROS can be found on [ROS official site](http://wiki.ros.org/ROS/Tutorials). This directory will list down the errors encountered during development and the solutions. Essentially, to successfully run the all the packages developed, follow the steps:
+* Make sure you are in the directory `ROS/main`.
+* Make sure you installed all the required packages, see [Packages Required](#packages-required). 
+* Run the command `$ catkin_make`, this will compile all the packages and dependencies required. 
+* Run the command `$ . setupRobot.bash` to source the newly compiled ROS. Alternatively, do `$ source devel/setup.bash`.
+* Make sure to set Python scripts in `src/facial_recognition/src/kinect_face_detect.py` and `src/py_socket/src/py_client.py` executable by following section [Make Python Executable](#make-python-executable). 
+* Run the command `$ roslaunch nav2d_tutorials nav2d.launch`. This will launch all packges developed in this repository. 
+
+# Packages Required
+* `$ sudo apt-get install python-pip`
+* `$ sudo python -m pip install socketIO_client_nexus`
+* `$ pip install dlib`
+* `$ sudo apt-get install freenect`
+* `$ sudo apt-get install python-freenect`
+* `$ sudo apt-get install cv2`
+* `$ sudo apt-get install ros-kinetic-tf*`
+* `$ sudo apt-get install ros-kinetic-nav2d`
+* `$ sudo apt-get install qt-sdk`
+
+There is a possibility that some packages are missing in this instruction. If such case happens, please install the required packages mentioned in the Error Log when executing `$ catkin_make`.
+
+# Make Python Executable
+To make python package executable, run 
+* `$ chmod u+x src/py_socket/src/py_client.py`
+* `$ chmod u+x src/facial_recognition/src/kinect_face_detect.py`
+
+# Useful commands and Troubleshoot
+## Graph command
 * rosrun rqt_tf_tree rqt_tf_tree
 * rosrun rqt_graph rqt_graph
 * roswtf
 
-# Make python executable
-To make python package executable, run 
-* sudo python -m pip install socketIO_client_nexus
-* chmod u+x src/py_socket/src/py_client.py
-```
-$ chmod u+x opencv-test/src/kinect_face_detect.py
-```
+## Publish/subscribe tools
+* rosnode list
+* rosnode info /some_node
+* rostopic list
+* rostopic info /some_topic
+* rostopic echo /some_topic
+* rostopic pub /some_topic msg/MessageType "data:value" 
 
-Install dlib
-```
-$ sudo apt-get install python-pip
-$ pip install dlib
-```
-
-Install freenect
-```
-$ sudo apt-get install freenect
-$ sudo apt-get install python-freenect
-```
-
-# HOW TO RUN ROBOT 
+## How to navigate robot using keyboard
 * Find USB port with ```dmesg | grep tty```
 * Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
 * catkin_make in directory, e.g. motorControl
 * launch file, e.g. roslaunch simple_navigation_goals subscribe.launch
-# Notes to self
-* if moving to a different directory, remove build and delevel files before running catkin_make
+
+## Note to self
+* If moving to a different directory, remove build and delevel files before running catkin_make
 * new cpp file -> add to cmake, add to launch file, catkin_make
 * source files in -> cd /opt/ros/kinetic/include
-* for custom messages - http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
+* For custom messages, follow http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
 
-# Navigation
+## Navigation using Navigation Stack (NOT USED)
+Navigation stack is attempted in this project, but due to time constraint it wasn't configured and working properly, therefore `nav2d` is used. 
 * [Simple tutorial](http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals)
 * sudo apt install ros-kinetic-navigation for navigation
 * roslaunch simple_navigation_goals nav.launch
 * Install the tf package to run ros navigation stack 
 
-
 ```
 sudo apt-get install ros-kinetic-tf*
 ```
 
-# nav2d package
+## nav2d package
 [http://wiki.ros.org/nav2d_navigator?distro=kinetic](info)
 ```
 sudo apt-get install ros-kinetic-nav2d
 ```
 * navigation_goal_distance 
 
-Currently not sure how to 
-# Add to bashRC - replace second with directory
-* source /opt/ros/kinetic/setup.bash
-* source ~/Programming/HCR2018/ROS/catkin_ws/devel/setup.bash
-* source devel/setup.bash
-
- # Commands to connect to robot
+## Commands to connect to robot
 * sudo chmod 777 -R /dev/ttyUSB0   - give permission for usb
 * rosparam set /p2os/port /dev/ttyUSB0 
 * rosrun p2os_driver p2os_driver
@@ -66,19 +77,11 @@ Currently not sure how to
 * dmesg | grep tty
 * roslaunch simple_navigation_goals subscribe.launch
 * roslaunch robot_server_interface robot_server_interface.launch
- # Useful ROS commands
- ## Publish/subscribe tools
- * rosnode list
- * rosnode info /some_node
- * rostopic list
- * rostopic info /some_topic
- * rostopic echo /some_topic
- * rostopic pub /some_topic msg/MessageType "data:value" 
 
-# P2OS_driver meanings
+## P2OS_driver meanings
 * AIO - The aio interface provides access to an analog I/O device.
 
-# Troubleshoot
+## Miscellaneous
 If you see the following error:
 * fatal error: custom_msgs/robotInfo.h: No such file or directory \[FIXED\]
   * \[UPDATE\] Add dependencies on the CMakeLists.txt with the following command:

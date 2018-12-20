@@ -5,7 +5,7 @@ node_modules/
 .module-cache
 *.log*
 build
-dist
+client/dist
 ROS/main/devel/
 ROS/main/build/
 __pycache__

@@ -2,13 +2,13 @@
 # license removed for brevity
 
 import cv2
-import numpy as np
 import dlib
 import os
 from socketIO_client_nexus import SocketIO, LoggingNamespace
 import base64
 
 # current working directory
+# TODO:- Might not be perfect to locate the opencv directory
 cwd = os.getcwd()
 
 class FaceSocket:

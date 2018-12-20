@@ -17,7 +17,7 @@ from gpiozero import OutputDevice
 
 class RaspSocket:
     def __init__(self):
-        url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com"
+        url = "http://ec2-35-176-128-102.eu-west-2.compute.amazonaws.com" # TODO:- Use your own cloud URL
         url_local = 'localhost'
         GPIO.setup(7, GPIO.IN)
 

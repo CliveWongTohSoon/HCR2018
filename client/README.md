@@ -1,28 +1,14 @@
-# Frontend Boilerplate with React, Redux & TypeScript
-
-A bare minimum react-redux-webpack-typescript boilerplate with TodoMVC example. 
-
-[Live demo](https://rokoroku.github.io/react-redux-typescript-boilerplate)
-
-Note that this project does not include **Server-Side Rendering**, **Static code analysis**, **Testing Frameworks** and other stuffs that makes the package unnecessarily complicated. (e.g. yarn, tslint, jest, ...)  
-If needed, please fork this repository and add your own that meets your requirements.
-
-Ideal for creating React apps from the scratch.
-
-See also: [react-mobx-typescript-boilerplate](https://github.com/rokoroku/react-mobx-typescript-boilerplate)
-
-## Contains
-
+# Instruction
+The client uses the following:
+## Libraries 
 - [x] [Typescript](https://www.typescriptlang.org/) 3
 - [x] [React](https://facebook.github.io/react/) 16.5
 - [x] [Redux](https://github.com/reactjs/redux) 4
 - [x] [React Router](https://github.com/ReactTraining/react-router) 4.3
 - [x] [React Router Redux](https://github.com/reactjs/react-router-redux) 5
 - [x] [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- [x] [TodoMVC example](http://todomvc.com)
 
-### Build tools
-
+## Build tools
 - [x] [Webpack](https://webpack.github.io) 4
   - [x] [Tree Shaking](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)
   - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
@@ -36,29 +22,31 @@ See also: [react-mobx-typescript-boilerplate](https://github.com/rokoroku/react-
 - [x] [Prettier](https://github.com/prettier/prettier)
 
 ## Setup
-
+To install all dependencies, do:
 ```
 $ npm ci
 ```
 
 ## Running
-
+To serve the web app, do:
 ```
 $ npm start
 ```
 
 ## Build
-
+To build the web app:
 ```
 $ npm run build
 ```
 
 ## Prettier
-
+To format the codes:
 ```
 $ npm run format
 ```
 
-# License
-
-MIT
+## Production:
+After npm run build, the bundled project contained in the directory dist. It can be served with node using the command:
+```
+$ node app.js
+```
