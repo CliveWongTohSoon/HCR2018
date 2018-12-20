@@ -26,21 +26,21 @@ ssh -i node.pem ubuntu@ec2-35-176-128-102.eu-west-2.compute.amazonaws.com
 ssh -i client.pem ubuntu@ec2-52-56-71-140.eu-west-2.compute.amazonaws.com
 
 ```
-
-##Autocad folder
+# Folder Description
+## Autocad folder
 contain all the autocad design for storage (used in laser cutting)
 
-##Arduino
+## Arduino
 contain code use in arduino to control motor
 
-##Raspberry pi
+## Raspberry pi
 contain client code use in raspberry pi 
 
-##motor_datasheet
+## motor_datasheet
 contain datasheet for stepper motor and 3V DC motor
 
-##kinect_nav-master
+## kinect_nav-master
 obstacle avoidance code using kinect
 
-##obstacle_avoidance
+## obstacle_avoidance
 obstacle avoidance code using sonar
