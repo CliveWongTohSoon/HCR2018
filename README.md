@@ -17,7 +17,7 @@ The robot used for this project is Pioneer 3-AT (P3AT), and the combination of A
 This repository contains 5 main repositories, namely client, mock_ROS, raspberry_client, ROS and server. The directories client, server and ROS are self-explanatory. The directory mock_ROS contains the code that runs the logic desired without the need of executing the ROS and Raspberry driver, whereas the directory raspberry_client contains Python script required for the locking mechanism. 
 
 # Demo Video
-[![Watch the video](Demo.mp4)](Demo.mp4)
+[![Watch the video](https://www.youtube.com/watch?v=YCe43amyQj4&feature=youtu.be)](https://www.youtube.com/watch?v=YCe43amyQj4&feature=youtu.be)
 
 ## Note
 This module contains submodules from other repository. Therefore, if the dependent packages are missing, do the following: 
