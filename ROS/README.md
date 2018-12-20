@@ -41,7 +41,7 @@ To make python package executable, run
 
 ## How to navigate robot using keyboard
 * Find USB port with ```dmesg | grep tty```
-* Give permissions with ```sudo chmod 777 -R /dev/ttyUSB0```
+* Give permissions with ```sudo chmod 777 -R /dev/ttyUSB*``` where the * varies depending on the ports you connect the robot to
 * catkin_make in directory, e.g. motorControl
 * launch file, e.g. roslaunch simple_navigation_goals subscribe.launch
 
