@@ -1,5 +1,8 @@
 # Human-Centered Robotics (2018-2019)
-This repository is part of Imperial College EE4-60 Human-Centered Robotics (2018-2019) course. The goal of this project is to build a delivery robot controlled over the cloud. The architecture of the system is highlighted in the report attached (Architecture 1). Several technologies are used to make this projet possible, namely Robotic Operating System (ROS) for robot control, Reactjs for frontend, Nodejs for backend, and Python on Raspberry Pi for storage control. 
+This repository is part of Imperial College EE4-60 Human-Centered Robotics (2018-2019) course. The goal of this project is to build a delivery robot controlled over the cloud. The robot will be able to navigate to a preset location via the web and contains a locker to store items for delivery. The architecture of the system is highlighted in the report attached (Architecture 1) and is shown below. Several technologies are used to make this project possible, namely Robotic Operating System (ROS) for robot control, Reactjs for frontend, Nodejs for backend, and Python on Raspberry Pi for storage control. 
+
+![hcr-architecure1](https://user-images.githubusercontent.com/2521843/50316400-70f14400-04f1-11e9-8129-d8463785d404.png)
+
 
 ## Equipment Used
 The robot used for this project is Pioneer 3-AT (P3AT), and the combination of Arduino and Raspberry Pi 3B+ are used as the processing unit of the storage designed. For the storage material, Laser Plywood is used. Normal DC motor is used for the locking mechanism, however Stepper Motor can be used as well. The circuit for the locking mechanism can be found in the report attached. RPlidar sensor is used as the main sensor for navigation and mapping the environment. 
