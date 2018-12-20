@@ -32,17 +32,19 @@ contain all the autocad design for storage (used in laser cutting)
 
 ## Arduino
 contain code use in arduino to control motor
-```
+
 connect one of the ground of arduino to ground of raspberry pi
-```
+
 connect the 2 inputs of motor to pin 9 and 10 of arduino.
-```
+
 connect GPIO 20 and 21 of raspberry pi to pin 12 and 13 of arduino
-```
+
 
 ## Raspberry pi
 contain client code use in raspberry pi 
+
 GPIO pin 7 connects to output of analogue circuit in Analogue Folder
+
 VDD and ground of Analogue need to be connected to the 3.3V and ground of raspberry pi
 
 ## motor_datasheet
